@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include "menu.h"
 
 int main () {
     FILE *logo;
@@ -42,11 +43,13 @@ int main () {
                 printf("\n");              
                 printf("pesquisando livros...");
                 printf("\n");
+                p_livros();
                 break;  
             case 2:
                 printf("\n");
                 printf("Cadastrando livros...");
                 printf("\n");
+                c_livros();
                 break;  
             case 3:
                 printf("\n");

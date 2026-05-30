@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <menu.h>
+#include "menu.h"
 FILE *lista_l;
 struct Cadastro{
     int id;
@@ -27,17 +27,17 @@ void c_livros() {
     l.id = 1000000 + rand() % 9000000;
     //Entrada dos dados pela usuário.
     printf("Digite o Nome do livro que queira cadastrar: ");
-    gets(l.nome);
+    scanf("%s", l.nome);
     printf("Digite o Nome do Autor(a): ");
-    gets(l.autor);
+    scanf("%s", l.autor);
     printf("Digite o gênero do livro: ");
-    gets(l.genero);
+    scanf("%s", l.genero);
     printf("Digite o ano de publicação(usando números): ");
-    gets(l.ano);
+    scanf("%d", &l.ano);
     printf("Digite a quantidade total do livro: ");
-    gets(l.quant_total);
+    scanf("%d", &l.quant_total);
     printf("Digite o Nome do livro que queira cadastrar: ");
-    gets(l.quant_emprestado);
+    scanf("%d", &l.quant_emprestado);
     l.quant_disp = l.quant_total - l.quant_emprestado;
     printf("A quantidade disponível é %d", l.quant_disp);
 
@@ -60,7 +60,7 @@ int i, j;
 
 void p_livros() {
     printf("Digite o livro que deseja procurar: ");
-    gets(livro);
+    scanf(livro);
     lista_l = fopen ("../data/ListaLivros.txt", "r");
 
     if(lista_l == NULL){

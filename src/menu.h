@@ -1,3 +1,5 @@
+#ifndef MENU_H_
+#define MENU_H_
 // Funções das features do menu
 
 // Função para pesquisar livros
@@ -14,3 +16,4 @@ void c_usuarios();
 
 // Função para gerar relatórios
 void g_relatorio();
+#endif

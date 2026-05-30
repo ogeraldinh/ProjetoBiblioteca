@@ -1,0 +1,9 @@
+id: 1000041
+Nome: teste
+Autor: teste
+Gênero: teste
+Ano de publicação: 1999
+Qtd. total: 5
+Qtd. emprestado: 1
+Disponíveis: 4
+<----------------------------------------------->
