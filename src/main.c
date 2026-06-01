@@ -2,76 +2,76 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
-#include "menu.h"
+#include "../include/menu.h"
 
-int main () {
+int main()
+{
     FILE *logo;
     int resposta;
     char linha[50];
 
     setlocale(LC_ALL, "pt_BR.UTF-8");
 
-    logo = fopen("../data/logo.txt", "r");
+    logo = fopen("../assets/logo.txt", "r");
 
-   while (1) { 
+    if (logo == NULL)
+    {
+        printf("Erro ao abrir logo.txt\n");
+        return 1;
+    }
+
+    while (1)
+    {
         printf("\n");
-        logo = fopen("../data/logo.txt", "r");
-        while(fgets(linha, 50, logo)){
+    
+        rewind(logo);
+
+        while (fgets(linha, sizeof(linha), logo))
+        {
             printf("%s", linha);
         }
-        printf("( 1 ) Pesquisar Livros \n");
-        printf("( 2 ) Cadastrar Livros \n");
-        printf("( 3 ) Pesquisar Usuários \n");
-        printf("( 4 ) Cadastrar Usuário \n");
+
+        printf("( 1 ) Pesquisar livros \n");
+        printf("( 2 ) Cadastrar um livro \n");
+        printf("( 3 ) Pesquisar usuários \n");
+        printf("( 4 ) Cadastrar um usuário \n");
         printf("( 5 ) Gerar relatório \n");
         printf("( 0 ) Encerrar o programa \n");
-        printf("Selecione a opcao que voce deseja: ");
+        printf("Selecione a opção que você deseja: ");
 
-        if(!scanf("%d", &resposta)){
-            printf("Entrada invalida. Digite um numero!\n");
-            printf("Pressione Enter para continuar...");
+        if (!scanf("%d", &resposta))
+        {
+            printf("\nResposta inválida! Por favor, digite uma das opções.\n");
             getchar();
             continue;
         }
 
-        switch (resposta){
-            case 0:
-                printf("Encerrando...");
-                printf("\n");
-                return 0; 
-            case 1:
-                printf("\n");              
-                printf("pesquisando livros...");
-                printf("\n");
-                p_livros();
-                break;  
-            case 2:
-                printf("\n");
-                printf("Cadastrando livros...");
-                printf("\n");
-                c_livros();
-                break;  
-            case 3:
-                printf("\n");
-                printf("Pesquisando usuário...");
-                printf("\n");
-                break;  
-            case 4:
-                printf("\n");
-                printf("Cadastrando usuário...");
-                printf("\n");
-                break;  
-            case 5:
-                printf("\n");
-                printf("Gerando relatório...\n");
-                printf("\n");
-                break;    
-            default:
-                printf("Opcao invalida! Tente novamente.");
-                printf("\nPressione Enter para continuar...");
-
-                getchar();
-                break;
+        switch (resposta)
+        {
+        case 0:
+            fclose(logo);
+            printf("Encerrando...");
+            printf("\n");
+            return 0;
+        case 1:
+            // p_livros();
+            break;
+        case 2:
+            // c_livros();
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            printf("\n");
+            printf("Gerando relatório...\n");
+            printf("\n");
+            break;
+        default:
+            printf("\nResposta inválida! Por favor, digite uma das opções.\n");
+            getchar();
+            break;
         }
     }
 

@@ -1,49 +1,58 @@
-# 📘 Página de Login com React
+# Trabalho Prático de Programação e Algorítmos
 
-Este é um projeto de autenticação simples feito com **C**. O sistema permite que usuários se registrem e façam login localmente. Após o login bem-sucedido, o usuário é redirecionado para uma página de exemplo.
-
----
-
-## 🔗 Perfis
-
-- [Geraldo Duarte de Medeiros Neto](https://reactjs.org/)
-- [João Batista](https://reactrouter.com/)
+Este projeto é um Sistema de Gerenciamento de Biblioteca feito com **C**. O sistema permite que o usuário consiga gerenciar um acervo de livros
 
 ---
 
-## 🚀 Funcionalidades
+## Autores:
 
-- Cadastro de novos usuários
-- Login com validação de credenciais
-- Armazenamento de usuários no `localStorage`
-- Exibição e ocultação de senha com ícones (usando `lucide-react`)
-- Redirecionamento após login
-- Componentes reutilizáveis (`Input`, `Button`)
-- Interface estilizada com **Tailwind CSS**
+- [Geraldo Duarte de Medeiros Neto](https://github.com/ogeraldinh)
+- [João Batista](https://github.com/JB-2612)
 
 ---
 
+## Funcionalidades:
 
+- Cadastro de usuários
+- Pesquisa de usuários
+- Pesquisa de livros
+- Cadastro de livros
+- Permanência de dados ao fim da execução
 
-## 📁 Estrutura de Pastas
+---
+
+## Estrutura de Pastas
 
 ```bash
-src/
 │
-├── components/
-│   ├── Input.jsx           # Campo de input reutilizável
-│   ├── Button.jsx          # Botão reutilizável
-│   ├── ButtonBack.jsx      # Botão de voltar reutilizável
-│   ├── Login.jsx           # Formulário de login
-│   ├── Register.jsx        # Formulário de cadastro
-│   ├── RegisterContainer.jsx
-│   ├── Title.jsx           # Título da página
-│   └── LoginOptions.jsx    # Opções de login
+├── assets/
+│   └── logo.txt                # Título utilizado no menu
 │
-├── pages/
-│   └── UserPage.jsx        # Página após realização do login
-│   └── RegisterPage.jsx    # Página de cadastro de usuário
+├── data/
+│   ├── listaLivros.bin         # Página após realização do login
+│   ├── listaUsuarios.bin       # Página de cadastro de usuário
+│   └── listaEmprestimos.bin    # Página de cadastro de usuário
 │
-├── App.jsx                 # Estrutura principal da aplicação
-├── main.jsx                # Entrada da aplicação
-└── index.css               # Tailwind e estilos globais
+├── docs/
+│   ├── Trabalho_PA_2026_1.pdf  # Página após realização do login
+│   └── Relatorio_PA_2026.1.pdf # Página de cadastro de usuário
+│
+├── include/
+│   ├── auxiliares.h            # Página após realização do login
+│   ├── emprestimos.h           # Página após realização do login
+│   ├── livros.h                # Página após realização do login
+│   ├── menu.h                  # Página após realização do login
+│   ├── relatorios.h            # Página após realização do login
+│   └── usuarios.h              # Página de cadastro de usuário
+│
+├── src/
+│   ├── auxiliares.c            # Página após realização do login
+│   ├── emprestimos.c           # Página após realização do login
+│   ├── livros.c                # Página após realização do login
+│   ├── main.c                  # Página após realização do login
+│   ├── relatorios.c            # Página após realização do login
+│   └── usuarios.c              # Página de cadastro de usuário
+│
+├── .gitignore                  # Ignora partes específicas do projeto
+└── readme.md                   # Readme do sistema (guia e introdução do projeto)
+```

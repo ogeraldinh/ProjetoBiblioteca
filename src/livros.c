@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "menu.h"
+#include "../include/menu.h"
+
 FILE *lista_l;
-struct Cadastro{
+
+struct Livro{
     int id;
     char nome[50];
     char autor[50];
@@ -22,7 +24,7 @@ void c_livros() {
         exit(1);
     }
 
-    struct Cadastro l;
+    struct Livro l;
     //Randomizador de ID (7 Algorismos)
     l.id = 1000000 + rand() % 9000000;
     //Entrada dos dados pela usuário.
