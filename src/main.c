@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <locale.h>
 #include <string.h>
 #include "../include/menu.h"
@@ -54,10 +55,10 @@ int main()
             printf("\n");
             return 0;
         case 1:
-            // p_livros();
+            p_livros();
             break;
         case 2:
-            // c_livros();
+            c_livros();
             break;
         case 3:
             break;
