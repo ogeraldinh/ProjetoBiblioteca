@@ -1,58 +1,189 @@
-# Trabalho Prático de Programação e Algorítmos
+# Sistema de Gerenciamento de Biblioteca
 
-Este projeto é um Sistema de Gerenciamento de Biblioteca feito com **C**. O sistema permite que o usuário consiga gerenciar um acervo de livros
+Projeto desenvolvido para a disciplina de **Programação e Algoritmos** utilizando a linguagem **C**.
 
----
-
-## Autores:
-
-- [Geraldo Duarte de Medeiros Neto](https://github.com/ogeraldinh)
-- [João Batista](https://github.com/JB-2612)
+O sistema permite o gerenciamento de um acervo de livros, usuários e empréstimos, com persistência dos dados em arquivos e capacidade de gerar relatórios em arquivos de texto.
 
 ---
 
-## Funcionalidades:
+## Autores
 
-- Cadastro de usuários
-- Pesquisa de usuários
-- Pesquisa de livros
-- Cadastro de livros
-- Permanência de dados ao fim da execução
+* [Geraldo Duarte de Medeiros Neto](https://github.com/ogeraldinh)
+- [João Batista Alves de Sousa Junior](https://github.com/JB-2612)
 
 ---
 
-## Estrutura de Pastas
+## Funcionalidades
+
+* Cadastro de usuários
+* Consulta de usuários
+* Cadastro de livros
+* Consulta de livros
+* Controle de empréstimos
+* Persistência de dados em arquivos binários
+* Interface em terminal
+
+---
+
+## Requisitos
+
+### Windows (MSYS2)
+
+Verifique se os programas estão instalados:
 
 ```bash
+gcc --version
+mingw32-make --version
+```
+
+### Linux
+
+```bash
+gcc --version
+make --version
+```
+
+---
+
+## Compilação
+
+### Windows
+
+```bash
+mingw32-make
+```
+
+### Linux
+
+```bash
+make
+```
+
+Após a compilação será gerado o executável:
+
+```text
+biblioteca.exe
+```
+
+---
+
+## Execução
+
+### Windows
+
+```bash
+.\biblioteca.exe
+```
+
+ou
+
+```bash
+mingw32-make run
+```
+
+### Linux
+
+```bash
+./biblioteca
+```
+
+ou
+
+```bash
+make run
+```
+
+---
+
+## Depuração
+
+### Windows
+
+```bash
+mingw32-make debug
+```
+
+ou
+
+```bash
+gdb biblioteca.exe
+```
+
+### Linux
+
+```bash
+make debug
+```
+
+ou
+
+```bash
+gdb biblioteca
+```
+
+---
+
+## Limpeza dos Arquivos Gerados
+
+### Windows
+
+```bash
+mingw32-make clean
+```
+
+### Linux
+
+```bash
+make clean
+```
+
+---
+
+## Estrutura do Projeto
+
+```text
+ProjetoBiblioteca/
 │
 ├── assets/
-│   └── logo.txt                # Título utilizado no menu
+│   └── logo.txt                # Arte ASCII exibida no menu principal
+│
+├── build/                      # Arquivos gerados pelo Makefile
 │
 ├── data/
-│   ├── listaLivros.bin         # Página após realização do login
-│   ├── listaUsuarios.bin       # Página de cadastro de usuário
-│   └── listaEmprestimos.bin    # Página de cadastro de usuário
+│   ├── listaLivros.bin         # Armazenamento dos livros
+│   ├── listaUsuarios.bin       # Armazenamento dos usuários
+│   └── listaEmprestimos.bin    # Armazenamento dos empréstimos
 │
 ├── docs/
-│   ├── Trabalho_PA_2026_1.pdf  # Página após realização do login
-│   └── Relatorio_PA_2026.1.pdf # Página de cadastro de usuário
+│   ├── Trabalho_PA_2026_1.pdf  # Especificações solicitadas para o projeto
+│   └── Relatorio_PA_2026_1.pdf # Relatório do projeto
 │
 ├── include/
-│   ├── auxiliares.h            # Página após realização do login
-│   ├── emprestimos.h           # Página após realização do login
-│   ├── livros.h                # Página após realização do login
-│   ├── menu.h                  # Página após realização do login
-│   ├── relatorios.h            # Página após realização do login
-│   └── usuarios.h              # Página de cadastro de usuário
+│   ├── auxiliares.h            # Funções auxiliares
+│   ├── emprestimos.h           # Operações de empréstimos
+│   ├── livros.h                # Operações de livros
+│   ├── menu.h                  # Menus do sistema
+│   ├── relatorios.h            # Relatórios
+│   └── usuarios.h              # Operações de usuários
 │
 ├── src/
-│   ├── auxiliares.c            # Página após realização do login
-│   ├── emprestimos.c           # Página após realização do login
-│   ├── livros.c                # Página após realização do login
-│   ├── main.c                  # Página após realização do login
-│   ├── relatorios.c            # Página após realização do login
-│   └── usuarios.c              # Página de cadastro de usuário
+│   ├── auxiliares.c
+│   ├── emprestimos.c
+│   ├── livros.c
+│   ├── main.c
+│   ├── relatorios.c
+│   └── usuarios.c
 │
-├── .gitignore                  # Ignora partes específicas do projeto
-└── readme.md                   # Readme do sistema (guia e introdução do projeto)
+├── .gitignore                  # Arquivos ignorados pelo Git
+├── Makefile                    # Automação da compilação
+└── README.md                   # Documentação do projeto
 ```
+
+---
+
+## Observações
+
+* Os arquivos de dados são armazenados na pasta `data/`.
+* Os recursos visuais do sistema estão na pasta `assets/`.
+* O projeto utiliza compilação modular e Makefile para automatizar a construção do executável.
+* Desenvolvido e testado com GCC 15.2.0 (MSYS2 UCRT64).

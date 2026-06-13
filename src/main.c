@@ -13,7 +13,7 @@ int main()
 
     setlocale(LC_ALL, "pt_BR.UTF-8");
 
-    logo = fopen("../assets/logo.txt", "r");
+    logo = fopen("assets/logo.txt", "r");
 
     if (logo == NULL)
     {

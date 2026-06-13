@@ -1,2 +1,14 @@
+# VS Code
 .vscode/
+
+# Build
+/build/
+
+# Binários
 *.exe
+*.o
+*.d
+
+# Arquivos temporários do Windows
+Thumbs.db
+Desktop.ini
