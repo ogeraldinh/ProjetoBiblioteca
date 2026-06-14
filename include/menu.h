@@ -12,4 +12,7 @@ void p_livros();
 // Função para cadastrar livros
 void c_livros();
 
+// Função para remover livros
+void r_livros();
+
 #endif

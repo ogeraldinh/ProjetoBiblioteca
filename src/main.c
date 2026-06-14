@@ -37,6 +37,7 @@ int main()
         printf("( 3 ) Pesquisar usuários \n");
         printf("( 4 ) Cadastrar um usuário \n");
         printf("( 5 ) Gerar relatório \n");
+        printf("( 6 ) Remover algum livro\n");
         printf("( 0 ) Encerrar o programa \n");
         printf("Selecione a opção que você deseja: ");
 
@@ -68,6 +69,9 @@ int main()
             printf("\n");
             printf("Gerando relatório...\n");
             printf("\n");
+            break;
+        case 6:
+            r_livros();
             break;
         default:
             printf("\nResposta inválida! Por favor, digite uma das opções.\n");

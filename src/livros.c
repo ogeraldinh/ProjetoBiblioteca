@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <locale.h>
-#include<time.h>
+#include <time.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../include/menu.h"
-FILE *lista_l;
 struct Livro{
     int id;
     char nome[50];
@@ -16,7 +16,7 @@ struct Livro{
 };
 void c_livros() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
-    lista_l = fopen("data/ListaLivros.txt", "ab");
+    FILE *lista_l = fopen("data/ListaLivros.txt", "ab");
     
     if(lista_l == NULL){
         printf("\nErro inesperado ao abrir o arquivo!\n");
@@ -63,10 +63,10 @@ void c_livros() {
     system("pause");
 }
 
-char livro[50];
 
 void p_livros() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
+    char livro[50];
     
     struct Livro l;
     int pesq, i, j;
@@ -96,21 +96,15 @@ void p_livros() {
             while(fread(&l, sizeof(struct Livro), 1, lista_l) == 1){
                 // temp para copiar o livro no arquivo e passar para minusculo
                 char temp[50];
-                for(j = 0; l.nome[j] != '\0'; j++)
-                    temp[j] = l.nome[j];
-                temp[j] = '\0';
+                strcpy(temp, l.nome);
 
                 // Converte temp para minúsculo (não modifica o arquivo)
                 for(j = 0; temp[j] != '\0'; j++)
                     if(temp[j] >= 'A' && temp[j] <= 'Z')
                         temp[j] = temp[j] + 32;
 
-                // Compara caractere por caractere
-                for(i = 0; livro[i] != '\0' && temp[i] != '\0'; i++)
-                    if(livro[i] != temp[i])
-                        break;
 
-                if(livro[i] == '\0' && temp[i] == '\0'){
+                if(strcmp(livro, temp) == 0){
                     encontrado = 1;
                     printf("O livro esta no sistema!\n");
                     printf("ID: %d\n", l.id);
@@ -160,5 +154,56 @@ void p_livros() {
 
     }
     fclose(lista_l);
+    system("pause");
+}
+
+void r_livros() {
+    setlocale(LC_ALL, "pt_BR.UTF-8");
+
+    int id_r;
+    int encontrado = 0;
+    struct Livro l;
+
+    printf("Digite o ID do livro que deseja remover: ");
+    scanf("%d", &id_r);
+
+    //abrir original para ReadB
+    FILE *lista_ori = fopen("data/ListaLivros.txt", "rb");
+    if(lista_ori == NULL){
+        printf("Erro ao abrir arquivo!\n");
+        exit(1);
+    }
+
+    //abrir um temporario para WriteB
+    FILE *lista_t = fopen("data/temp.txt", "wb");
+    if(lista_t == NULL){
+        printf("Erro ao criar arquivo temporario!\n");
+        fclose(lista_ori);
+        exit(1);
+    }
+
+    //acha o livro que vai ser removido e não copia no temp
+    while(fread(&l, sizeof(struct Livro), 1, lista_ori) == 1){
+        if(l.id != id_r){
+            fwrite(&l, sizeof(struct Livro), 1, lista_t);
+        } else {
+            encontrado = 1;
+            printf("Livro '%s' removido com sucesso!\n", l.nome);
+        }
+    }
+
+    fclose(lista_ori);
+    fclose(lista_t);
+
+    if(!encontrado){
+        printf("Livro nao encontrado!\n");
+        //se ID não achado cancela a temp e não altera a original
+        remove("data/temp.txt");
+        exit(1);
+    }
+
+    //remove o original e dá rename na temp para nova original
+    remove("data/ListaLivros.txt");
+    rename("data/temp.txt", "data/ListaLivros.txt");
     system("pause");
 }
