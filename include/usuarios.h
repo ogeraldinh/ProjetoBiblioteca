@@ -9,4 +9,19 @@ struct Usuario
     int quant_emprestimos_ativos;
 };
 
+// Função para pesquisar usuários
+void p_usuarios();
+
+// Função para cadastrar usuários
+void c_usuarios();
+
+// Função para remover usuários
+void r_usuarios();
+
+// Função de listar todos os usuários
+void l_usuarios();
+
+// Função de Atualizar dados dos usuários
+void a_usuarios();
+
 #endif
