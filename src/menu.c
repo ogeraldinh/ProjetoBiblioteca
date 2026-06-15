@@ -12,29 +12,13 @@ void menuPrincipal()
 {
     limparTela();
 
-    FILE *title;
     int resposta;
-    char linha[50];
-
-    title = fopen("assets/biblioteca.txt", "r");
-
-    if (title == NULL)
-    {
-        printf("Erro ao abrir biblioteca.txt\n");
-        return;
-    }
 
     while (1)
     {
         printf("\n");
-
-        rewind(title);
-
-        while (fgets(linha, sizeof(linha), title))
-        {
-            printf("%s", linha);
-        }
-        printf("------------------------------------------------------");
+        exibirTitulo("assets/biblioteca.txt");
+        printf("-----------------------------------------------------");
         printf("\n");
         printf("( 1 ) Gerenciar livros.\n");
         printf("( 2 ) Gerenciar usuários.\n");
@@ -47,15 +31,13 @@ void menuPrincipal()
 
         if (scanf("%d", &resposta) != 1)
         {
-            printf("\nResposta inválida!\n");
-            limparBuffer();
+            erroEntrada("Opção inválida!");
             continue;
         }
 
         switch (resposta)
         {
         case 0:
-            fclose(title);
             printf("Encerrando...\n");
             return;
 
@@ -85,36 +67,19 @@ void menuPrincipal()
             break;
 
         default:
-            printf("Opção inválida!\n");
-            limparBuffer();
+            erroEntrada("Opção inválida!");
+            break;
         }
     }
 }
 void menuLivros(){
-
-    FILE *title;
     int resposta;
-    char linha[50];
-
-    title = fopen("assets/livros.txt", "r");
-
-    if (title == NULL)
-    {
-        printf("Erro ao abrir livros.txt\n");
-        return;
-    }
 
     while (1)
     {
         printf("\n");
-
-        rewind(title);
-
-        while (fgets(linha, sizeof(linha), title))
-        {
-            printf("%s", linha);
-        }
-        printf("---------------------------------");
+        exibirTitulo("assets/livros.txt");
+        printf("--------------------------------");
         printf("\n");
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
@@ -126,15 +91,13 @@ void menuLivros(){
 
         if (scanf("%d", &resposta) != 1)
         {
-            printf("\nResposta inválida!\n");
-            limparBuffer();
+            erroEntrada("Opção inválida!");
             continue;
         }
 
         switch (resposta)
         {
         case 0:
-            fclose(title);
             limparTela();
             return;
 
@@ -154,12 +117,213 @@ void menuLivros(){
             break;
 
         default:
-            printf("Opção inválida!\n");
-            limparBuffer();
+            erroEntrada("Opção inválida!");
+            break;
         }
     }
 }
-void menuUsuarios(){}
-void menuEmprestimos(){}
-void menuDevolucoes(){}
-void menuRelatorios(){}
+void menuUsuarios(){
+
+    int resposta;
+
+    while (1)
+    {
+        printf("\n");
+        exibirTitulo("assets/usuarios.txt");
+        printf("--------------------------------------------");
+        printf("\n");
+        printf("( 1 ) Pesquisar livros.\n");
+        printf("( 2 ) Cadastrar um livro.\n");
+        printf("( 3 ) Remover algum livro.\n");
+        printf("( 0 ) Retornar.\n");
+        printf("\n");
+
+        printf("Selecione a opção que você deseja: ");
+
+        if (scanf("%d", &resposta) != 1)
+        {
+            erroEntrada("Opção inválida!");
+            continue;
+        }
+
+        switch (resposta)
+        {
+        case 0:
+            limparTela();
+            return;
+
+        case 1:
+            limparTela();
+            p_livros();
+            break;
+
+        case 2:
+            limparTela();
+            c_livros();
+            break;
+
+        case 3:
+            limparTela();
+            r_livros();
+            break;
+
+        default:
+            erroEntrada("Opção inválida!");
+            break;
+        }
+    }
+}
+void menuEmprestimos(){
+
+    int resposta;
+
+    while (1)
+    {
+        printf("\n");
+        exibirTitulo("assets/emprestimos.txt");
+        printf("-------------------------------------------------------------------");
+        printf("\n");
+        printf("( 1 ) Pesquisar livros.\n");
+        printf("( 2 ) Cadastrar um livro.\n");
+        printf("( 3 ) Remover algum livro.\n");
+        printf("( 0 ) Retornar.\n");
+        printf("\n");
+
+        printf("Selecione a opção que você deseja: ");
+
+        if (scanf("%d", &resposta) != 1)
+        {
+            erroEntrada("Opção inválida!");
+            continue;
+        }
+
+        switch (resposta)
+        {
+        case 0:
+            limparTela();
+            return;
+
+        case 1:
+            limparTela();
+            p_livros();
+            break;
+
+        case 2:
+            limparTela();
+            c_livros();
+            break;
+
+        case 3:
+            limparTela();
+            r_livros();
+            break;
+
+        default:
+            erroEntrada("Opção inválida!");
+            break;
+        }
+    }
+}
+void menuDevolucoes(){
+
+    int resposta;
+
+    while (1)
+    {
+        printf("\n");
+        exibirTitulo("assets/devolucoes.txt");
+        printf("-----------------------------------------------------------");
+        printf("\n");
+        printf("( 1 ) Pesquisar livros.\n");
+        printf("( 2 ) Cadastrar um livro.\n");
+        printf("( 3 ) Remover algum livro.\n");
+        printf("( 0 ) Retornar.\n");
+        printf("\n");
+
+        printf("Selecione a opção que você deseja: ");
+
+        if (scanf("%d", &resposta) != 1)
+        {
+            erroEntrada("Opção inválida!");
+            continue;
+        }
+
+        switch (resposta)
+        {
+        case 0:
+            limparTela();
+            return;
+
+        case 1:
+            limparTela();
+            p_livros();
+            break;
+
+        case 2:
+            limparTela();
+            c_livros();
+            break;
+
+        case 3:
+            limparTela();
+            r_livros();
+            break;
+
+        default:
+            erroEntrada("Opção inválida!");
+            break;
+        }
+    }
+}
+void menuRelatorios(){
+
+    int resposta;
+
+    while (1)
+    {
+        printf("\n");
+        printf("\n");
+        exibirTitulo("assets/relatorios.txt");
+        printf("-------------------------------------------------------");
+        printf("\n");
+        printf("( 1 ) Pesquisar livros.\n");
+        printf("( 2 ) Cadastrar um livro.\n");
+        printf("( 3 ) Remover algum livro.\n");
+        printf("( 0 ) Retornar.\n");
+        printf("\n");
+
+        printf("Selecione a opção que você deseja: ");
+
+        if (scanf("%d", &resposta) != 1)
+        {
+            erroEntrada("Opção inválida!");
+            continue;
+        }
+
+        switch (resposta)
+        {
+        case 0:
+            limparTela();
+            return;
+
+        case 1:
+            limparTela();
+            p_livros();
+            break;
+
+        case 2:
+            limparTela();
+            c_livros();
+            break;
+
+        case 3:
+            limparTela();
+            r_livros();
+            break;
+
+        default:
+            erroEntrada("Opção inválida!");
+            break;
+        }
+    }
+}
