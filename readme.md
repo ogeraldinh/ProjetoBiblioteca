@@ -9,7 +9,7 @@ O sistema permite o gerenciamento de um acervo de livros, usuários e empréstim
 ## Autores
 
 * [Geraldo Duarte de Medeiros Neto](https://github.com/ogeraldinh)
-- [João Batista Alves de Sousa Junior](https://github.com/JB-2612)
+- [João Batista Alves de Sousa Júnior](https://github.com/JB-2612)
 
 ---
 
