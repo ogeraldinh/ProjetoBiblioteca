@@ -8,7 +8,6 @@
 #include <time.h>
 
 void c_livros() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
     FILE *lista_l = fopen("data/ListaLivros.txt", "ab");
     
     if(lista_l == NULL){
@@ -57,7 +56,6 @@ void c_livros() {
 }
 
 void p_livros() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
     char livro[50];
     
     struct Livro l;
@@ -152,7 +150,6 @@ void p_livros() {
 }
 
 void r_livros() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
 
     int id_r;
     int encontrado = 0;
@@ -207,7 +204,6 @@ void r_livros() {
 }
 
 void l_livros() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
 
     struct Livro l;
     int i = 0;
@@ -236,7 +232,6 @@ void l_livros() {
 }
 
 void a_livros() {
-    setlocale(LC_ALL, "pt_BR.UTF-8");
 
     int id_att, pesq;
     int encontrado = 0;
