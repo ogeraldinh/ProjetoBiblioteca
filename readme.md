@@ -171,6 +171,7 @@ ProjetoBiblioteca/
 │   ├── emprestimos.c
 │   ├── livros.c
 │   ├── main.c
+│   ├── menu.c
 │   ├── relatorios.c
 │   └── usuarios.c
 │
@@ -187,3 +188,5 @@ ProjetoBiblioteca/
 * Os recursos visuais do sistema estão na pasta `assets/`.
 * O projeto utiliza compilação modular e Makefile para automatizar a construção do executável.
 * Desenvolvido e testado com GCC 15.2.0 (MSYS2 UCRT64).
+* O projeto foi desenvolvido utilizando o locale `pt_BR.UTF-8`.
+* Recomenda-se utilizar arquivos-fonte salvos em UTF-8 e executar o sistema em um terminal compatível com UTF-8.
