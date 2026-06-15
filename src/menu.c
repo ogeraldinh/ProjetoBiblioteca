@@ -16,9 +16,7 @@ void menuPrincipal()
 
     while (1)
     {
-        printf("\n");
         exibirTitulo("assets/biblioteca.txt");
-        printf("-----------------------------------------------------");
         printf("\n");
         printf("( 1 ) Gerenciar livros.\n");
         printf("( 2 ) Gerenciar usuários.\n");
@@ -77,14 +75,12 @@ void menuLivros(){
 
     while (1)
     {
-        printf("\n");
         exibirTitulo("assets/livros.txt");
-        printf("--------------------------------");
         printf("\n");
-        printf("( 1 ) Pesquisar livros.\n");
-        printf("( 2 ) Cadastrar um livro.\n");
-        printf("( 3 ) Remover algum livro.\n");
-        printf("( 4 ) Listar todos os livros.\n");
+        printf("( 1 ) Listar todos os livros.\n");
+        printf("( 2 ) Pesquisar livros.\n");
+        printf("( 3 ) Cadastrar um livro.\n");
+        printf("( 4 ) Remover algum livro.\n");
         printf("( 5 ) Atualizar algum dado de um livro.\n");
         /* Informar, para um dado livro, para quais usuários ele está emprestado no momento 
         (caso não haja, informar que o livro não possui empréstimos);*/
@@ -108,22 +104,22 @@ void menuLivros(){
 
         case 1:
             limparTela();
-            p_livros();
+            l_livros();
             break;
 
         case 2:
             limparTela();
-            c_livros();
+            p_livros();
             break;
 
         case 3:
             limparTela();
-            r_livros();
+            c_livros();
             break;
 
         case 4:
             limparTela();
-            l_livros();
+            r_livros();
             break;
 
         case 5:
@@ -149,14 +145,12 @@ void menuUsuarios()
 
     while (1)
     {
-        printf("\n");
         exibirTitulo("assets/usuarios.txt");
-        printf("--------------------------------------------");
         printf("\n");
-        printf("( 1 ) Pesquisar usuários.\n");
-        printf("( 2 ) Cadastrar um usuário.\n");
-        printf("( 3 ) Remover algum usuário.\n");
-        printf("( 4 ) Listar todos os usuários.\n");
+        printf("( 1 ) Listar todos os usuários.\n");
+        printf("( 2 ) Pesquisar usuários.\n");
+        printf("( 3 ) Cadastrar um usuário.\n");
+        printf("( 4 ) Remover algum usuário.\n");
         printf("( 5 ) Alterar algum dado de usuário.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
@@ -177,22 +171,22 @@ void menuUsuarios()
 
         case 1:
             limparTela();
-            p_usuarios();
+            l_usuarios();
             break;
 
         case 2:
             limparTela();
-            c_usuarios();
+            p_usuarios();
             break;
 
         case 3:
             limparTela();
-            r_usuarios();
+            c_usuarios();
             break;
 
         case 4:
             limparTela();
-            l_usuarios();
+            r_usuarios();
             break;
 
         case 5:
@@ -212,9 +206,7 @@ void menuEmprestimos(){
 
     while (1)
     {
-        printf("\n");
         exibirTitulo("assets/emprestimos.txt");
-        printf("-------------------------------------------------------------------");
         printf("\n");
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
@@ -263,9 +255,7 @@ void menuDevolucoes(){
 
     while (1)
     {
-        printf("\n");
         exibirTitulo("assets/devolucoes.txt");
-        printf("-----------------------------------------------------------");
         printf("\n");
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
@@ -314,10 +304,7 @@ void menuRelatorios(){
 
     while (1)
     {
-        printf("\n");
-        printf("\n");
         exibirTitulo("assets/relatorios.txt");
-        printf("-------------------------------------------------------");
         printf("\n");
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
