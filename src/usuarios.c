@@ -17,13 +17,26 @@ void c_usuarios()
         return;
     }
     int n, i;
+
+    exibirTitulo("assets/usuarios.txt");
+    printf("\n");
     printf("Quantos usuários deseja cadastrar?: ");
-    scanf("%d", &n);
+
+    if (scanf("%d", &n) != 1 || n <= 0)
+    {
+        erroEntrada("Quantidade inválida!");
+        limparBuffer();
+        fclose(lista_u);
+        return;
+    }
+
+    limparBuffer();
+
     struct Usuario *u = malloc(n * sizeof(struct Usuario));
 
     if (u == NULL)
     {
-        printf("Erro de alocacao!\n");
+        printf("Erro de alocação!\n");
         fclose(lista_u);
         pausar();
         return;
@@ -37,15 +50,22 @@ void c_usuarios()
         // Entrada dos dados pelo usuário.
         printf("Digite o nome do discente: ");
         scanf(" %[^\n]", u[i].nome);
+        limparBuffer();
+
         printf("Digite o curso do discente: ");
         scanf(" %[^\n]", u[i].curso);
+        limparBuffer();
+
         u[i].quant_emprestimos_ativos = 0;
     }
 
     fwrite(u, sizeof(struct Usuario), n, lista_u);
+
     free(u);
     u = NULL;
     fclose(lista_u);
+
+    printf("\nUsuário(s) cadastrado(s) com sucesso!\n");
     pausar();
 }
 
@@ -65,22 +85,32 @@ void p_usuarios()
         pausar();
         return;
     }
-    printf("\n");
+
     exibirTitulo("assets/usuarios.txt");
-    printf("--------------------------------------------");
     printf("\n");
     printf("(1) Pesquisa por nome.\n");
     printf("(2) Pesquisa por matrícula.\n");
     printf("\n");
 
     printf("Selecione a opção que você deseja: ");
-    scanf("%d", &pesq);
+
+    if (scanf("%d", &pesq) != 1)
+    {
+        limparBuffer();
+        fclose(lista_u);
+        erroEntrada("Resposta inválida!");
+        return;
+    }
+
+    limparBuffer();
+
     switch (pesq)
     {
     case 1:
 
         printf("\nDigite o nome que deseja procurar: ");
         scanf(" %[^\n]", usuario);
+        limparBuffer();
 
         // Converte o usuário buscado para minúsculo
         for (i = 0; usuario[i] != '\0'; i++)
@@ -114,13 +144,21 @@ void p_usuarios()
         }
 
         if (!encontrado)
-            fclose(lista_u);
+            printf("Usuário não está cadastrado no sistema!\n");
         break;
 
     case 2:
         // Entrada de dados da matrícula
         printf("\nDigite a matrícula do usuário que deseja buscar (7 algarismos): ");
-        scanf("%d", &matricula_usuario);
+
+        if (scanf("%d", &matricula_usuario) != 1)
+        {
+            printf("\nMatrícula inválida! Digite apenas números.\n");
+            limparBuffer();
+            break;
+        }
+
+        limparBuffer();
 
         // Enquanto fread não achar ou chegar ao EOF
         while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
@@ -146,7 +184,6 @@ void p_usuarios()
         return;
     }
     fclose(lista_u);
-    limparBuffer();
     pausar();
     limparTela();
 }
@@ -159,7 +196,12 @@ void r_usuarios()
     struct Usuario u;
 
     printf("Digite a Matrícula do usuário que deseja remover: ");
-    scanf("%d", &matricula_r);
+    if (scanf("%d", &matricula_r) != 1)
+    {
+        printf("\nMatrícula inválida! Digite apenas números.\n");
+        limparBuffer();
+    }
+    limparBuffer();
 
     // abrir original para ReadB
     FILE *lista_ori = fopen("data/ListaUsuarios.txt", "rb");
@@ -218,7 +260,7 @@ void l_usuarios()
     struct Usuario u;
     int i = 0;
 
-    FILE *lista_u = fopen("data/ListaLivros.txt", "rb");
+    FILE *lista_u = fopen("data/ListaUsuarios.txt", "rb");
     if (lista_u == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -230,13 +272,15 @@ void l_usuarios()
         printf("Usuáro %d--> ", i + 1);
         printf("Nome: %s|| ", u.nome);
         printf("Matrícula: %d|| ", u.matricula);
-        printf("Ano: %s|| ", u.curso);
+        printf("Curso: %s|| ", u.curso);
         printf("Empréstimos ativos: %d||\n", u.quant_emprestimos_ativos);
         i++;
     }
     printf("\n↑↑↑ Total de usuários: %d ↑↑↑\n", i);
     fclose(lista_u);
     pausar();
+    limparBuffer();
+    limparTela();
 }
 
 void a_usuarios()
@@ -244,10 +288,16 @@ void a_usuarios()
 
     int matricula_att, pesq;
     int encontrado = 0;
+    int cancelar_alteracao = 0;
     struct Usuario u;
 
-    printf("Digite a matrícula do livro que deseja atualizar: ");
-    scanf("%d", &matricula_att);
+    printf("Digite a matrícula do usuário que deseja atualizar: ");
+    if (scanf("%d", &matricula_att) != 1)
+    {
+        printf("\nMatrícula inválida! Digite apenas números.\n");
+        limparBuffer();
+    }
+    limparBuffer();
 
     FILE *lista_ori = fopen("data/ListaUsuarios.txt", "rb");
     if (lista_ori == NULL)
@@ -276,17 +326,22 @@ void a_usuarios()
             printf("( 1 ) Nome\n");
             printf("( 2 ) Curso\n");
             printf("( 0 ) Retornar\n");
+
             printf("Qual dado deseja alterar?: ");
-            scanf("%d", &pesq);
+
+            if (scanf("%d", &pesq) != 1)
+            {
+                pesq = -1;
+            }
+
             limparBuffer();
+
             char temp[50];
             switch (pesq)
             {
             case 0:
-                fclose(lista_ori);
-                fclose(lista_t);
-                remove("data/temp.txt");
-                return;
+                cancelar_alteracao = 1;
+                break;
 
             case 1:
                 printf("Nome: %s\n", u.nome);
@@ -300,9 +355,9 @@ void a_usuarios()
                 break;
 
             case 2:
-                printf("Autor: %s\n", u.curso);
+                printf("Curso atual: %s\n", u.curso);
                 printf("Se quiser manter o atual pressione Enter...\n");
-                printf("Se quiser modificar, escreva o novo autor: ");
+                printf("Se quiser modificar, digite o novo curso: ");
                 fgets(temp, 50, stdin);
                 temp[strcspn(temp, "\n")] = '\0';
                 if (temp[0] != '\0')
@@ -321,15 +376,24 @@ void a_usuarios()
     fclose(lista_ori);
     fclose(lista_t);
 
-    if (!encontrado)
+    if (cancelar_alteracao)
     {
-        printf("Livro nao encontrado!\n");
+        printf("\nOperação cancelada pelo usuário.\n");
         remove("data/temp.txt");
         pausar();
         return;
     }
 
-    remove("data/ListaLivros.txt");
-    rename("data/temp.txt", "data/ListaLivros.txt");
+    if (!encontrado)
+    {
+        printf("Usuário nao encontrado!\n");
+        remove("data/temp.txt");
+        pausar();
+        return;
+    }
+
+    remove("data/ListaUsuarios.txt");
+    rename("data/temp.txt", "data/ListaUsuarios.txt");
+    printf("\nInformações atualizadas com sucesso!\n");
     pausar();
 }

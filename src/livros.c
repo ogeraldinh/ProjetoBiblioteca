@@ -12,18 +12,23 @@ void c_livros() {
     
     if(lista_l == NULL){
         printf("\nErro inesperado ao abrir o arquivo!\n");
-        system("pause");
-        exit(1);
+        pausar();
+        return;
     }
     int n, i;
+
     printf("Quantos livros deseja cadastrar?: ");
     scanf("%d", &n);
+    limparBuffer();
+
     struct Livro *l = malloc(n*sizeof(struct Livro));
+    limparBuffer();
 
     if(l == NULL){
-        printf("Erro de alocacao!\n");
+        printf("Erro de alocação!\n");
         fclose(lista_l);
-        exit(1);
+        pausar();
+        return;
     }
     
     //Randomizador de ID (7 Algorismos)
@@ -33,17 +38,30 @@ void c_livros() {
         //Entrada dos dados pelo usuário.
         printf("Digite o Nome do livro que queira cadastrar: ");
         scanf(" %[^\n]", l[i].nome);
+        limparBuffer();
+        
         printf("Digite o Nome do Autor(a): ");
         scanf(" %[^\n]", l[i].autor);
+        limparBuffer();
+
         printf("Digite o gênero do livro: ");
         scanf(" %[^\n]", l[i].genero);
+        limparBuffer();
+
         printf("Digite o ano de publicação(usando números): ");
         scanf("%d", &l[i].ano);
+        limparBuffer();
+
         printf("Digite a quantidade total do livro: ");
         scanf("%d", &l[i].quant_total);
+        limparBuffer();
+
         printf("Digite a quantidade de livros emprestados: ");
         scanf("%d", &l[i].quant_emprestado);
+        limparBuffer();
+
         printf("O ID do seu livro sera: %d\n", l[i].id);
+
         // concertar essa variável
         l[i].quant_disp = l[i].quant_total - l[i].quant_emprestado;
         printf("A quantidade disponível é %d\n", l[i].quant_disp);
@@ -52,7 +70,7 @@ void c_livros() {
     fwrite(l, sizeof(struct Livro), n, lista_l);
     free(l);
     fclose(lista_l);
-    system("pause");
+    pausar();
 }
 
 void p_livros() {
@@ -66,17 +84,25 @@ void p_livros() {
     FILE *lista_l = fopen("data/ListaLivros.txt", "rb");
     if(lista_l == NULL){
         printf("Erro ao abrir arquivo!\n");
-        exit(1);
+        pausar();
+        return;
     }
-    printf("A pesquisa vai ser por id ou nome?\n");
-    printf("(1) Nome\n");
-    printf("(2) ID\n");
+    
+    exibirTitulo("assets/livros.txt");
+    printf("\n");
+    printf("(1) Pesquisa por nome.\n");
+    printf("(2) Pesquisa por ID.\n");
+    printf("\n");
+
+    printf("Selecione a opção que você deseja: ");
     scanf("%d", &pesq);
+
     switch(pesq){
         case 1:
 
             printf("Digite o livro que deseja procurar: ");
             scanf(" %[^\n]", livro);
+            limparBuffer();
 
             // Converte o livro buscado para minúsculo
             for(i = 0; livro[i] != '\0'; i++){
@@ -138,15 +164,17 @@ void p_livros() {
 
             }
             if(!encontrado)
-                printf("Livro nao esta cadastrado no sistema.\n");
+                printf("Livro não está cadastrado no sistema.\n");
             break;
         default:
-            printf("Opcao invalidade... tente novamente\n");
+            printf("Opção inválida... tente novamente\n");
             return;
 
     }
     fclose(lista_l);
-    system("pause");
+    limparBuffer();
+    pausar();
+    limparTela();
 }
 
 void r_livros() {
@@ -180,7 +208,7 @@ void r_livros() {
         } else if(l.quant_emprestado > 0){
                     //não remove se houver emprestimos
                     encontrado = 1;
-                    printf("Nao e possivel remover %s. Pois ha %d emprestimos!!!!\n", l.nome, l.quant_emprestado);
+                    printf("Não e possível remover %s. Pois há %d empréstimos!!!!\n", l.nome, l.quant_emprestado);
                     fwrite(&l, sizeof(struct Livro), 1, lista_t);
                 } else {
                     printf("Livro %s removido!!!!\n", l.nome);
@@ -191,7 +219,7 @@ void r_livros() {
     fclose(lista_t);
 
     if(!encontrado){
-        printf("Livro nao encontrado!\n");
+        printf("Livro não encontrado!\n");
         //se ID não achado cancela a temp e não altera a original
         remove("data/temp.txt");
         exit(1);
@@ -265,9 +293,11 @@ void a_livros() {
             printf("( 4 ) Ano\n");
             printf("( 5 ) Qtd.Total\n");
             printf("( 0 ) Retornar\n");
+
             printf("Qual dado deseja alterar?: ");
             scanf("%d", &pesq);
             limparBuffer();
+            
             char temp[50];
             int t;
             switch(pesq){
