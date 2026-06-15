@@ -145,7 +145,12 @@ make clean
 ProjetoBiblioteca/
 │
 ├── assets/
-│   └── logo.txt                # Arte ASCII exibida no menu principal
+│   ├── biblioteca.txt          # Arte ASCII exibida no menu principal
+│   ├── devolucoes.txt          # Arte ASCII exibida no menu de devoluções
+│   ├── emprestimos.txt         # Arte ASCII exibida no menu de empréstimos
+│   ├── livros.txt              # Arte ASCII exibida no menu de livros
+│   ├── relatorios.txt          # Arte ASCII exibida no menu de relatórios
+│   └── usuarios.txt            # Arte ASCII exibida no menu de usuários
 │
 ├── build/                      # Arquivos gerados pelo Makefile
 │
