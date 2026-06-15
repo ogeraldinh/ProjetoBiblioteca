@@ -1,19 +1,12 @@
+#include "../include/livros.h"
+#include "../include/auxiliares.h"
+
 #include <stdio.h>
-#include <locale.h>
-#include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/menu.h"
-struct Livro{
-    int id;
-    char nome[50];
-    char autor[50];
-    char genero[50];
-    int ano;
-    int quant_total;
-    int quant_emprestado;
-    int quant_disp;
-};
+#include <locale.h>
+#include <time.h>
+
 void c_livros() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
     FILE *lista_l = fopen("data/ListaLivros.txt", "ab");
@@ -62,7 +55,6 @@ void c_livros() {
     fclose(lista_l);
     system("pause");
 }
-
 
 void p_livros() {
     setlocale(LC_ALL, "pt_BR.UTF-8");
