@@ -3,5 +3,10 @@
 
 // Função de execução do menu
 void menuPrincipal();
+void menuLivros();
+void menuUsuarios();
+void menuEmprestimos();
+void menuDevolucoes();
+void menuRelatorios();
 
 #endif
