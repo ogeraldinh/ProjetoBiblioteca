@@ -4,42 +4,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 #include <time.h>
 
-void c_livros() {
+void c_livros()
+{
     FILE *lista_l = fopen("data/ListaLivros.txt", "ab");
-    
-    if(lista_l == NULL){
+
+    if (lista_l == NULL)
+    {
         printf("\nErro inesperado ao abrir o arquivo!\n");
         pausar();
         return;
     }
     int n, i;
 
+    exibirTitulo("assets/livros.txt");
+    printf("\n");
     printf("Quantos livros deseja cadastrar?: ");
-    scanf("%d", &n);
+
+    if (scanf("%d", &n) != 1 || n <= 0)
+    {
+        erroEntrada("Quantidade inválida!");
+        fclose(lista_l);
+        return;
+    }
     limparBuffer();
 
-    struct Livro *l = malloc(n*sizeof(struct Livro));
-    limparBuffer();
+    struct Livro *l = malloc(n * sizeof(struct Livro));
 
-    if(l == NULL){
+    if (l == NULL)
+    {
         printf("Erro de alocação!\n");
         fclose(lista_l);
         pausar();
         return;
     }
-    
-    //Randomizador de ID (7 Algorismos)
+
+    // Randomizador de ID (7 Algarismos)
     srand(time(NULL));
-    for(i = 0; i < n; i++){
+    for (i = 0; i < n; i++)
+    {
         l[i].id = 1000000 + rand() % 9000000;
-        //Entrada dos dados pelo usuário.
-        printf("Digite o Nome do livro que queira cadastrar: ");
+
+        // Entrada dos dados pelo usuário.
+        printf("\nDigite o Nome do livro que queira cadastrar: ");
         scanf(" %[^\n]", l[i].nome);
         limparBuffer();
-        
+
         printf("Digite o Nome do Autor(a): ");
         scanf(" %[^\n]", l[i].autor);
         limparBuffer();
@@ -48,46 +59,61 @@ void c_livros() {
         scanf(" %[^\n]", l[i].genero);
         limparBuffer();
 
-        printf("Digite o ano de publicação(usando números): ");
-        scanf("%d", &l[i].ano);
+        printf("Digite o ano de publicação (usando números): ");
+        if (scanf("%d", &l[i].ano) != 1)
+        {
+            l[i].ano = 0;
+        }
         limparBuffer();
 
         printf("Digite a quantidade total do livro: ");
-        scanf("%d", &l[i].quant_total);
+        if (scanf("%d", &l[i].quant_total) != 1)
+        {
+            l[i].quant_total = 0;
+        }
         limparBuffer();
 
         printf("Digite a quantidade de livros emprestados: ");
-        scanf("%d", &l[i].quant_emprestado);
+        if (scanf("%d", &l[i].quant_emprestado) != 1)
+        {
+            l[i].quant_emprestado = 0;
+        }
         limparBuffer();
 
-        printf("O ID do seu livro sera: %d\n", l[i].id);
-
-        // concertar essa variável
         l[i].quant_disp = l[i].quant_total - l[i].quant_emprestado;
-        printf("A quantidade disponível é %d\n", l[i].quant_disp);
+
+        printf("\n--- Livro Cadastrado ---\n");
+        printf("O ID do seu livro será: %d\n", l[i].id);
+        printf("A quantidade disponível é: %d\n", l[i].quant_disp);
+        printf("---------------------\n");
     }
 
     fwrite(l, sizeof(struct Livro), n, lista_l);
+
     free(l);
+    l = NULL;
     fclose(lista_l);
+
+    printf("\nLivro(s) cadastrado(s) com sucesso!\n");
     pausar();
 }
 
-void p_livros() {
+void p_livros()
+{
     char livro[50];
-    
     struct Livro l;
     int pesq, i, j;
     int id_livro;
     int encontrado = 0;
-    
+
     FILE *lista_l = fopen("data/ListaLivros.txt", "rb");
-    if(lista_l == NULL){
+    if (lista_l == NULL)
+    {
         printf("Erro ao abrir arquivo!\n");
         pausar();
         return;
     }
-    
+
     exibirTitulo("assets/livros.txt");
     printf("\n");
     printf("(1) Pesquisa por nome.\n");
@@ -95,291 +121,367 @@ void p_livros() {
     printf("\n");
 
     printf("Selecione a opção que você deseja: ");
-    scanf("%d", &pesq);
-
-    switch(pesq){
-        case 1:
-
-            printf("Digite o livro que deseja procurar: ");
-            scanf(" %[^\n]", livro);
-            limparBuffer();
-
-            // Converte o livro buscado para minúsculo
-            for(i = 0; livro[i] != '\0'; i++){
-                if(livro[i] >= 'A' && livro[i] <= 'Z')
-                    livro[i] = livro[i] + 32;
-            }
-            while(fread(&l, sizeof(struct Livro), 1, lista_l) == 1){
-                // temp para copiar o livro no arquivo e passar para minusculo
-                char temp[50];
-                strcpy(temp, l.nome);
-
-                // Converte temp para minúsculo (não modifica o arquivo)
-                for(j = 0; temp[j] != '\0'; j++)
-                    if(temp[j] >= 'A' && temp[j] <= 'Z')
-                        temp[j] = temp[j] + 32;
-
-
-                if(strstr(temp, livro) != 0){
-                    encontrado = 1;
-                    printf("<-------------------------------->\n");
-                    printf("O livro esta no sistema!\n");
-                    printf("ID: %d\n", l.id);
-                    printf("Nome: %s\n", l.nome);
-                    printf("Autor: %s\n", l.autor);
-                    printf("Genero: %s\n", l.genero);
-                    printf("Ano: %d\n", l.ano);
-                    printf("Qtd. total: %d\n", l.quant_total);
-                    printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                    printf("Disponiveis: %d\n", l.quant_disp);
-                    printf("<-------------------------------->\n");
-                }
-            }
-
-            if(!encontrado)
-                printf("Livro nao esta cadastrado no sistema.\n");
-
-            break;
-
-        case 2:
-            //Entrada de dados do ID
-            printf("Digite o ID do livro que deseja buscar(7 algarismos): ");
-            scanf("%d", &id_livro);
-
-            // Enquanto fread não achar ou chegar ao EOF
-            while(fread(&l, sizeof(struct Livro), 1, lista_l) == 1){
-                if(l.id == id_livro){
-                    encontrado = 1;
-                    printf("O livro esta no sistema!\n");
-                    printf("ID: %d\n", l.id);
-                    printf("Nome: %s\n", l.nome);
-                    printf("Autor: %s\n", l.autor);
-                    printf("Genero: %s\n", l.genero);
-                    printf("Ano: %d\n", l.ano);
-                    printf("Qtd. total: %d\n", l.quant_total);
-                    printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                    printf("Disponiveis: %d\n", l.quant_disp);
-                    break;
-                }
-
-            }
-            if(!encontrado)
-                printf("Livro não está cadastrado no sistema.\n");
-            break;
-        default:
-            printf("Opção inválida... tente novamente\n");
-            return;
-
+    if (scanf("%d", &pesq) != 1)
+    {
+        limparBuffer();
+        fclose(lista_l);
+        erroEntrada("Resposta inválida!");
+        return;
     }
-    fclose(lista_l);
     limparBuffer();
+
+    switch (pesq)
+    {
+    case 1:
+        printf("\nDigite o nome do livro que deseja procurar: ");
+        scanf(" %[^\n]", livro);
+        limparBuffer();
+
+        // Converte o livro buscado para minúsculo
+        for (i = 0; livro[i] != '\0'; i++)
+        {
+            if (livro[i] >= 'A' && livro[i] <= 'Z')
+                livro[i] = livro[i] + 32;
+        }
+
+        while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
+        {
+            char temp[50];
+            strcpy(temp, l.nome);
+
+            // Converte temp para minúsculo
+            for (j = 0; temp[j] != '\0'; j++)
+            {
+                if (temp[j] >= 'A' && temp[j] <= 'Z')
+                    temp[j] = temp[j] + 32;
+            }
+
+            if (strstr(temp, livro) != NULL)
+            {
+                encontrado = 1;
+                printf("\n");
+                printf("O livro está no sistema!\n");
+                printf("\n");
+                printf("ID: %d\n", l.id);
+                printf("Nome: %s\n", l.nome);
+                printf("Autor: %s\n", l.autor);
+                printf("Gênero: %s\n", l.genero);
+                printf("Ano: %d\n", l.ano);
+                printf("Qtd. total: %d\n", l.quant_total);
+                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
+                printf("Disponíveis: %d\n", l.quant_disp);
+                break;
+            }
+        }
+
+        if (!encontrado)
+            printf("\nLivro não está cadastrado no sistema.\n");
+        break;
+
+    case 2:
+        printf("\nDigite o ID do livro que deseja buscar (7 algarismos): ");
+        if (scanf("%d", &id_livro) != 1)
+        {
+            printf("\nID inválido! Digite apenas números.\n");
+            limparBuffer();
+            break;
+        }
+        limparBuffer();
+
+        while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
+        {
+            if (l.id == id_livro)
+            {
+                encontrado = 1;
+                printf("\n");
+                printf("O livro está no sistema!\n");
+                printf("\n");
+                printf("ID: %d\n", l.id);
+                printf("Nome: %s\n", l.nome);
+                printf("Autor: %s\n", l.autor);
+                printf("Gênero: %s\n", l.genero);
+                printf("Ano: %d\n", l.ano);
+                printf("Qtd. total: %d\n", l.quant_total);
+                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
+                printf("Disponíveis: %d\n", l.quant_disp);
+                break;
+            }
+        }
+        if (!encontrado)
+            printf("\nLivro não está cadastrado no sistema.\n");
+        break;
+
+    default:
+        erroEntrada("Opção inválida!");
+        fclose(lista_l);
+        return;
+    }
+
+    fclose(lista_l);
     pausar();
     limparTela();
 }
 
-void r_livros() {
-
+void r_livros()
+{
     int id_r;
     int encontrado = 0;
+    int impedido = 0;
     struct Livro l;
 
     printf("Digite o ID do livro que deseja remover: ");
-    scanf("%d", &id_r);
+    if (scanf("%d", &id_r) != 1)
+    {
+        printf("\nID inválido! Digite apenas números.\n");
+        limparBuffer();
+        pausar();
+        return;
+    }
+    limparBuffer();
 
-    //abrir original para ReadB
     FILE *lista_ori = fopen("data/ListaLivros.txt", "rb");
-    if(lista_ori == NULL){
+    if (lista_ori == NULL)
+    {
         printf("Erro ao abrir arquivo!\n");
-        exit(1);
+        pausar();
+        return;
     }
 
-    //abrir um temporario para WriteB
     FILE *lista_t = fopen("data/temp.txt", "wb");
-    if(lista_t == NULL){
-        printf("Erro ao criar arquivo temporario!\n");
+    if (lista_t == NULL)
+    {
+        printf("Erro ao criar arquivo temporário!\n");
         fclose(lista_ori);
-        exit(1);
+        pausar();
+        return;
     }
 
-    //acha o livro que vai ser removido e não copia no temp
-    while(fread(&l, sizeof(struct Livro), 1, lista_ori) == 1){
-        if(l.id != id_r){
+    while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
+    {
+        if (l.id != id_r)
+        {
             fwrite(&l, sizeof(struct Livro), 1, lista_t);
-        } else if(l.quant_emprestado > 0){
-                    //não remove se houver emprestimos
-                    encontrado = 1;
-                    printf("Não e possível remover %s. Pois há %d empréstimos!!!!\n", l.nome, l.quant_emprestado);
-                    fwrite(&l, sizeof(struct Livro), 1, lista_t);
-                } else {
-                    printf("Livro %s removido!!!!\n", l.nome);
-                }
+        }
+        else
+        {
+            encontrado = 1;
+            if (l.quant_emprestado > 0)
+            {
+                impedido = 1;
+                printf("\nNão é possível remover '%s', pois há %d empréstimo(s) ativo(s)!\n", l.nome, l.quant_emprestado);
+                fwrite(&l, sizeof(struct Livro), 1, lista_t);
+            }
+            else
+            {
+                printf("\nLivro '%s' removido com sucesso!\n", l.nome);
+            }
+        }
     }
 
     fclose(lista_ori);
     fclose(lista_t);
 
-    if(!encontrado){
-        printf("Livro não encontrado!\n");
-        //se ID não achado cancela a temp e não altera a original
+    if (!encontrado)
+    {
+        printf("\nLivro não encontrado!\n");
         remove("data/temp.txt");
-        exit(1);
+        pausar();
+        return;
     }
 
-    //remove o original e dá rename na temp para nova original
+    if (impedido)
+    {
+        remove("data/temp.txt");
+        pausar();
+        return;
+    }
+
     remove("data/ListaLivros.txt");
     rename("data/temp.txt", "data/ListaLivros.txt");
-    system("pause");
+    pausar();
 }
 
-void l_livros() {
-
+void l_livros()
+{
     struct Livro l;
     int i = 0;
 
     FILE *lista_l = fopen("data/ListaLivros.txt", "rb");
-    if(lista_l == NULL){
+    if (lista_l == NULL)
+    {
         printf("Erro ao abrir arquivo!\n");
-        system("pause");
+        pausar();
         return;
     }
-    while(fread(&l, sizeof(struct Livro), 1, lista_l)){
-        printf("Livro %d--> ", i+1);
-        printf("ID: %d|| ", l.id);
-        printf("Nome: %s|| ", l.nome);
-        printf("Autor: %s|| ", l.autor);
-        printf("Genero: %s|| ", l.genero);
-        printf("Ano: %d|| ", l.ano);
-        printf("Qtd.total: %d|| ", l.quant_total);
-        printf("Qtd.disp: %d|| ", l.quant_disp);
-        printf("Qtd.Empres: %d||\n", l.quant_emprestado);
+
+    while (fread(&l, sizeof(struct Livro), 1, lista_l))
+    {
+        printf("Livro %d--> ", i + 1);
+        printf("ID: %d || ", l.id);
+        printf("Nome: %s || ", l.nome);
+        printf("Autor: %s || ", l.autor);
+        printf("Gênero: %s || ", l.genero);
+        printf("Ano: %d || ", l.ano);
+        printf("Qtd. Total: %d || ", l.quant_total);
+        printf("Qtd. Disp: %d || ", l.quant_disp);
+        printf("Qtd. Emprestada: %d ||\n", l.quant_emprestado);
         i++;
     }
     printf("\n↑↑↑ Total de livros: %d ↑↑↑\n", i);
+
     fclose(lista_l);
-    system("pause");
+    pausar();
+    limparBuffer();
+    limparTela();
 }
 
-void a_livros() {
-
+void a_livros()
+{
     int id_att, pesq;
     int encontrado = 0;
+    int cancelar_alteracao = 0;
     struct Livro l;
 
     printf("Digite o ID do livro que deseja atualizar: ");
-    scanf("%d", &id_att);
+    if (scanf("%d", &id_att) != 1)
+    {
+        printf("\nID inválido! Digite apenas números.\n");
+        limparBuffer();
+        pausar();
+        return;
+    }
+    limparBuffer();
 
     FILE *lista_ori = fopen("data/ListaLivros.txt", "rb");
-    if(lista_ori == NULL){
+    if (lista_ori == NULL)
+    {
         printf("Erro ao abrir arquivo!\n");
-        system("pause");
+        pausar();
         return;
     }
 
     FILE *lista_t = fopen("data/temp.txt", "wb");
-    if(lista_t == NULL){
-        printf("Erro ao criar arquivo temporario!\n");
+    if (lista_t == NULL)
+    {
+        printf("Erro ao criar arquivo temporário!\n");
         fclose(lista_ori);
-        system("pause");
+        pausar();
         return;
     }
 
-    while(fread(&l, sizeof(struct Livro), 1, lista_ori) == 1){
-        if(id_att == l.id){
+    while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
+    {
+        if (id_att == l.id)
+        {
             encontrado = 1;
-            printf("Livro: %s\n", l.nome);
+            printf("\nLivro: %s\n", l.nome);
             printf("( 1 ) Nome\n");
             printf("( 2 ) Autor\n");
-            printf("( 3 ) Genero\n");
+            printf("( 3 ) Gênero\n");
             printf("( 4 ) Ano\n");
-            printf("( 5 ) Qtd.Total\n");
+            printf("( 5 ) Qtd. Total\n");
             printf("( 0 ) Retornar\n");
 
             printf("Qual dado deseja alterar?: ");
-            scanf("%d", &pesq);
+            if (scanf("%d", &pesq) != 1)
+            {
+                pesq = -1;
+            }
             limparBuffer();
-            
+
             char temp[50];
             int t;
-            switch(pesq){
-                case 0:
-                    fclose(lista_ori);
-                    fclose(lista_t);
-                    remove("data/temp.txt");
-                    return;
+            switch (pesq)
+            {
+            case 0:
+                cancelar_alteracao = 1;
+                break;
 
+            case 1:
+                printf("Nome atual: %s\n", l.nome);
+                printf("Se quiser manter o atual pressione Enter...\n");
+                printf("Se quiser modificar, escreva o novo nome: ");
+                fgets(temp, 50, stdin);
+                temp[strcspn(temp, "\n")] = '\0';
+                if (temp[0] != '\0')
+                    strcpy(l.nome, temp);
+                break;
 
-                case 1:
-                    printf("Nome: %s\n", l.nome);
-                    printf("Se quiser manter o atual pressione Enter...\n");
-                    printf("Se quiser modificar, escreva o novo nome: ");
-                    fgets(temp, 50, stdin);
-                    temp[strcspn(temp, "\n")] = '\0';
-                    if(temp[0] != '\0')
-                        strcpy(l.nome, temp);
+            case 2:
+                printf("Autor atual: %s\n", l.autor);
+                printf("Se quiser manter o atual pressione Enter...\n");
+                printf("Se quiser modificar, escreva o novo autor: ");
+                fgets(temp, 50, stdin);
+                temp[strcspn(temp, "\n")] = '\0';
+                if (temp[0] != '\0')
+                    strcpy(l.autor, temp);
+                break;
 
-                    break;
+            case 3:
+                printf("Gênero atual: %s\n", l.genero);
+                printf("Se quiser manter o atual pressione Enter...\n");
+                printf("Se quiser modificar, escreva o novo Gênero: ");
+                fgets(temp, 50, stdin);
+                temp[strcspn(temp, "\n")] = '\0';
+                if (temp[0] != '\0')
+                    strcpy(l.genero, temp);
+                break;
 
-                case 2:
-                    printf("Autor: %s\n", l.autor);
-                    printf("Se quiser manter o atual pressione Enter...\n");
-                    printf("Se quiser modificar, escreva o novo autor: ");
-                    fgets(temp, 50, stdin);
-                    temp[strcspn(temp, "\n")] = '\0';
-                    if(temp[0] != '\0')
-                        strcpy(l.autor, temp);
-                    break;
+            case 4:
+                printf("Ano atual: %d\n", l.ano);
+                printf("Se quiser manter o atual, Digite 0 e pressione Enter...\n");
+                printf("Se quiser modificar, escreva o novo ano: ");
+                if (scanf("%d", &t) == 1 && t != 0)
+                {
+                    l.ano = t;
+                }
+                limparBuffer();
+                break;
 
-                case 3:
-                    printf("Genero: %s\n", l.genero);
-                    printf("Se quiser manter o atual pressione Enter...\n");
-                    printf("Se quiser modificar, escreva o novo Genero: ");
-                    fgets(temp, 50, stdin);
-                    temp[strcspn(temp, "\n")] = '\0';
+            case 5:
+                printf("Qtd. Total atual: %d\n", l.quant_total);
+                printf("Se quiser manter o atual, Digite 0 e pressione Enter...\n");
+                printf("Se quiser modificar, escreva a nova Qtd. Total: ");
+                if (scanf("%d", &t) == 1 && t != 0)
+                {
+                    l.quant_total = t;
+                    l.quant_disp = l.quant_total - l.quant_emprestado;
+                }
+                limparBuffer();
+                break;
 
-                    if(temp[0] != '\0')
-                        strcpy(l.genero, temp);
-                    break;
-
-                case 4:
-                    printf("Ano: %d\n", l.ano);
-                    printf("Se quiser manter o atual, Digite 0 e pressione Enter...\n");
-                    printf("Se quiser modificar, escreva o novo ano: ");
-                    scanf("%d", &t);
-                    if(t != 0)
-                        l.ano = t;
-                    break;
-
-                case 5:
-                    printf("Qtd.Total: %d\n", l.quant_total);
-                    printf("Se quiser manter o atual, Digite 0 e pressione Enter...\n");
-                    printf("Se quiser modificar, escreva a nova Qtd.Total: ");
-                    scanf("%d", &t);
-                    if(t != 0){
-                        l.quant_total = t;
-                        l.quant_disp = (l.quant_total - l.quant_emprestado);
-                    }
-                    break;
-
-                default:
-                    printf("Opcao invalida!\n");
-                    break;
+            default:
+                printf("Opção inválida!\n");
+                break;
             }
-            printf("<--- Livro Atualizado! --->\n");
-
+            if (!cancelar_alteracao && pesq >= 1 && pesq <= 5)
+            {
+                printf("\n--- Cadastro atualizado ---\n");
+            }
         }
         fwrite(&l, sizeof(struct Livro), 1, lista_t);
     }
+
     fclose(lista_ori);
     fclose(lista_t);
 
-    if(!encontrado){
-        printf("Livro nao encontrado!\n");
+    if (cancelar_alteracao)
+    {
+        printf("\nOperação cancelada pelo usuário.\n");
         remove("data/temp.txt");
-        system("pause");
+        pausar();
+        return;
+    }
+
+    if (!encontrado)
+    {
+        printf("Livro não encontrado!\n");
+        remove("data/temp.txt");
+        pausar();
         return;
     }
 
     remove("data/ListaLivros.txt");
     rename("data/temp.txt", "data/ListaLivros.txt");
-    system("pause");
+    pausar();
 }
