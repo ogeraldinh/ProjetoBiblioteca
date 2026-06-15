@@ -25,6 +25,7 @@ void exibirTitulo(const char *arquivo)
 
     fclose(title);
 }
+
 void limparBuffer()
 {
     int c;

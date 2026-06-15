@@ -70,6 +70,7 @@ void menuPrincipal()
         }
     }
 }
+
 void menuLivros(){
     int resposta;
 
@@ -138,6 +139,7 @@ void menuLivros(){
         }
     }
 }
+
 void menuUsuarios()
 {
 
@@ -200,6 +202,7 @@ void menuUsuarios()
         }
     }
 }
+
 void menuEmprestimos(){
 
     int resposta;
@@ -249,6 +252,7 @@ void menuEmprestimos(){
         }
     }
 }
+
 void menuDevolucoes(){
 
     int resposta;
@@ -298,6 +302,7 @@ void menuDevolucoes(){
         }
     }
 }
+
 void menuRelatorios(){
 
     int resposta;
