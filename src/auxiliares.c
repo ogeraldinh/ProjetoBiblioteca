@@ -9,8 +9,7 @@ void limparBuffer()
 {
     int c;
 
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void pausar()
