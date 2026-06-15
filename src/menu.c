@@ -84,7 +84,7 @@ void menuLivros(){
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
         printf("( 3 ) Remover algum livro.\n");
-        printf("( 4 ) Listas todos os livros.\n");
+        printf("( 4 ) Listar todos os livros.\n");
         printf("( 5 ) Atualizar algum dado de um livro.\n");
         /* Informar, para um dado livro, para quais usuários ele está emprestado no momento 
         (caso não haja, informar que o livro não possui empréstimos);*/
@@ -120,14 +120,17 @@ void menuLivros(){
             limparTela();
             r_livros();
             break;
+
         case 4:
             limparTela();
             l_livros();
             break;
+
         case 5:
             limparTela();
             a_livros();
             break;
+            
         case 6:
             limparTela();
             //e_livros();
@@ -139,7 +142,8 @@ void menuLivros(){
         }
     }
 }
-void menuUsuarios(){
+void menuUsuarios()
+{
 
     int resposta;
 
@@ -149,9 +153,11 @@ void menuUsuarios(){
         exibirTitulo("assets/usuarios.txt");
         printf("--------------------------------------------");
         printf("\n");
-        printf("( 1 ) Pesquisar livros.\n");
-        printf("( 2 ) Cadastrar um livro.\n");
-        printf("( 3 ) Remover algum livro.\n");
+        printf("( 1 ) Pesquisar usuários.\n");
+        printf("( 2 ) Cadastrar um usuário.\n");
+        printf("( 3 ) Remover algum usuário.\n");
+        printf("( 4 ) Listar todos os usuários.\n");
+        printf("( 5 ) Alterar algum dado de usuário.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -171,17 +177,27 @@ void menuUsuarios(){
 
         case 1:
             limparTela();
-            p_livros();
+            p_usuarios();
             break;
 
         case 2:
             limparTela();
-            c_livros();
+            c_usuarios();
             break;
 
         case 3:
             limparTela();
-            r_livros();
+            r_usuarios();
+            break;
+
+        case 4:
+            limparTela();
+            l_usuarios();
+            break;
+
+        case 5:
+            limparTela();
+            a_usuarios();
             break;
 
         default:
