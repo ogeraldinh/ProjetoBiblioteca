@@ -84,6 +84,11 @@ void menuLivros(){
         printf("( 1 ) Pesquisar livros.\n");
         printf("( 2 ) Cadastrar um livro.\n");
         printf("( 3 ) Remover algum livro.\n");
+        printf("( 4 ) Listas todos os livros.\n");
+        printf("( 5 ) Atualizar algum dado de um livro.\n");
+        /* Informar, para um dado livro, para quais usuários ele está emprestado no momento 
+        (caso não haja, informar que o livro não possui empréstimos);*/
+        printf("( 6 ) Emprestimos de livros.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -114,6 +119,18 @@ void menuLivros(){
         case 3:
             limparTela();
             r_livros();
+            break;
+        case 4:
+            limparTela();
+            l_livros();
+            break;
+        case 5:
+            limparTela();
+            a_livros();
+            break;
+        case 6:
+            limparTela();
+            //e_livros();
             break;
 
         default:

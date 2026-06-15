@@ -22,4 +22,10 @@ void c_livros();
 // Função para remover livros
 void r_livros();
 
+// Função de listar todos os livros
+void l_livros();
+
+// Função de Atualizar dados dos livros
+void a_livros();
+
 #endif
