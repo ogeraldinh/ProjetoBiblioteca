@@ -1,7 +1,9 @@
 #include "../include/menu.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <locale.h>
+#include <time.h>
 
 int main()
 {
@@ -11,6 +13,7 @@ int main()
         printf("Caracteres acentuados podem nao ser exibidos corretamente.\n");
         setlocale(LC_ALL, "");
     }
+    srand(time(NULL));
 
     menuPrincipal();
 

@@ -8,7 +8,7 @@
 
 void c_usuarios()
 {
-    FILE *lista_u = fopen("data/ListaUsuarios.txt", "ab");
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "ab");
 
     if (lista_u == NULL)
     {
@@ -43,7 +43,6 @@ void c_usuarios()
     }
 
     // Randomizador de Matrícula (7 Algorismos)
-    srand(time(NULL));
     for (i = 0; i < n; i++)
     {
         u[i].matricula = 1000000 + rand() % 9000000;
@@ -78,7 +77,7 @@ void p_usuarios()
     int matricula_usuario;
     int encontrado = 0;
 
-    FILE *lista_u = fopen("data/ListaUsuarios.txt", "rb");
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
     if (lista_u == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -204,7 +203,7 @@ void r_usuarios()
     limparBuffer();
 
     // abrir original para ReadB
-    FILE *lista_ori = fopen("data/ListaUsuarios.txt", "rb");
+    FILE *lista_ori = fopen("data/ListaUsuarios.dat", "rb");
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -249,8 +248,8 @@ void r_usuarios()
     }
 
     // remove o original e dá rename na temp para nova original
-    remove("data/ListaUsuarios.txt");
-    rename("data/temp.txt", "data/ListaUsuarios.txt");
+    remove("data/ListaUsuarios.dat");
+    rename("data/temp.txt", "data/ListaUsuarios.dat");
     pausar();
 }
 
@@ -260,7 +259,7 @@ void l_usuarios()
     struct Usuario u;
     int i = 0;
 
-    FILE *lista_u = fopen("data/ListaUsuarios.txt", "rb");
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
     if (lista_u == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -299,7 +298,7 @@ void a_usuarios()
     }
     limparBuffer();
 
-    FILE *lista_ori = fopen("data/ListaUsuarios.txt", "rb");
+    FILE *lista_ori = fopen("data/ListaUsuarios.dat", "rb");
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -392,8 +391,8 @@ void a_usuarios()
         return;
     }
 
-    remove("data/ListaUsuarios.txt");
-    rename("data/temp.txt", "data/ListaUsuarios.txt");
+    remove("data/ListaUsuarios.dat");
+    rename("data/temp.txt", "data/ListaUsuarios.dat");
     printf("\nInformações atualizadas com sucesso!\n");
     pausar();
 }

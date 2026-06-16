@@ -82,3 +82,21 @@ void obterDataAtual(char *data)
 
     strftime(data, 11, "%d/%m/%Y", tm_info);
 }
+
+void obterDataFutura(char *data, int dias)
+{
+    time_t agora = time(NULL);
+
+    agora += dias * 24 * 60 * 60;
+
+    struct tm *tm_info = localtime(&agora);
+
+    strftime(data, 11, "%d/%m/%Y", tm_info);
+}
+
+int converterDataParaDias(const char *data)
+{
+    int dia, mes, ano;
+    sscanf(data, "%d/%d/%d", &dia, &mes, &ano);
+    return dia + (mes - 1) * 30 + ano * 365;
+}
