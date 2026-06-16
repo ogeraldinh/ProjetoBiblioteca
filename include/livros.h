@@ -1,8 +1,7 @@
 #ifndef LIVROS_H_
 #define LIVROS_H_
 
-struct Livro
-{
+struct Livro {
     int id;
     char nome[50];
     char autor[50];
@@ -11,7 +10,9 @@ struct Livro
     int quant_total;
     int quant_emprestado;
     int quant_disp;
+    int v_emp;
 };
+
 
 // Função para pesquisar livros
 void p_livros();
@@ -27,5 +28,8 @@ void l_livros();
 
 // Função de Atualizar dados dos livros
 void a_livros();
+
+// Função para informar que o livro está emprestado para tais usuários
+void e_livros();
 
 #endif
