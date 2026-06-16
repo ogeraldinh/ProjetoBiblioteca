@@ -493,7 +493,7 @@ void e_livros()
     scanf("%d", &id_busca);
     limparBuffer();
 
-    FILE *lista_e = fopen("data/ListaEmprestimos.txt", "rb");
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
     if(lista_e == NULL){
         printf("Erro na abertura do arquivo!\n");
         system("pause");
