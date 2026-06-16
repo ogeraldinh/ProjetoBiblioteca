@@ -311,9 +311,10 @@ void menuRelatorios(){
     {
         exibirTitulo("assets/relatorios.txt");
         printf("\n");
-        printf("( 1 ) Pesquisar livros.\n");
-        printf("( 2 ) Cadastrar um livro.\n");
-        printf("( 3 ) Remover algum livro.\n");
+        printf("( 1 ) Criar relatorio de livros mais emprestados.\n");
+        printf("( 2 ) Gerar relatório de usuários em atraso.\n");
+        printf("( 3 ) Gerar relatório com todo acervo disponível.\n");
+        printf("( 4 ) Gerar relatório de histórico de empréstimos de um Usuário.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -333,17 +334,21 @@ void menuRelatorios(){
 
         case 1:
             limparTela();
-            p_livros();
+            lm_relatorio();
             break;
 
         case 2:
             limparTela();
-            c_livros();
+            //a_relatorio();
             break;
 
         case 3:
             limparTela();
-            r_livros();
+            ad_relatorio();
+            break;
+        case 4:
+            limparTela();
+            //h_relatorio();
             break;
 
         default:
