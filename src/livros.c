@@ -73,13 +73,8 @@ void c_livros()
         }
         limparBuffer();
 
-        printf("Digite a quantidade de livros emprestados: ");
-        if (scanf("%d", &l[i].quant_emprestado) != 1)
-        {
-            l[i].quant_emprestado = 0;
-        }
-        limparBuffer();
-
+        l[i].quant_emprestado = 0;
+        l[i].v_emp = 0;
         l[i].quant_disp = l[i].quant_total - l[i].quant_emprestado;
 
         printf("\n--- Livro Cadastrado ---\n");
@@ -170,7 +165,6 @@ void p_livros()
                 printf("Qtd. total: %d\n", l.quant_total);
                 printf("Qtd. emprestado: %d\n", l.quant_emprestado);
                 printf("Disponíveis: %d\n", l.quant_disp);
-                break;
             }
         }
 
@@ -485,3 +479,51 @@ void a_livros()
     rename("data/temp.txt", "data/ListaLivros.txt");
     pausar();
 }
+
+
+/*void e_livros() 
+{
+    int id_busca;
+    struct Emprestimo e;
+    struct Usuario u;
+    int encontrado = 0;
+
+    printf("Digite o ID do livro: ");
+    scanf("%d", &id_busca);
+    limparBuffer();
+
+    FILE *arq_e = fopen("data/ListaEmprestimos.txt", "rb");
+    if(arq_e == NULL){
+        printf("Erro na abertura do arquivo!\n");
+        system("pause");
+        return;
+    }
+
+    printf("\n<--- EMPRESTIMOS DO LIVRO --->\n");
+    while(fread(&e, sizeof(struct Emprestimo), 1, arq_e) == 1){
+        if(e.id == id_busca && e.devolvido == 0){
+            encontrado = 1;
+
+            //busca e exibe o nome do usuário
+            FILE *arq_u = fopen("data/ListaUsuarios.txt", "rb");
+            while(fread(&u, sizeof(struct Usuario), 1, arq_u) == 1){
+                if(u.matricula == e.matricula_usuario){
+                    printf("Usuario:    %s\n", u.nome);
+                    printf("Matricula:  %d\n", u.matricula);
+                    break;
+                }
+            }
+            fclose(arq_u);
+
+            printf("Emprestado em: %02d/%02d/%d\n", e.data_emprestimo[0], e.data_emprestimo[1], e.data_emprestimo[2]);
+            printf("Devolucao em:  %02d/%02d/%d\n\n", e.data_devolucao[0], e.data_devolucao[1], e.data_devolucao[2]);
+        }
+    }
+    fclose(arq_e);
+
+    // ✅ caso não haja empréstimos ativos
+    if(!encontrado)
+        printf("Este livro nao possui emprestimos ativos.\n");
+
+    pausar();
+}*/
