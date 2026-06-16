@@ -79,7 +79,7 @@ void lm_relatorio()
     fprintf(lm_r, "<-----TOP livros mais emprestados----->\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
     }
     fclose(lm_r);
     free(l);
@@ -102,7 +102,7 @@ void a_relatorio()
     struct Usuario u;
     struct Livro l;
 
-    FILE *lista_e = fopen("data/ListaEmprestimos.txt", "rb");
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
 
     if (lista_e == NULL)
     {
@@ -253,7 +253,7 @@ void h_relatorio()
         return;
     }
 
-    FILE *lista_e = fopen("data/ListaEmprestimos.txt", "rb");
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
     if (lista_e == NULL)
     {
         printf("Nenhum emprestimo registrado.\n");
