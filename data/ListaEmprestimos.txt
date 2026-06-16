@@ -1,0 +1,10 @@
+
+========================================
+ID Empréstimo: 10006288
+ID Livro: 1030782
+Matrícula do Usuário: 1027371
+Data de Retirada: 16/06/2026
+Data Prevista: 30/06/2026
+Data de Devolução: Não devolvido
+Devolvido: Não
+========================================

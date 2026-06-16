@@ -55,9 +55,9 @@ void lm_relatorio()
     }
     fclose(lista_l);
 
-    for (i = 0; i < n - 1; i++)
+    for (i = 0; i < n; i++)
     {
-        for (j = 0; j < n - i - 1; j++)
+        for (j = 0; j < n - 1; j++)
         {
             if (l[j].total_emprestimos < l[j + 1].total_emprestimos)
             {
@@ -79,7 +79,7 @@ void lm_relatorio()
     fprintf(lm_r, "<-----TOP livros mais emprestados----->\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %zu: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
     }
     fclose(lm_r);
     free(l);
@@ -197,7 +197,7 @@ void ad_relatorio()
         if (l.quant_disp > 0)
         {
             fprintf(ad_r, "Livro %d: %s || ID: %d || Autor: %s || Genero: %s || Ano: %d\n", i + 1, l.nome, l.id, l.autor, l.genero, l.ano);
-            fprintf(ad_r, "---> Qtd. Disponivel: %d de %d <---\n", l.quant_disp, l.quant_total);
+            fprintf(ad_r, "---> Qtd. Disponivel: %d de %d <---\n\n\n", l.quant_disp, l.quant_total);
             i++;
         }
     }

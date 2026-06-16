@@ -131,7 +131,7 @@ void menuLivros(){
             
         case 6:
             limparTela();
-            //e_livros();
+            e_livros();
             break;
 
         default:
@@ -340,7 +340,7 @@ void menuRelatorios(){
 
         case 2:
             limparTela();
-            //a_relatorio();
+            a_relatorio();
             break;
 
         case 3:
@@ -349,7 +349,7 @@ void menuRelatorios(){
             break;
         case 4:
             limparTela();
-            //h_relatorio();
+            h_relatorio();
             break;
 
         default:
