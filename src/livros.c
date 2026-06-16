@@ -8,7 +8,7 @@
 
 void c_livros()
 {
-    FILE *lista_l = fopen("data/ListaLivros.txt", "ab");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "ab");
 
     if (lista_l == NULL)
     {
@@ -41,7 +41,6 @@ void c_livros()
     }
 
     // Randomizador de ID (7 Algarismos)
-    srand(time(NULL));
     for (i = 0; i < n; i++)
     {
         l[i].id = 1000000 + rand() % 9000000;
@@ -74,7 +73,7 @@ void c_livros()
         limparBuffer();
 
         l[i].quant_emprestado = 0;
-        l[i].v_emp = 0;
+        l[i].total_emprestimos = 0;
         l[i].quant_disp = l[i].quant_total - l[i].quant_emprestado;
 
         printf("\n--- Livro Cadastrado ---\n");
@@ -101,7 +100,7 @@ void p_livros()
     int id_livro;
     int encontrado = 0;
 
-    FILE *lista_l = fopen("data/ListaLivros.txt", "rb");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "rb");
     if (lista_l == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -233,7 +232,7 @@ void r_livros()
     }
     limparBuffer();
 
-    FILE *lista_ori = fopen("data/ListaLivros.txt", "rb");
+    FILE *lista_ori = fopen("data/ListaLivros.dat", "rb");
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -290,8 +289,8 @@ void r_livros()
         return;
     }
 
-    remove("data/ListaLivros.txt");
-    rename("data/temp.txt", "data/ListaLivros.txt");
+    remove("data/ListaLivros.dat");
+    rename("data/temp.txt", "data/ListaLivros.dat");
     pausar();
 }
 
@@ -300,7 +299,7 @@ void l_livros()
     struct Livro l;
     int i = 0;
 
-    FILE *lista_l = fopen("data/ListaLivros.txt", "rb");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "rb");
     if (lista_l == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -346,7 +345,7 @@ void a_livros()
     }
     limparBuffer();
 
-    FILE *lista_ori = fopen("data/ListaLivros.txt", "rb");
+    FILE *lista_ori = fopen("data/ListaLivros.dat", "rb");
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -475,13 +474,12 @@ void a_livros()
         return;
     }
 
-    remove("data/ListaLivros.txt");
-    rename("data/temp.txt", "data/ListaLivros.txt");
+    remove("data/ListaLivros.dat");
+    rename("data/temp.txt", "data/ListaLivros.dat");
     pausar();
 }
 
-
-/*void e_livros() 
+/*void e_livros()
 {
     int id_busca;
     struct Emprestimo e;
@@ -505,7 +503,7 @@ void a_livros()
             encontrado = 1;
 
             //busca e exibe o nome do usuário
-            FILE *arq_u = fopen("data/ListaUsuarios.txt", "rb");
+            FILE *arq_u = fopen("data/ListaUsuarios.dat", "rb");
             while(fread(&u, sizeof(struct Usuario), 1, arq_u) == 1){
                 if(u.matricula == e.matricula_usuario){
                     printf("Usuario:    %s\n", u.nome);
