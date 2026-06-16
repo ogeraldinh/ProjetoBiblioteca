@@ -1,6 +1,7 @@
 #include "../include/menu.h"
 #include "../include/livros.h"
 #include "../include/usuarios.h"
+#include "../include/emprestimos.h"
 #include "../include/relatorios.h"
 #include "../include/auxiliares.h"
 
@@ -211,9 +212,9 @@ void menuEmprestimos(){
     {
         exibirTitulo("assets/emprestimos.txt");
         printf("\n");
-        printf("( 1 ) Pesquisar livros.\n");
-        printf("( 2 ) Cadastrar um livro.\n");
-        printf("( 3 ) Remover algum livro.\n");
+        printf("( 1 ) Listar empréstimos.\n");
+        printf("( 2 ) Realizar empréstimo.\n");
+        printf("( 3 ) Pesquisar empréstimo.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -233,17 +234,17 @@ void menuEmprestimos(){
 
         case 1:
             limparTela();
-            p_livros();
+            l_emprestimos();
             break;
 
         case 2:
             limparTela();
-            c_livros();
+            c_emprestimos();
             break;
 
         case 3:
             limparTela();
-            r_livros();
+            p_emprestimos();
             break;
 
         default:

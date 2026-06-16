@@ -10,7 +10,7 @@ struct Livro {
     int quant_total;
     int quant_emprestado;
     int quant_disp;
-    int v_emp;
+    int total_emprestimos;
 };
 
 
