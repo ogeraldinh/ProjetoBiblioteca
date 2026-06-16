@@ -5,9 +5,24 @@ struct Emprestimo {
     int id_emprestimo;
     int id_livro;
     int matricula_usuario;
-    int data_emp[3];
-    int data_dev[3];
+
+    char data_retirada[11];
+    char data_prevista[11];
+    char data_devolucao[11];
+    
     int devolvido;
 };
+
+// Função para pesquisar empréstimos
+void p_emprestimos();
+
+// Função para cadastrar empréstimos
+void c_emprestimos();
+
+// Função de listar todos os empréstimos
+void l_emprestimos();
+
+// Função de Atualizar dados dos empréstimos
+void a_emprestimos();
 
 #endif
