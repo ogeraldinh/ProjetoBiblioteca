@@ -1,8 +1,8 @@
 ↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓
-Usuario: Geraldo //// Matricula: 1027371
-Livro 1: teste2
-ID emprestimo: 10027315
-Emprestado em: 16/06/2026
-Devolucao prevista: 30/06/2026
+Usuario: Geraldo //// Matricula: 1014240
+Livro 1: teste1
+ID emprestimo: 10024646
+Emprestado em: 17/06/2026
+Devolucao prevista: 01/07/2026
 Status: Pendente
 Total de emprestimos: 1
