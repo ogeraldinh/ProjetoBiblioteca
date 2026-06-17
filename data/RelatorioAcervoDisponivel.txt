@@ -1,8 +1,14 @@
 ↓↓↓↓ ACERVO DISPONIVEL ↓↓↓↓
-Livro 1: teste1 || ID: 1030782 || Autor: teste1 || Genero: teste1 || Ano: 1999
----> Qtd. Disponivel: 10 de 10 <---
+Livro 1: teste1 || ID: 1030782 || Autor: teste1 || Genero: teste1 || Ano: 2000
+---> Qtd. Disponivel: 9 de 10 <---
+
+
 Livro 2: teste2 || ID: 1004785 || Autor: teste2 || Genero: teste2 || Ano: 2000
----> Qtd. Disponivel: 10 de 10 <---
+---> Qtd. Disponivel: 9 de 10 <---
+
+
 Livro 3: teste3 || ID: 1031011 || Autor: teste3 || Genero: teste3 || Ano: 20001
----> Qtd. Disponivel: 10 de 10 <---
+---> Qtd. Disponivel: 9 de 10 <---
+
+
 Total de livros disponiveis: 3

@@ -42,7 +42,8 @@ void c_usuarios()
         return;
     }
 
-    // Randomizador de Matrícula (7 Algorismos)
+    // Randomizador de Matrícula (7 Algorismos) fora do FOR para nao gerar numeros iguais
+    srand(time(NULL));
     for (i = 0; i < n; i++)
     {
         u[i].matricula = 1000000 + rand() % 9000000;

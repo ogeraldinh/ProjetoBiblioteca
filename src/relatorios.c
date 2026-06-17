@@ -55,9 +55,9 @@ void lm_relatorio()
     }
     fclose(lista_l);
 
-    for (i = 0; i < n - 1; i++)
+    for (i = 0; i < n; i++)
     {
-        for (j = 0; j < n - i - 1; j++)
+        for (j = 0; j < n - 1; j++)
         {
             if (l[j].total_emprestimos < l[j + 1].total_emprestimos)
             {
@@ -77,13 +77,15 @@ void lm_relatorio()
         return;
     }
     fprintf(lm_r, "<-----TOP livros mais emprestados----->\n");
+    printf("<-----TOP livros mais emprestados----->\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %zu: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        printf("Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
     }
     fclose(lm_r);
     free(l);
-    printf("Relatorio criado em data/RelatorioMaisEmprestado.txt: por favor consultar o arquivo!!!\n");
+    printf("\nRelatorio criado em data/RelatorioMaisEmprestado.txt: por favor consultar o arquivo!!!\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -102,7 +104,7 @@ void a_relatorio()
     struct Usuario u;
     struct Livro l;
 
-    FILE *lista_e = fopen("data/ListaEmprestimos.txt", "rb");
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
 
     if (lista_e == NULL)
     {
@@ -125,6 +127,7 @@ void a_relatorio()
     }
 
     fprintf(a_r, "↓↓↓↓ EMPRESTIMOS EM ATRASO ↓↓↓↓\n");
+    printf("↓↓↓↓ EMPRESTIMOS EM ATRASO ↓↓↓↓\n");
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
     {
@@ -154,11 +157,15 @@ void a_relatorio()
             fprintf(a_r, "Livro:     %s\n", l.nome);
             fprintf(a_r, "Devolucao prevista: %s\n", e.data_prevista);
             fprintf(a_r, "Atraso:    %d dia(s)\n\n", diferenca);
+            printf("Usuario:   %s (matricula: %d)\n", u.nome, u.matricula);
+            printf("Livro:     %s\n", l.nome);
+            printf("Devolucao prevista: %s\n", e.data_prevista);
+            printf("Atraso:    %d dia(s)\n\n", diferenca);
         }
     }
     fclose(lista_e);
     fclose(a_r);
-    printf("Relatorio criado em data/RelatorioAtrasos.txt: por favor conferir!\n");
+    printf("\nRelatorio criado em data/RelatorioAtrasos.txt: por favor conferir!\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -191,25 +198,31 @@ void ad_relatorio()
     }
 
     fprintf(ad_r, "↓↓↓↓ ACERVO DISPONIVEL ↓↓↓↓\n");
+    printf("↓↓↓↓ ACERVO DISPONIVEL ↓↓↓↓\n");
 
     while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
     {
         if (l.quant_disp > 0)
         {
             fprintf(ad_r, "Livro %d: %s || ID: %d || Autor: %s || Genero: %s || Ano: %d\n", i + 1, l.nome, l.id, l.autor, l.genero, l.ano);
-            fprintf(ad_r, "---> Qtd. Disponivel: %d de %d <---\n", l.quant_disp, l.quant_total);
+            fprintf(ad_r, "---> Qtd. Disponivel: %d de %d <---\n\n\n", l.quant_disp, l.quant_total);
+            printf("Livro %d: %s || ID: %d || Autor: %s || Genero: %s || Ano: %d\n", i + 1, l.nome, l.id, l.autor, l.genero, l.ano);
+            printf("---> Qtd. Disponivel: %d de %d <---\n\n\n", l.quant_disp, l.quant_total);
             i++;
         }
     }
 
-    if (i == 0)
+    if (i == 0){
         fprintf(ad_r, "Nenhum livro disponivel no momento.\n");
-    else
+        printf("Nenhum livro disponivel no momento.\n");
+    }
+    else{
         fprintf(ad_r, "Total de livros disponiveis: %d\n", i);
-
+        printf("Total de livros disponiveis: %d\n", i);
+    }
     fclose(lista_l);
     fclose(ad_r);
-    printf("Relatorio salvo em data/RelatorioAcervoDisponivel.txt: por favor conferir\n");
+    printf("\nRelatorio salvo em data/RelatorioAcervoDisponivel.txt: por favor conferir\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -253,7 +266,7 @@ void h_relatorio()
         return;
     }
 
-    FILE *lista_e = fopen("data/ListaEmprestimos.txt", "rb");
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
     if (lista_e == NULL)
     {
         printf("Nenhum emprestimo registrado.\n");
@@ -276,6 +289,8 @@ void h_relatorio()
 
     fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
     fprintf(h_r, "Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
+    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
+    printf("Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
     {
@@ -290,33 +305,46 @@ void h_relatorio()
                 if (l.id == e.id_livro)
                     break;
             fclose(arq_l);
-
+            
             fprintf(h_r, "Livro %d: %s\n", i, l.nome);
             fprintf(h_r, "ID emprestimo: %d\n", e.id_emprestimo);
             fprintf(h_r, "Emprestado em: %s\n", e.data_retirada);
             fprintf(h_r, "Devolucao prevista: %s\n", e.data_prevista);
+
+            printf("Livro %d: %s\n", i, l.nome);
+            printf("ID emprestimo: %d\n", e.id_emprestimo);
+            printf("Emprestado em: %s\n", e.data_retirada);
+            printf("Devolucao prevista: %s\n", e.data_prevista);
+
             if (e.devolvido)
             {
                 fprintf(h_r, "Status: Devolvido\n");
                 fprintf(h_r, "Data devolucao: %s\n", e.data_devolucao);
+            
+                printf("Status: Devolvido\n");
+                printf("Data devolucao: %s\n", e.data_devolucao);
             }
             else
             {
                 fprintf(h_r, "Status: Pendente\n");
+                printf("Status: Pendente\n");
             }
-            fprintf(h_r, "\n");
         }
     }
 
-    if (i == 0)
+    if (i == 0){
         fprintf(h_r, "Nenhum emprestimo encontrado.\n");
-    else
+        
+        printf("Nenhum emprestimo encontrado.\n");
+    }
+    else{
         fprintf(h_r, "Total de emprestimos: %d\n", i);
-
+        printf("Total de emprestimos: %d\n", i);
+    }
     fclose(lista_e);
     fclose(h_r);
-    printf("Relatorio salvo em data/HistoricoRelatorio.txt: por favor conferir!\n");
-    printf("AVISO: Se for gerado mais histórico, o anterior vai ser sobrescrito!! Por Favor guardar\n");
+    printf("\nRelatorio salvo em data/HistoricoRelatorio.txt: por favor conferir!\n");
+    printf("\nAVISO: Se for gerado mais histórico, o anterior vai ser sobrescrito!! Por Favor guardar\n");
     limparBuffer();
     pausar();
     limparTela();
