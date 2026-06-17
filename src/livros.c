@@ -222,10 +222,10 @@ void r_livros()
 {
     int id_r;
     int encontrado = 0;
-    int impedido = 0;
     struct Livro l;
 
     printf("Digite o ID do livro que deseja remover: ");
+
     if (scanf("%d", &id_r) != 1)
     {
         printf("\nID inválido! Digite apenas números.\n");
@@ -233,9 +233,11 @@ void r_livros()
         pausar();
         return;
     }
+
     limparBuffer();
 
     FILE *lista_ori = fopen("data/ListaLivros.dat", "rb");
+
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -243,58 +245,85 @@ void r_livros()
         return;
     }
 
-    FILE *lista_t = fopen("data/temp.txt", "wb");
-    if (lista_t == NULL)
+    // Procura o livro
+    while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
     {
-        printf("Erro ao criar arquivo temporário!\n");
+        if (l.id == id_r)
+        {
+            encontrado = 1;
+
+            if (l.quant_emprestado > 0)
+            {
+                printf("\nNão é possível remover '%s', pois há %d empréstimo(s) ativo(s)!\n",
+                       l.nome,
+                       l.quant_emprestado);
+
+                fclose(lista_ori);
+                pausar();
+                return;
+            }
+
+            printf("\nLivro encontrado:\n");
+            printf("Título: %s\n", l.nome);
+            printf("Autor: %s\n", l.autor);
+            printf("Disponíveis: %d\n", l.quant_disp);
+
+            if (!confirmar("\nConfirmar realização da exclusão?"))
+            {
+                printf("Ação cancelada!\n");
+
+                fclose(lista_ori);
+                pausar();
+                limparTela();
+                return;
+            }
+
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        printf("\nLivro não encontrado!\n");
+
         fclose(lista_ori);
         pausar();
         return;
     }
 
+    // Volta ao início do arquivo
+    rewind(lista_ori);
+
+    FILE *lista_t = fopen("data/temp.txt", "wb");
+
+    if (lista_t == NULL)
+    {
+        printf("Erro ao criar arquivo temporário!\n");
+
+        fclose(lista_ori);
+        pausar();
+        return;
+    }
+
+    // Copia todos os livros, exceto o removido
     while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
     {
         if (l.id != id_r)
         {
             fwrite(&l, sizeof(struct Livro), 1, lista_t);
         }
-        else
-        {
-            encontrado = 1;
-            if (l.quant_emprestado > 0)
-            {
-                impedido = 1;
-                printf("\nNão é possível remover '%s', pois há %d empréstimo(s) ativo(s)!\n", l.nome, l.quant_emprestado);
-                fwrite(&l, sizeof(struct Livro), 1, lista_t);
-            }
-            else
-            {
-                printf("\nLivro '%s' removido com sucesso!\n", l.nome);
-            }
-        }
     }
 
     fclose(lista_ori);
     fclose(lista_t);
 
-    if (!encontrado)
-    {
-        printf("\nLivro não encontrado!\n");
-        remove("data/temp.txt");
-        pausar();
-        return;
-    }
-
-    if (impedido)
-    {
-        remove("data/temp.txt");
-        pausar();
-        return;
-    }
-
     remove("data/ListaLivros.dat");
     rename("data/temp.txt", "data/ListaLivros.dat");
+
+    printf("\nLivro removido com sucesso!\n");
+
     pausar();
+    limparTela();
 }
 
 void l_livros()
