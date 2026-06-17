@@ -1,3 +1,8 @@
+// Bibliotecas padrão
+#include <stdio.h>
+#include <stdlib.h>
+
+// Módulos Locais
 #include "../include/menu.h"
 #include "../include/livros.h"
 #include "../include/usuarios.h"
@@ -5,9 +10,8 @@
 #include "../include/relatorios.h"
 #include "../include/auxiliares.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 
+// Função de execução do menu principal
 void menuPrincipal()
 {
     limparTela();
@@ -71,6 +75,7 @@ void menuPrincipal()
     }
 }
 
+// Função de execução do submenu de livros
 void menuLivros()
 {
     int resposta;
@@ -141,6 +146,7 @@ void menuLivros()
     }
 }
 
+// Função de execução do submenu de usuários
 void menuUsuarios()
 {
 
@@ -204,6 +210,7 @@ void menuUsuarios()
     }
 }
 
+// Função de execução do submenu de empréstimos
 void menuEmprestimos()
 {
 
@@ -260,6 +267,7 @@ void menuEmprestimos()
     }
 }
 
+// Função de execução do submenu de registro de devolução
 void menuDevolucoes()
 {
 
@@ -272,6 +280,7 @@ void menuDevolucoes()
     }
 }
 
+// Função de execução do submenu de relatórios
 void menuRelatorios()
 {
 

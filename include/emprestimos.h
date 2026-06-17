@@ -1,6 +1,7 @@
 #ifndef EMPRESTIMOS_H
 #define EMPRESTIMOS_H
 
+// Estrutura de um empréstimo (atributos)
 struct Emprestimo {
     int id_emprestimo;
     int id_livro;
@@ -13,11 +14,11 @@ struct Emprestimo {
     int devolvido;
 };
 
-// Função para pesquisar empréstimos
-void p_emprestimos();
-
 // Função para cadastrar empréstimos
 void c_emprestimos();
+
+// Função para pesquisar empréstimos
+void p_emprestimos();
 
 // Função de listar todos os empréstimos
 void l_emprestimos();

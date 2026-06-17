@@ -1,6 +1,7 @@
 #ifndef USUARIOS_H_
 #define USUARIOS_H_
 
+// Estrutura de um Usuário (atributos)
 struct Usuario
 {
     int matricula;
@@ -9,11 +10,11 @@ struct Usuario
     int quant_emprestimos_ativos;
 };
 
-// Função para pesquisar usuários
-void p_usuarios();
-
 // Função para cadastrar usuários
 void c_usuarios();
+
+// Função para pesquisar usuários
+void p_usuarios();
 
 // Função para remover usuários
 void r_usuarios();
