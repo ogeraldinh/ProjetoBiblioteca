@@ -43,7 +43,7 @@ void c_emprestimos()
     printf("\n");
 
     // Entrada de dados da matrícula
-    printf("\nDigite a matrícula do usuário que deseja buscar (5 algarismos): ");
+    printf("\nDigite a matrícula do usuário (5 algarismos): ");
     if (scanf("%d", &matricula_usuario) != 1)
     {
         printf("\nMatrícula inválida! Digite apenas números.\n");
@@ -52,6 +52,7 @@ void c_emprestimos()
         fclose(lista_l);
         fclose(lista_u);
         pausar();
+        limparTela();
         return;
     }
     limparBuffer();
@@ -125,7 +126,7 @@ void c_emprestimos()
         if (l.id == id_livro)
         {
             encontrado = 1;
-            printf("\nLivro disponível\n\n");
+            printf("\nLivro encontrado:\n\n");
             printf("Título: %s\n", l.nome);
             printf("Autor: %s\n", l.autor);
             printf("Disponíveis: %d\n", l.quant_disp);
@@ -146,10 +147,22 @@ void c_emprestimos()
 
     if (l.quant_disp < 1)
     {
-        printf("Não foi possível realizar o empréstimo! (Livro indisponível)\n");
+        printf("Não foi possível realizar o empréstimo! (livro indisponível)\n");
         fclose(lista_emp);
         fclose(lista_l);
         fclose(lista_u);
+        pausar();
+        return;
+    }
+
+    if (!confirmar("\nConfirmar realização do empréstimo?"))
+    {
+        printf("Empréstimo cancelado.\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
         pausar();
         return;
     }
@@ -194,7 +207,9 @@ void c_emprestimos()
     printf("ID do empréstimo: %d\n", emp.id_emprestimo);
     printf("Data de retirada: %s\n", emp.data_retirada);
     printf("Data prevista: %s\n", emp.data_prevista);
+    limparBuffer();
     pausar();
+    limparTela();
 }
 
 void p_emprestimos()
@@ -406,6 +421,7 @@ void p_emprestimos()
     pausar();
     limparTela();
 }
+
 void l_emprestimos()
 {
     struct Usuario u;
@@ -415,8 +431,13 @@ void l_emprestimos()
     int i = 0;
     int totalPendentes = 0;
     int totalDevolvidos = 0;
+    int totalAtrasados = 0;
 
-    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "r");
+    char hojeStr[11];
+    obterDataAtual(hojeStr);
+    int hoje = converterDataParaDias(hojeStr);
+
+    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "rb");
     FILE *lista_l = fopen("data/ListaLivros.dat", "rb");
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
 
@@ -437,6 +458,22 @@ void l_emprestimos()
 
     while (fread(&emp, sizeof(struct Emprestimo), 1, lista_emp) == 1)
     {
+        if (emp.devolvido)
+        {
+            totalDevolvidos++;
+        }
+        else
+        {
+
+            totalPendentes++;
+
+            int dataPrevista = converterDataParaDias(emp.data_prevista);
+            if (hoje > dataPrevista)
+            {
+                totalAtrasados++;
+            }
+        }
+
         rewind(lista_u);
 
         while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
@@ -453,9 +490,9 @@ void l_emprestimos()
                 break;
         }
 
-        printf("\n=================================\n");
+        printf("=====================================================\n");
         printf("EMPRÉSTIMO %d\n", i + 1);
-        printf("=================================\n");
+        printf("=====================================================\n");
         printf("ID Empréstimo : %d\n", emp.id_emprestimo);
         printf("Usuário       : %s (%d)\n", u.nome, u.matricula);
         printf("Livro         : %s\n", l.nome);
@@ -469,7 +506,12 @@ void l_emprestimos()
         }
         else
         {
-            printf("Status        : PENDENTE\n");
+            int dataPrevista = converterDataParaDias(emp.data_prevista);
+
+            if (hoje > dataPrevista)
+                printf("Status        : ATRASADO\n");
+            else
+                printf("Status        : PENDENTE\n");
         }
         i++;
     }
@@ -479,16 +521,209 @@ void l_emprestimos()
         printf("\nNenhum empréstimo registrado.\n");
     }
 
-    printf("\n=================================\n");
-    printf("Total de empréstimos: %d\n", totalPendentes + totalDevolvidos);
+    printf("=====================================================\n");
+    printf("Total de empréstimos: %d\n", i);
     printf("Pendentes: %d\n", totalPendentes);
+    printf("Atrasados: %d\n", totalAtrasados);
     printf("Devolvidos: %d\n", totalDevolvidos);
-    printf("=================================\n");
+    printf("=====================================================\n");
 
     fclose(lista_emp);
     fclose(lista_l);
     fclose(lista_u);
     pausar();
     limparBuffer();
+    limparTela();
+}
+
+void d_emprestimos()
+{
+    int id;
+    int encontrado = 0;
+
+    long posEmp = -1;
+    long posLivro = -1;
+    long posUsuario = -1;
+
+    struct Emprestimo emp;
+    struct Livro l;
+    struct Usuario u;
+
+    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "rb+");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "rb+");
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb+");
+
+    if (lista_emp == NULL || lista_l == NULL || lista_u == NULL)
+    {
+        printf("Erro ao abrir arquivos!\n");
+
+        if (lista_emp)
+            fclose(lista_emp);
+        if (lista_l)
+            fclose(lista_l);
+        if (lista_u)
+            fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    printf("Digite o ID do empréstimo: ");
+
+    if (scanf("%d", &id) != 1)
+    {
+        limparBuffer();
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        erroEntrada("ID inválido!");
+        return;
+    }
+
+    limparBuffer();
+
+    // ===== buscar empréstimo =====
+    rewind(lista_emp);
+
+    while (fread(&emp, sizeof(struct Emprestimo), 1, lista_emp) == 1)
+    {
+        if (emp.id_emprestimo == id)
+        {
+            posEmp = ftell(lista_emp) - sizeof(struct Emprestimo);
+            encontrado = 1;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        printf("Empréstimo não encontrado!\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    if (emp.devolvido)
+    {
+        printf("Este empréstimo já foi devolvido!\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    // ===== buscar usuário =====
+    rewind(lista_u);
+    while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
+    {
+        if (u.matricula == emp.matricula_usuario)
+        {
+            posUsuario = ftell(lista_u) - sizeof(struct Usuario);
+            break;
+        }
+    }
+
+    // ===== buscar livro =====
+    rewind(lista_l);
+    while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
+    {
+        if (l.id == emp.id_livro)
+        {
+            posLivro = ftell(lista_l) - sizeof(struct Livro);
+            break;
+        }
+    }
+
+    if (posUsuario == -1)
+    {
+        printf("Usuário associado ao empréstimo não encontrado!\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    if (posLivro == -1)
+    {
+        printf("Livro associado ao empréstimo não encontrado!\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    printf("\nEmpréstimo encontrado!\n");
+    printf("\n");
+    printf("Livro: %s\n", l.nome);
+    printf("ID Livro: %d\n", emp.id_livro);
+    printf("Matricula: %d\n", emp.matricula_usuario);
+    printf("Usuário: %s\n", u.nome);
+    printf("Data retirada: %s\n", emp.data_retirada);
+    printf("Data prevista: %s\n", emp.data_prevista);
+
+    if (!confirmar("\nDeseja realmente realizar a devolução?"))
+    {
+        printf("Devolução cancelada.\n");
+
+        fclose(lista_emp);
+        fclose(lista_l);
+        fclose(lista_u);
+
+        pausar();
+        return;
+    }
+
+    limparBuffer();
+
+    // ===== atualização =====
+    emp.devolvido = 1;
+    obterDataAtual(emp.data_devolucao);
+
+    fseek(lista_emp, posEmp, SEEK_SET);
+    fwrite(&emp, sizeof(struct Emprestimo), 1, lista_emp);
+
+    if (u.quant_emprestimos_ativos > 0)
+    {
+        u.quant_emprestimos_ativos--;
+    }
+
+    fseek(lista_u, posUsuario, SEEK_SET);
+    fwrite(&u, sizeof(struct Usuario), 1, lista_u);
+
+    l.quant_disp++;
+
+    if (l.quant_emprestado > 0)
+    {
+        l.quant_emprestado--;
+    }
+
+    fseek(lista_l, posLivro, SEEK_SET);
+    fwrite(&l, sizeof(struct Livro), 1, lista_l);
+
+    printf("\nDevolução realizada com sucesso!\n\n");
+    printf("Livro: %s\n", l.nome);
+    printf("Usuário: %s\n", u.nome);
+    printf("Data de devolução: %s\n", emp.data_devolucao);
+
+    fclose(lista_emp);
+    fclose(lista_l);
+    fclose(lista_u);
+
+    pausar();
     limparTela();
 }

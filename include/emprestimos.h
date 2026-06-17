@@ -22,7 +22,7 @@ void c_emprestimos();
 // Função de listar todos os empréstimos
 void l_emprestimos();
 
-// Função de Atualizar dados dos empréstimos
-void a_emprestimos();
+// Função de devolução dos empréstimos
+void d_emprestimos();
 
 #endif
