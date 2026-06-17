@@ -275,8 +275,9 @@ void h_relatorio()
         limparTela();
         return;
     }
-
-    FILE *h_r = fopen("data/HistoricoRelatorio.txt", "w");
+    char arq[50];
+    sprintf(arq, "data/Hist_%d.txt", pesq);
+    FILE *h_r = fopen(arq, "w");
     if (h_r == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -344,7 +345,7 @@ void h_relatorio()
     fclose(lista_e);
     fclose(h_r);
     printf("\nRelatorio salvo em data/HistoricoRelatorio.txt: por favor conferir!\n");
-    printf("\nAVISO: Se for gerado mais histórico, o anterior vai ser sobrescrito!! Por Favor guardar\n");
+    printf("\nAVISO: Se for gerado mais histórico do mesmo usuário, o anterior vai ser sobrescrito!! Por Favor guardar\n");
     limparBuffer();
     pausar();
     limparTela();
