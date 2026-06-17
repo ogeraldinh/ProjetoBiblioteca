@@ -10,7 +10,7 @@
 
 void c_livros()
 {
-    FILE *lista_l = fopen("data/ListaLivros.dat", "ab");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "a+b");
 
     if (lista_l == NULL)
     {
@@ -44,9 +44,43 @@ void c_livros()
 
     // Randomizador de ID (7 Algarismos) fora do FOR para nao gerar numeros iguais
     srand(time(NULL));
+    int verificar;
+    struct Livro t;
     for (i = 0; i < n; i++)
     {
-        l[i].id = 1000000 + rand() % 9000000;
+        do
+        {   
+            verificar = 0;
+
+            l[i].id = 1000000 + rand() % 9000000;
+
+            // verifica se o ID dos livros sendo cadastrados AGORA são iguais
+            for(int j = 0; j < i; j++)
+            {
+                if(l[i].id == l[j].id)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+            if(verificar)
+                continue;
+
+            rewind(lista_l);
+        
+            while(fread(&t, sizeof(struct Livro), 1, lista_l) == 1)
+            {
+                if(l[i].id == t.id)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+        } while(verificar);
+
+        
 
         // Entrada dos dados pelo usuário.
         printf("\nDigite o Nome do livro que queira cadastrar: ");

@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void c_emprestimos()
 {
@@ -20,7 +21,7 @@ void c_emprestimos()
 
     FILE *lista_l = fopen("data/ListaLivros.dat", "rb+");
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb+");
-    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "ab");
+    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "a+b");
 
     if (lista_l == NULL || lista_u == NULL || lista_emp == NULL)
     {
@@ -98,7 +99,7 @@ void c_emprestimos()
     }
 
     // Entrada de dados do Livro
-    printf("\nDigite o ID do livro a ser emprestado (5 algarismos): ");
+    printf("\nDigite o ID do livro a ser emprestado (7 algarismos): ");
     if (scanf("%d", &id_livro) != 1)
     {
         printf("\nID inválido! Digite apenas números.\n");
@@ -168,7 +169,30 @@ void c_emprestimos()
     }
 
     // Geração de dados do empréstimo
-    emp.id_emprestimo = 10000000 + rand() % 90000000;
+    int verificar;
+    struct Emprestimo t;
+    //verifica se ja existe algum ID emprestimo já existente
+    srand(time(NULL));
+    do
+    {   
+        verificar = 0;
+        //gera ID aleatorio de 9 algarismos
+        emp.id_emprestimo = 100000000 + rand() % 900000000;
+        //volta ao começo do arquivo se passar por outro loop
+        rewind(lista_emp);
+        
+        while(fread(&t, sizeof(struct Emprestimo), 1, lista_emp) == 1)
+        {
+            if(emp.id_emprestimo == t.id_emprestimo)
+            {
+                verificar = 1;
+                break;
+            }
+        }
+
+    } while(verificar);
+
+    
     obterDataAtual(emp.data_retirada);
     obterDataFutura(emp.data_prevista, 14);
     emp.devolvido = 0;
