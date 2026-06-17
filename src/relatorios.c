@@ -76,16 +76,31 @@ void lm_relatorio()
         free(l);
         return;
     }
-    fprintf(lm_r, "<-----TOP livros mais emprestados----->\n");
-    printf("<-----TOP livros mais emprestados----->\n");
+    fprintf(lm_r, "============ TOP livros mais emprestados ============\n");
+    printf("============ TOP livros mais emprestados ============\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
-        printf("Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "=====================================================\n");
+        fprintf(lm_r, "POSICAO %zd\n", i + 1);
+        fprintf(lm_r, "Livro             : %s\n", l[i].nome);
+        fprintf(lm_r, "Total Emprestimos : %d\n", l[i].total_emprestimos);
+
+        printf("=====================================================\n");
+        printf("POSIÇÃO %zu\n", i + 1);
+        printf("Livro             : %s\n", l[i].nome);
+        printf("Total Empréstimos : %d\n", l[i].total_emprestimos);
     }
+    fprintf(lm_r, "=====================================================\n");
+    fprintf(lm_r, "Total de livros listados: %zu\n", n);
+    fprintf(lm_r, "=====================================================\n");
+
+    printf("=====================================================\n");
+    printf("Total de livros listados: %zu\n", n);
+    printf("=====================================================\n");
+
     fclose(lm_r);
     free(l);
-    printf("\nRelatorio criado em relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt: por favor consultar o arquivo!!!\n");
+    printf("\nRelatório criado em: relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -94,11 +109,9 @@ void lm_relatorio()
 void a_relatorio()
 {
     char hojeStr[11];
-
     obterDataAtual(hojeStr);
-
-    int hoje =
-        converterDataParaDias(hojeStr);
+    int hoje = converterDataParaDias(hojeStr);
+    int totalAtrasos = 0;
 
     struct Emprestimo e;
     struct Usuario u;
@@ -126,8 +139,8 @@ void a_relatorio()
         return;
     }
 
-    fprintf(a_r, "↓↓↓↓ EMPRESTIMOS EM ATRASO ↓↓↓↓\n");
-    printf("↓↓↓↓ EMPRESTIMOS EM ATRASO ↓↓↓↓\n");
+    fprintf(a_r, "=============== EMPRESTIMOS EM ATRASO ===============\n");
+    printf("=============== EMPRESTIMOS EM ATRASO ===============\n");
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
     {
@@ -153,19 +166,34 @@ void a_relatorio()
                     break;
             fclose(lista_l);
 
-            fprintf(a_r, "Usuario:   %s (matricula: %d)\n", u.nome, u.matricula);
-            fprintf(a_r, "Livro:     %s\n", l.nome);
+            totalAtrasos++;
+
+            fprintf(a_r, "=====================================================\n");
+            fprintf(a_r, "EMPRÉSTIMO ATRASADO\n");
+            fprintf(a_r, "Usuário       : %s (matrícula: %d)\n", u.nome, u.matricula);
+            fprintf(a_r, "Livro         : %s\n", l.nome);
             fprintf(a_r, "Devolucao prevista: %s\n", e.data_prevista);
             fprintf(a_r, "Atraso:    %d dia(s)\n\n", diferenca);
-            printf("Usuario:   %s (matricula: %d)\n", u.nome, u.matricula);
-            printf("Livro:     %s\n", l.nome);
-            printf("Devolucao prevista: %s\n", e.data_prevista);
+
+            printf("=====================================================\n");
+            printf("EMPRÉSTIMO ATRASADO\n");
+            printf("Usuário       : %s (%d)\n", u.nome, u.matricula);
+            printf("Livro         : %s\n", l.nome);
+            printf("Prevista      : %s\n", e.data_prevista);
             printf("Atraso:    %d dia(s)\n\n", diferenca);
         }
     }
+    fprintf(a_r, "=====================================================\n");
+    fprintf(a_r, "Total de atrasos: %d\n", totalAtrasos);
+    fprintf(a_r, "=====================================================\n");
+
+    printf("=====================================================\n");
+    printf("Total de atrasos: %d\n", totalAtrasos);
+    printf("=====================================================\n");
+
     fclose(lista_e);
     fclose(a_r);
-    printf("\nRelatorio criado em relatorios/RelatoriosGenericos/RelatorioAtrasos.txt: por favor conferir!\n");
+    printf("\nRelatorio criado em: relatorios/RelatoriosGenericos/RelatorioAtrasos.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -197,17 +225,32 @@ void ad_relatorio()
         return;
     }
 
-    fprintf(ad_r, "↓↓↓↓ ACERVO DISPONIVEL ↓↓↓↓\n");
-    printf("↓↓↓↓ ACERVO DISPONIVEL ↓↓↓↓\n");
+    fprintf(ad_r, "================= ACERVO DISPONIVEL =================\n");
+    printf("================= ACERVO DISPONIVEL =================\n");
 
     while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
     {
         if (l.quant_disp > 0)
         {
-            fprintf(ad_r, "Livro %d: %s || ID: %d || Autor: %s || Genero: %s || Ano: %d\n", i + 1, l.nome, l.id, l.autor, l.genero, l.ano);
-            fprintf(ad_r, "---> Qtd. Disponivel: %d de %d <---\n\n\n", l.quant_disp, l.quant_total);
-            printf("Livro %d: %s || ID: %d || Autor: %s || Genero: %s || Ano: %d\n", i + 1, l.nome, l.id, l.autor, l.genero, l.ano);
-            printf("---> Qtd. Disponivel: %d de %d <---\n\n\n", l.quant_disp, l.quant_total);
+            fprintf(ad_r, "=====================================================\n");
+            fprintf(ad_r, "LIVRO %d\n", i + 1);
+            fprintf(ad_r, "ID            : %d\n", l.id);
+            fprintf(ad_r, "Título        : %s\n", l.nome);
+            fprintf(ad_r, "Autor         : %s\n", l.autor);
+            fprintf(ad_r, "Gênero        : %s\n", l.genero);
+            fprintf(ad_r, "Ano           : %d\n", l.ano);
+            fprintf(ad_r, "Disponíveis   : %d\n", l.quant_disp);
+            fprintf(ad_r, "Total Acervo  : %d\n", l.quant_total);
+            printf("=====================================================\n");
+            printf("LIVRO %d\n", i + 1);
+            printf("ID            : %d\n", l.id);
+            printf("Título        : %s\n", l.nome);
+            printf("Autor         : %s\n", l.autor);
+            printf("Gênero        : %s\n", l.genero);
+            printf("Ano           : %d\n", l.ano);
+            printf("Disponíveis   : %d\n", l.quant_disp);
+            printf("Total Acervo  : %d\n", l.quant_total);
+
             i++;
         }
     }
@@ -219,12 +262,17 @@ void ad_relatorio()
     }
     else
     {
+        fprintf(ad_r, "=====================================================\n");
         fprintf(ad_r, "Total de livros disponiveis: %d\n", i);
-        printf("Total de livros disponiveis: %d\n", i);
+        fprintf(ad_r, "=====================================================\n");
+
+        printf("=====================================================\n");
+        printf("Total de livros disponíveis: %d\n", i);
+        printf("=====================================================\n");
     }
     fclose(lista_l);
     fclose(ad_r);
-    printf("\nRelatorio salvo em relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt: por favor conferir\n");
+    printf("\nRelatorio salvo em: relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -237,6 +285,10 @@ void h_relatorio()
     struct Livro l;
     struct Usuario u;
     int usuario_encontrado = 0, i = 0;
+    char hojeStr[11];
+
+    obterDataAtual(hojeStr);
+    int hoje = converterDataParaDias(hojeStr);
 
     printf("Digite a matricula do usuario: ");
     scanf("%d", &pesq);
@@ -278,7 +330,7 @@ void h_relatorio()
         return;
     }
 
-    char arq[50];
+    char arq[100];
     sprintf(arq, "relatorios/RelatoriosEspecificos/Hist_%d.txt", pesq);
     FILE *h_r = fopen(arq, "w");
 
@@ -292,10 +344,12 @@ void h_relatorio()
         return;
     }
 
-    fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
-    fprintf(h_r, "Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
-    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
-    printf("Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
+    fprintf(h_r, "============== HISTORICO DE EMPRESTIMOS =============\n");
+    fprintf(h_r, "Usuário: %s\n", u.nome);
+    fprintf(h_r, "Matrícula: %d\n", u.matricula);
+    printf("============== HISTORICO DE EMPRESTIMOS =============\n");
+    printf("Usuario: %s\n", u.nome);
+    printf("Matricula: %d\n", u.matricula);
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
     {
@@ -306,33 +360,60 @@ void h_relatorio()
             FILE *arq_l = fopen("data/ListaLivros.dat", "rb");
             if (arq_l == NULL)
                 continue;
+            int livroEncontrado = 0;
+
             while (fread(&l, sizeof(struct Livro), 1, arq_l) == 1)
+            {
                 if (l.id == e.id_livro)
+                {
+                    livroEncontrado = 1;
                     break;
+                }
+            }
+
+            if (!livroEncontrado)
+            {
+                fclose(arq_l);
+                continue;
+            }
             fclose(arq_l);
 
-            fprintf(h_r, "Livro %d: %s\n", i, l.nome);
-            fprintf(h_r, "ID emprestimo: %d\n", e.id_emprestimo);
-            fprintf(h_r, "Emprestado em: %s\n", e.data_retirada);
-            fprintf(h_r, "Devolucao prevista: %s\n\n", e.data_prevista);
+            fprintf(h_r, "=====================================================\n");
+            fprintf(h_r, "EMPRÉSTIMO %d\n", i);
+            fprintf(h_r, "Livro         : %s\n", l.nome);
+            fprintf(h_r, "ID Empréstimo : %d\n", e.id_emprestimo);
+            fprintf(h_r, "Retirada      : %s\n", e.data_retirada);
+            fprintf(h_r, "Prevista      : %s\n", e.data_prevista);
 
-            printf("Livro %d: %s\n", i, l.nome);
-            printf("ID emprestimo: %d\n", e.id_emprestimo);
-            printf("Emprestado em: %s\n", e.data_retirada);
-            printf("Devolucao prevista: %s\n\n", e.data_prevista);
+            printf("=====================================================\n");
+            printf("EMPRÉSTIMO %d\n", i);
+            printf("Livro         : %s\n", l.nome);
+            printf("ID Empréstimo : %d\n", e.id_emprestimo);
+            printf("Retirada      : %s\n", e.data_retirada);
+            printf("Prevista      : %s\n", e.data_prevista);
 
             if (e.devolvido)
             {
-                fprintf(h_r, "Status: Devolvido\n");
-                fprintf(h_r, "Data devolucao: %s\n\n", e.data_devolucao);
+                fprintf(h_r, "Devolução     : %s\n", e.data_devolucao);
+                fprintf(h_r, "Status        : DEVOLVIDO\n");
 
-                printf("Status: Devolvido\n");
-                printf("Data devolucao: %s\n\n", e.data_devolucao);
+                printf("Devolução     : %s\n", e.data_devolucao);
+                printf("Status        : DEVOLVIDO\n");
             }
             else
             {
-                fprintf(h_r, "Status: Pendente\n\n");
-                printf("Status: Pendente\n\n");
+                int dataPrevista = converterDataParaDias(e.data_prevista);
+
+                if (hoje > dataPrevista)
+                {
+                    fprintf(h_r, "Status        : ATRASADO\n");
+                    printf("Status        : ATRASADO\n");
+                }
+                
+                else {
+                    fprintf(h_r, "Status        : PENDENTE\n");
+                    printf("Status        : PENDENTE\n");
+                }
             }
         }
     }
@@ -345,14 +426,17 @@ void h_relatorio()
     }
     else
     {
-        fprintf(h_r, "Total de emprestimos: %d\n", i);
-        printf("Total de emprestimos: %d\n", i);
+        fprintf(h_r, "=====================================================\n");
+        fprintf(h_r, "Total de empréstimos: %d\n", i);
+        fprintf(h_r, "=====================================================\n");
+        printf("=====================================================\n");
+        printf("Total de empréstimos: %d\n", i);
+        printf("=====================================================\n");
     }
     fclose(lista_e);
     fclose(h_r);
-    printf("\nRelatorio salvo em relatorios/RelatoriosEspecificos: por favor conferir!\n");
-    printf("\nAVISO: Se for gerado mais histórico do mesmo usuário, o anterior vai ser sobrescrito!! Por Favor guardar\n");
-    limparBuffer();
+    printf("\nRelatorio salvo em: relatorios/RelatoriosEspecificos (consulte o arquivo)\n");
+    printf("\nAVISO: Se for gerado mais de um histórico do mesmo usuário, o anterior vai ser sobrescrito!!\n");
     pausar();
     limparTela();
 }

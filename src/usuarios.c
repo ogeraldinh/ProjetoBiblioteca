@@ -173,10 +173,12 @@ void p_usuarios()
                 printf("\n");
                 printf("Usuário encontrado.\n");
                 printf("\n");
-                printf("Nome: %s\n", u.nome);
-                printf("Curso: %s\n", u.curso);
-                printf("Matrícula: %d\n", u.matricula);
+                printf("=====================================================\n");
+                printf("Nome              : %s\n", u.nome);
+                printf("Curso             : %s\n", u.curso);
+                printf("Matrícula         : %d\n", u.matricula);
                 printf("Empréstimos ativos: %d\n", u.quant_emprestimos_ativos);
+                printf("=====================================================\n");
                 break;
             }
         }
@@ -207,10 +209,12 @@ void p_usuarios()
                 printf("\n");
                 printf("Usuário encontrado.\n");
                 printf("\n");
-                printf("Nome: %s\n", u.nome);
-                printf("Curso: %s\n", u.curso);
-                printf("Matrícula: %d\n", u.matricula);
+                printf("=====================================================\n");
+                printf("Nome              : %s\n", u.nome);
+                printf("Curso             : %s\n", u.curso);
+                printf("Matrícula         : %d\n", u.matricula);
                 printf("Empréstimos ativos: %d\n", u.quant_emprestimos_ativos);
+                printf("=====================================================\n");
                 break;
             }
         }
@@ -344,14 +348,17 @@ void l_usuarios()
     }
     while (fread(&u, sizeof(struct Usuario), 1, lista_u))
     {
-        printf("Usuáro %d--> ", i + 1);
-        printf("Nome: %s|| ", u.nome);
-        printf("Matrícula: %d|| ", u.matricula);
-        printf("Curso: %s|| ", u.curso);
-        printf("Empréstimos ativos: %d||\n", u.quant_emprestimos_ativos);
+        printf("=====================================================\n");
+        printf("USUÁRIO %d\n", i + 1);
+        printf("Nome              : %s\n", u.nome);
+        printf("Matrícula         : %d\n", u.matricula);
+        printf("Curso             : %s\n", u.curso);
+        printf("Empréstimos ativos: %d\n", u.quant_emprestimos_ativos);
         i++;
     }
-    printf("\n↑↑↑ Total de usuários: %d ↑↑↑\n", i);
+    printf("=====================================================\n");
+    printf("Total de usuários: %d\n", i);
+    printf("=====================================================\n");
     fclose(lista_u);
     pausar();
     limparBuffer();
