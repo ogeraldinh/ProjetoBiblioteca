@@ -18,20 +18,23 @@ void c_emprestimos()
     struct Emprestimo emp;
     struct Livro l;
 
-    FILE *lista_emp = fopen("data/ListaEmprestimos.txt", "a");
     FILE *lista_l = fopen("data/ListaLivros.dat", "rb+");
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb+");
+    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "ab");
 
-    if (lista_emp == NULL || lista_l == NULL || lista_u == NULL)
+    if (lista_l == NULL || lista_u == NULL || lista_emp == NULL)
     {
         printf("\nErro inesperado ao abrir o arquivo!\n");
         // Garantir o fechamento
-        if (lista_emp)
-            fclose(lista_emp);
         if (lista_l)
             fclose(lista_l);
+
         if (lista_u)
             fclose(lista_u);
+
+        if (lista_emp)
+            fclose(lista_emp);
+
         pausar();
         return;
     }
@@ -122,7 +125,7 @@ void c_emprestimos()
         if (l.id == id_livro)
         {
             encontrado = 1;
-            printf("\nLivro encontrado!\n");
+            printf("\nLivro disponível\n\n");
             printf("Título: %s\n", l.nome);
             printf("Autor: %s\n", l.autor);
             printf("Disponíveis: %d\n", l.quant_disp);
@@ -176,32 +179,16 @@ void c_emprestimos()
         printf("Erro ao atualizar livro!\n");
     }
 
-    // Gravação do Empréstimo em formato legível
-    if (fprintf(lista_emp,
-                "\n========================================\n"
-                "ID Empréstimo: %d\n"
-                "ID Livro: %d\n"
-                "Matrícula do Usuário: %d\n"
-                "Data de Retirada: %s\n"
-                "Data Prevista: %s\n"
-                "Data de Devolução: %s\n"
-                "Devolvido: %s\n"
-                "========================================\n",
-                emp.id_emprestimo,
-                emp.id_livro,
-                emp.matricula_usuario,
-                emp.data_retirada,
-                emp.data_prevista,
-                emp.data_devolucao[0] == '\0' ? "Não devolvido" : emp.data_devolucao,
-                emp.devolvido ? "Sim" : "Não") < 0)
+    // SALVA NO ARQUIVO BINÁRIO (.dat)
+    if (fwrite(&emp, sizeof(struct Emprestimo), 1, lista_emp) != 1)
     {
         printf("Erro ao registrar empréstimo!\n");
     }
 
     // Fechamento dos arquivos
-    fclose(lista_emp);
     fclose(lista_l);
     fclose(lista_u);
+    fclose(lista_emp);
 
     printf("\nEmpréstimo realizado com sucesso!\n");
     printf("ID do empréstimo: %d\n", emp.id_emprestimo);
@@ -220,9 +207,15 @@ void p_emprestimos()
     int matricula;
     int id_livro;
     int encontrado = 0;
+    int usuarioEncontrado = 0;
+    int livroEncontrado = 0;
 
-    FILE *lista_emp = fopen("data/ListaEmprestimos.txt", "rb");
+    // Declarando todos os ponteiros de arquivos no topo da função
+    FILE *lista_emp = NULL;
+    FILE *lista_u = NULL;
+    FILE *lista_l = NULL;
 
+    lista_emp = fopen("data/ListaEmprestimos.dat", "rb");
     if (lista_emp == NULL)
     {
         printf("Erro ao abrir arquivo de empréstimos!\n");
@@ -252,49 +245,74 @@ void p_emprestimos()
     switch (opcao)
     {
     case 1:
-
         printf("\nDigite a matrícula do usuário: ");
-
         if (scanf("%d", &matricula) != 1)
         {
-            limparBuffer();
             erroEntrada("Matrícula inválida!");
             fclose(lista_emp);
             return;
         }
 
+        lista_u = fopen("data/ListaUsuarios.dat", "rb");
+        if (lista_u == NULL)
+        {
+            printf("Erro ao abrir arquivo de usuários!\n");
+            fclose(lista_emp);
+            return;
+        }
+
+        while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
+        {
+            if (u.matricula == matricula)
+            {
+                usuarioEncontrado = 1;
+                break;
+            }
+        }
+        fclose(lista_u); // Fecha logo após o uso
+
+        if (!usuarioEncontrado)
+        {
+            printf("\nUsuário não encontrado!\n");
+            fclose(lista_emp);
+            pausar();
+            return;
+        }
+
         limparBuffer();
+
+        lista_l = fopen("data/ListaLivros.dat", "rb");
+        if (lista_l == NULL)
+        {
+            printf("Erro ao abrir arquivo de livros!\n");
+            fclose(lista_emp);
+            return;
+        }
 
         while (fread(&emp, sizeof(struct Emprestimo), 1, lista_emp) == 1)
         {
-            if (emp.matricula_usuario == matricula &&
-                emp.devolvido == 0)
+            if (emp.matricula_usuario == matricula && emp.devolvido == 0)
             {
                 encontrado = 1;
+                rewind(lista_l);
 
-                FILE *lista_l = fopen("data/ListaLivros.dat", "rb");
-
-                if (lista_l != NULL)
+                while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
                 {
-                    while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
+                    if (l.id == emp.id_livro)
                     {
-                        if (l.id == emp.id_livro)
-                        {
-                            printf("\n---------------------------\n");
-                            printf("ID Empréstimo: %d\n", emp.id_emprestimo);
-                            printf("Livro: %s\n", l.nome);
-                            printf("Autor: %s\n", l.autor);
-                            printf("Data retirada: %s\n", emp.data_retirada);
-                            printf("Data prevista: %s\n", emp.data_prevista);
-                            printf("---------------------------\n");
-                            break;
-                        }
+                        printf("\n---------------------------\n");
+                        printf("ID Empréstimo: %d\n", emp.id_emprestimo);
+                        printf("Livro: %s\n", l.nome);
+                        printf("Autor: %s\n", l.autor);
+                        printf("Data retirada: %s\n", emp.data_retirada);
+                        printf("Data prevista: %s\n", emp.data_prevista);
+                        printf("---------------------------\n");
+                        break;
                     }
-
-                    fclose(lista_l);
                 }
             }
         }
+        fclose(lista_l); // Fecha após o loop dos empréstimos
 
         if (!encontrado)
             printf("\nUsuário não possui empréstimos ativos.\n");
@@ -302,12 +320,9 @@ void p_emprestimos()
         break;
 
     case 2:
-
         printf("\nDigite o ID do livro: ");
-
         if (scanf("%d", &id_livro) != 1)
         {
-            limparBuffer();
             erroEntrada("ID inválido!");
             fclose(lista_emp);
             return;
@@ -315,36 +330,66 @@ void p_emprestimos()
 
         limparBuffer();
 
+        lista_l = fopen("data/ListaLivros.dat", "rb");
+        if (lista_l == NULL) // Adicionada validação que faltava aqui
+        {
+            printf("Erro ao abrir arquivo de livros!\n");
+            fclose(lista_emp);
+            return;
+        }
+
+        while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
+        {
+            if (l.id == id_livro)
+            {
+                livroEncontrado = 1;
+                break;
+            }
+        }
+        fclose(lista_l); // Fecha o arquivo de livros pois não precisará mais dele
+
+        if (!livroEncontrado)
+        {
+            printf("\nLivro não encontrado!\n");
+            fclose(lista_emp);
+            pausar();
+            return;
+        }
+
+        // CORREÇÃO: É preciso abrir o arquivo de usuários para poder usá-lo neste case!
+        lista_u = fopen("data/ListaUsuarios.dat", "rb");
+        if (lista_u == NULL)
+        {
+            printf("Erro ao abrir arquivo de usuários!\n");
+            fclose(lista_emp);
+            return;
+        }
+
         while (fread(&emp, sizeof(struct Emprestimo), 1, lista_emp) == 1)
         {
-            if (emp.id_livro == id_livro &&
-                emp.devolvido == 0)
+            if (emp.id_livro == id_livro && emp.devolvido == 0)
             {
                 encontrado = 1;
+                rewind(lista_u);
 
-                FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
-
-                if (lista_u != NULL)
+                while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
                 {
-                    while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
+                    if (u.matricula == emp.matricula_usuario)
                     {
-                        if (u.matricula == emp.matricula_usuario)
-                        {
-                            printf("\n---------------------------\n");
-                            printf("Matrícula: %d\n", u.matricula);
-                            printf("Nome: %s\n", u.nome);
-                            printf("Curso: %s\n", u.curso);
-                            printf("Data retirada: %s\n", emp.data_retirada);
-                            printf("Data prevista: %s\n", emp.data_prevista);
-                            printf("---------------------------\n");
-                            break;
-                        }
+                        printf("\n---------------------------\n");
+                        printf("Matrícula: %d\n", u.matricula);
+                        printf("Nome: %s\n", u.nome);
+                        printf("Curso: %s\n", u.curso);
+                        printf("Data retirada: %s\n", emp.data_retirada);
+                        printf("Data prevista: %s\n", emp.data_prevista);
+                        printf("---------------------------\n");
+                        break;
                     }
-
-                    fclose(lista_u);
                 }
             }
         }
+
+        fclose(lista_u); // Fecha o arquivo de usuários que foi aberto no case 2
 
         if (!encontrado)
             printf("\nNenhum usuário está com este livro emprestado.\n");
@@ -356,12 +401,11 @@ void p_emprestimos()
         break;
     }
 
-    fclose(lista_emp);
+    fclose(lista_emp); // Fecha o arquivo principal no fim da função
 
     pausar();
     limparTela();
 }
-
 void l_emprestimos()
 {
     struct Usuario u;
@@ -372,7 +416,7 @@ void l_emprestimos()
     int totalPendentes = 0;
     int totalDevolvidos = 0;
 
-    FILE *lista_emp = fopen("data/ListaEmprestimos.txt", "r");
+    FILE *lista_emp = fopen("data/ListaEmprestimos.dat", "r");
     FILE *lista_l = fopen("data/ListaLivros.dat", "rb");
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
 
@@ -409,9 +453,9 @@ void l_emprestimos()
                 break;
         }
 
-        printf("\n========================================\n");
+        printf("\n=================================\n");
         printf("EMPRÉSTIMO %d\n", i + 1);
-        printf("========================================\n");
+        printf("=================================\n");
         printf("ID Empréstimo : %d\n", emp.id_emprestimo);
         printf("Usuário       : %s (%d)\n", u.nome, u.matricula);
         printf("Livro         : %s\n", l.nome);
@@ -448,5 +492,3 @@ void l_emprestimos()
     limparBuffer();
     limparTela();
 }
-
-void a_emprestimos() {}

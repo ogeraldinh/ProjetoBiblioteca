@@ -1,5 +1,7 @@
 #include "../include/livros.h"
 #include "../include/auxiliares.h"
+#include "../include/emprestimos.h"
+#include "../include/usuarios.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +42,8 @@ void c_livros()
         return;
     }
 
-    // Randomizador de ID (7 Algarismos)
+    // Randomizador de ID (7 Algarismos) fora do FOR para nao gerar numeros iguais
+    srand(time(NULL));
     for (i = 0; i < n; i++)
     {
         l[i].id = 1000000 + rand() % 9000000;
@@ -479,7 +482,7 @@ void a_livros()
     pausar();
 }
 
-/*void e_livros()
+void e_livros()
 {
     int id_busca;
     struct Emprestimo e;
@@ -490,38 +493,39 @@ void a_livros()
     scanf("%d", &id_busca);
     limparBuffer();
 
-    FILE *arq_e = fopen("data/ListaEmprestimos.txt", "rb");
-    if(arq_e == NULL){
+    FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
+    if(lista_e == NULL){
         printf("Erro na abertura do arquivo!\n");
         system("pause");
         return;
     }
 
     printf("\n<--- EMPRESTIMOS DO LIVRO --->\n");
-    while(fread(&e, sizeof(struct Emprestimo), 1, arq_e) == 1){
-        if(e.id == id_busca && e.devolvido == 0){
+    //lê emprestimo de 1 em 1 até achar o id, se não devolvido encontra
+    while(fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1){
+        if(e.id_livro == id_busca && e.devolvido == 0){
             encontrado = 1;
 
-            //busca e exibe o nome do usuário
-            FILE *arq_u = fopen("data/ListaUsuarios.dat", "rb");
-            while(fread(&u, sizeof(struct Usuario), 1, arq_u) == 1){
+            FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
+            //busca de 1 em 1 e exibe o nome do usuário
+            while(fread(&u, sizeof(struct Usuario), 1, lista_u) == 1){
                 if(u.matricula == e.matricula_usuario){
                     printf("Usuario:    %s\n", u.nome);
                     printf("Matricula:  %d\n", u.matricula);
                     break;
                 }
             }
-            fclose(arq_u);
+            fclose(lista_u);
 
-            printf("Emprestado em: %02d/%02d/%d\n", e.data_emprestimo[0], e.data_emprestimo[1], e.data_emprestimo[2]);
-            printf("Devolucao em:  %02d/%02d/%d\n\n", e.data_devolucao[0], e.data_devolucao[1], e.data_devolucao[2]);
+            printf("Emprestado em: %s\n", e.data_retirada);
+            printf("Devolucao prevista para:  %s\n", e.data_prevista);
         }
     }
-    fclose(arq_e);
+    fclose(lista_e);
 
-    // ✅ caso não haja empréstimos ativos
+    //não ha empréstimos ativos
     if(!encontrado)
         printf("Este livro nao possui emprestimos ativos.\n");
 
     pausar();
-}*/
+}
