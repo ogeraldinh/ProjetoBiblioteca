@@ -190,21 +190,23 @@ void p_usuarios()
 
 void r_usuarios()
 {
-
     int matricula_r;
     int encontrado = 0;
     struct Usuario u;
 
     printf("Digite a Matrícula do usuário que deseja remover: ");
+
     if (scanf("%d", &matricula_r) != 1)
     {
         printf("\nMatrícula inválida! Digite apenas números.\n");
         limparBuffer();
+        return;
     }
+
     limparBuffer();
 
-    // abrir original para ReadB
     FILE *lista_ori = fopen("data/ListaUsuarios.dat", "rb");
+
     if (lista_ori == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -212,45 +214,80 @@ void r_usuarios()
         return;
     }
 
-    // abrir um temporario para WriteB
+    // procura usuário
+    while (fread(&u, sizeof(struct Usuario), 1, lista_ori) == 1)
+    {
+        if (u.matricula == matricula_r)
+        {
+            encontrado = 1;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        printf("Usuário não encontrado!\n");
+
+        fclose(lista_ori);
+        pausar();
+        limparTela();
+        return;
+    }
+
+    if (u.quant_emprestimos_ativos > 0)
+    {
+        printf("\nNão é possível remover usuário com empréstimos ativos!\n");
+
+        fclose(lista_ori);
+        pausar();
+        limparTela();
+        return;
+    }
+
+    printf("\nUsuário encontrado:\n");
+    printf("Nome: %s\n", u.nome);
+    printf("Curso: %s\n", u.curso);
+    printf("Matrícula: %d\n", u.matricula);
+
+    if (!confirmar("\nConfirmar realização da exclusão?"))
+    {
+        printf("Ação cancelada!\n");
+
+        fclose(lista_ori);
+        pausar();
+        limparTela();
+        return;
+    }
+
+    fclose(lista_ori);
+
+    // reabre para recriar o arquivo
+    lista_ori = fopen("data/ListaUsuarios.dat", "rb");
+
     FILE *lista_t = fopen("data/temp.txt", "wb");
     if (lista_t == NULL)
     {
-        printf("Erro ao criar arquivo temporario!\n");
+        printf("Erro ao criar arquivo temporário!\n");
+
         fclose(lista_ori);
         pausar();
         return;
     }
 
-    // acha o usuário que vai ser removido e não copia no temp
     while (fread(&u, sizeof(struct Usuario), 1, lista_ori) == 1)
     {
         if (u.matricula != matricula_r)
         {
             fwrite(&u, sizeof(struct Usuario), 1, lista_t);
         }
-        else
-        {
-            encontrado = 1;
-            printf("Usuário '%s' removido com sucesso!\n", u.nome);
-        }
     }
 
     fclose(lista_ori);
     fclose(lista_t);
 
-    if (!encontrado)
-    {
-        printf("Usuário não encontrado!\n");
-        // se matrícula não encontrada cancela a temp e não altera a original
-        remove("data/temp.txt");
-        pausar();
-        return;
-    }
-
-    // remove o original e dá rename na temp para nova original
     remove("data/ListaUsuarios.dat");
     rename("data/temp.txt", "data/ListaUsuarios.dat");
+    printf("\nUsuário removido com sucesso!\n");
     pausar();
 }
 
