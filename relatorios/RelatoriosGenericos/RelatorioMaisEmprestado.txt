@@ -1,3 +1,12 @@
-<-----TOP livros mais emprestados----->
-Livro 1: teste1 || Total de emprestimos: 1
-Livro 2: teste2 || Total de emprestimos: 0
+============TOP livros mais emprestados ============
+=====================================================
+POSICAO 1
+Livro             : teste1
+Total Emprestimos : 1
+=====================================================
+POSICAO 2
+Livro             : teste2
+Total Emprestimos : 0
+=====================================================
+Total de livros listados: 2
+=====================================================

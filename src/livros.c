@@ -196,14 +196,16 @@ void p_livros()
                 printf("\n");
                 printf("O livro está no sistema!\n");
                 printf("\n");
-                printf("ID: %d\n", l.id);
-                printf("Nome: %s\n", l.nome);
-                printf("Autor: %s\n", l.autor);
-                printf("Gênero: %s\n", l.genero);
-                printf("Ano: %d\n", l.ano);
-                printf("Qtd. total: %d\n", l.quant_total);
-                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                printf("Disponíveis: %d\n", l.quant_disp);
+                printf("=====================================================\n");
+                printf("ID             : %d\n", l.id);
+                printf("Título         : %s\n", l.nome);
+                printf("Autor          : %s\n", l.autor);
+                printf("Gênero         : %s\n", l.genero);
+                printf("Ano            : %d\n", l.ano);
+                printf("Disponíveis    : %d\n", l.quant_disp);
+                printf("Total Acervo   : %d\n", l.quant_total);
+                printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+                printf("=====================================================\n");
             }
         }
 
@@ -229,14 +231,16 @@ void p_livros()
                 printf("\n");
                 printf("O livro está no sistema!\n");
                 printf("\n");
-                printf("ID: %d\n", l.id);
-                printf("Nome: %s\n", l.nome);
-                printf("Autor: %s\n", l.autor);
-                printf("Gênero: %s\n", l.genero);
-                printf("Ano: %d\n", l.ano);
-                printf("Qtd. total: %d\n", l.quant_total);
-                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                printf("Disponíveis: %d\n", l.quant_disp);
+                printf("=====================================================\n");
+                printf("ID             : %d\n", l.id);
+                printf("Título         : %s\n", l.nome);
+                printf("Autor          : %s\n", l.autor);
+                printf("Gênero         : %s\n", l.genero);
+                printf("Ano            : %d\n", l.ano);
+                printf("Disponíveis    : %d\n", l.quant_disp);
+                printf("Total Acervo   : %d\n", l.quant_total);
+                printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+                printf("=====================================================\n");
                 break;
             }
         }
@@ -378,18 +382,21 @@ void l_livros()
 
     while (fread(&l, sizeof(struct Livro), 1, lista_l))
     {
-        printf("Livro %d--> ", i + 1);
-        printf("ID: %d || ", l.id);
-        printf("Nome: %s || ", l.nome);
-        printf("Autor: %s || ", l.autor);
-        printf("Gênero: %s || ", l.genero);
-        printf("Ano: %d || ", l.ano);
-        printf("Qtd. Total: %d || ", l.quant_total);
-        printf("Qtd. Disp: %d || ", l.quant_disp);
-        printf("Qtd. Emprestada: %d ||\n", l.quant_emprestado);
-        i++;
+            printf("=====================================================\n");
+            printf("LIVRO %d\n", i + 1);
+            printf("ID             : %d\n", l.id);
+            printf("Título         : %s\n", l.nome);
+            printf("Autor          : %s\n", l.autor);
+            printf("Gênero         : %s\n", l.genero);
+            printf("Ano            : %d\n", l.ano);
+            printf("Disponíveis    : %d\n", l.quant_disp);
+            printf("Total Acervo   : %d\n", l.quant_total);
+            printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+            i++;
     }
-    printf("\n↑↑↑ Total de livros: %d ↑↑↑\n", i);
+    printf("=====================================================\n");
+    printf("Total de livros disponíveis: %d\n", i);
+    printf("=====================================================\n");
 
     fclose(lista_l);
     pausar();
