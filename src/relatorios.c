@@ -80,8 +80,8 @@ void lm_relatorio()
     printf("<-----TOP livros mais emprestados----->\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
-        printf("Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        printf("Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
     }
     fclose(lm_r);
     free(l);
@@ -212,11 +212,13 @@ void ad_relatorio()
         }
     }
 
-    if (i == 0){
+    if (i == 0)
+    {
         fprintf(ad_r, "Nenhum livro disponivel no momento.\n");
         printf("Nenhum livro disponivel no momento.\n");
     }
-    else{
+    else
+    {
         fprintf(ad_r, "Total de livros disponiveis: %d\n", i);
         printf("Total de livros disponiveis: %d\n", i);
     }
@@ -290,9 +292,9 @@ void h_relatorio()
         return;
     }
 
-    fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
+    fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
     fprintf(h_r, "Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
-    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
+    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
     printf("Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
@@ -308,39 +310,41 @@ void h_relatorio()
                 if (l.id == e.id_livro)
                     break;
             fclose(arq_l);
-            
+
             fprintf(h_r, "Livro %d: %s\n", i, l.nome);
             fprintf(h_r, "ID emprestimo: %d\n", e.id_emprestimo);
             fprintf(h_r, "Emprestado em: %s\n", e.data_retirada);
-            fprintf(h_r, "Devolucao prevista: %s\n", e.data_prevista);
+            fprintf(h_r, "Devolucao prevista: %s\n\n", e.data_prevista);
 
             printf("Livro %d: %s\n", i, l.nome);
             printf("ID emprestimo: %d\n", e.id_emprestimo);
             printf("Emprestado em: %s\n", e.data_retirada);
-            printf("Devolucao prevista: %s\n", e.data_prevista);
+            printf("Devolucao prevista: %s\n\n", e.data_prevista);
 
             if (e.devolvido)
             {
                 fprintf(h_r, "Status: Devolvido\n");
-                fprintf(h_r, "Data devolucao: %s\n", e.data_devolucao);
-            
+                fprintf(h_r, "Data devolucao: %s\n\n", e.data_devolucao);
+
                 printf("Status: Devolvido\n");
-                printf("Data devolucao: %s\n", e.data_devolucao);
+                printf("Data devolucao: %s\n\n", e.data_devolucao);
             }
             else
             {
-                fprintf(h_r, "Status: Pendente\n");
-                printf("Status: Pendente\n");
+                fprintf(h_r, "Status: Pendente\n\n");
+                printf("Status: Pendente\n\n");
             }
         }
     }
 
-    if (i == 0){
+    if (i == 0)
+    {
         fprintf(h_r, "Nenhum emprestimo encontrado.\n");
-        
+
         printf("Nenhum emprestimo encontrado.\n");
     }
-    else{
+    else
+    {
         fprintf(h_r, "Total de emprestimos: %d\n", i);
         printf("Total de emprestimos: %d\n", i);
     }
