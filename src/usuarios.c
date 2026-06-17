@@ -8,7 +8,7 @@
 
 void c_usuarios()
 {
-    FILE *lista_u = fopen("data/ListaUsuarios.dat", "ab");
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "a+b");
 
     if (lista_u == NULL)
     {
@@ -42,11 +42,44 @@ void c_usuarios()
         return;
     }
 
-    // Randomizador de Matrícula (7 Algorismos) fora do FOR para nao gerar numeros iguais
+    // Randomizador de Matrícula (5 Algorismos) fora do FOR para nao gerar numeros iguais
     srand(time(NULL));
+    int verificar;
+    struct Usuario t;
     for (i = 0; i < n; i++)
     {
-        u[i].matricula = 1000000 + rand() % 9000000;
+        do
+        {
+            verificar = 0;
+
+            u[i].matricula = 10000 + rand() % 90000;
+
+            // verifica se o ID dos livros sendo cadastrados AGORA são iguais
+            for (int j = 0; j < i; j++)
+            {
+                if (u[i].matricula == u[j].matricula)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+            if (verificar)
+                continue;
+
+            rewind(lista_u);
+
+            while (fread(&t, sizeof(struct Usuario), 1, lista_u) == 1)
+            {
+                if (u[i].matricula == t.matricula)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+        } while (verificar);
+
         // Entrada dos dados pelo usuário.
         printf("Digite o nome do discente: ");
         scanf(" %[^\n]", u[i].nome);
@@ -90,6 +123,7 @@ void p_usuarios()
     printf("\n");
     printf("(1) Pesquisa por nome.\n");
     printf("(2) Pesquisa por matrícula.\n");
+    printf("(0) Retornar.\n");
     printf("\n");
 
     printf("Selecione a opção que você deseja: ");
@@ -106,6 +140,10 @@ void p_usuarios()
 
     switch (pesq)
     {
+    case 0:
+        limparTela();
+        return;
+
     case 1:
 
         printf("\nDigite o nome que deseja procurar: ");

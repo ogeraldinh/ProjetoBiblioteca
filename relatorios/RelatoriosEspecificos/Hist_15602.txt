@@ -1,0 +1,12 @@
+↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓
+
+Usuario: Joao //// Matricula: 15602
+Livro 1: teste1
+ID emprestimo: 100006157
+Emprestado em: 17/06/2026
+Devolucao prevista: 01/07/2026
+
+Status: Devolvido
+Data devolucao: 17/06/2026
+
+Total de emprestimos: 1

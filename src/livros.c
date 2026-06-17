@@ -10,7 +10,7 @@
 
 void c_livros()
 {
-    FILE *lista_l = fopen("data/ListaLivros.dat", "ab");
+    FILE *lista_l = fopen("data/ListaLivros.dat", "a+b");
 
     if (lista_l == NULL)
     {
@@ -44,9 +44,41 @@ void c_livros()
 
     // Randomizador de ID (7 Algarismos) fora do FOR para nao gerar numeros iguais
     srand(time(NULL));
+    int verificar;
+    struct Livro t;
     for (i = 0; i < n; i++)
     {
-        l[i].id = 1000000 + rand() % 9000000;
+        do
+        {
+            verificar = 0;
+
+            l[i].id = 1000000 + rand() % 9000000;
+
+            // verifica se o ID dos livros sendo cadastrados AGORA são iguais
+            for (int j = 0; j < i; j++)
+            {
+                if (l[i].id == l[j].id)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+            if (verificar)
+                continue;
+
+            rewind(lista_l);
+
+            while (fread(&t, sizeof(struct Livro), 1, lista_l) == 1)
+            {
+                if (l[i].id == t.id)
+                {
+                    verificar = 1;
+                    break;
+                }
+            }
+
+        } while (verificar);
 
         // Entrada dos dados pelo usuário.
         printf("\nDigite o Nome do livro que queira cadastrar: ");
@@ -115,6 +147,7 @@ void p_livros()
     printf("\n");
     printf("(1) Pesquisa por nome.\n");
     printf("(2) Pesquisa por ID.\n");
+    printf("(0) Retornar.\n");
     printf("\n");
 
     printf("Selecione a opção que você deseja: ");
@@ -129,6 +162,10 @@ void p_livros()
 
     switch (pesq)
     {
+    case 0:
+        limparTela();
+        return;
+
     case 1:
         printf("\nDigite o nome do livro que deseja procurar: ");
         scanf(" %[^\n]", livro);
@@ -524,49 +561,54 @@ void e_livros()
     limparBuffer();
 
     FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
-    if(lista_e == NULL){
+    if (lista_e == NULL)
+    {
         printf("Erro na abertura do arquivo!\n");
         system("pause");
         return;
     }
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
-    if(lista_u == NULL){
+    if (lista_u == NULL)
+    {
         printf("Erro na abertura do arquivo!\n");
         system("pause");
         return;
     }
 
     printf("\n<--- EMPRESTIMOS DO LIVRO --->\n\n");
-    //lê emprestimo de 1 em 1 até achar o id, se não devolvido encontra
-    while(fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1){
-        if(e.id_livro == id_busca && e.devolvido == 0){
+    // lê emprestimo de 1 em 1 até achar o id, se não devolvido encontra
+    while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
+    {
+        if (e.id_livro == id_busca && e.devolvido == 0)
+        {
             encontrado = 1;
-            //a cada ciclo reinicia para encontrar mais emprestimos ativos
+            // a cada ciclo reinicia para encontrar mais emprestimos ativos
             rewind(lista_u);
-            //busca de 1 em 1 e exibe o nome do usuário
-            while(fread(&u, sizeof(struct Usuario), 1, lista_u) == 1){
-                if(u.matricula == e.matricula_usuario){
+            // busca de 1 em 1 e exibe o nome do usuário
+            while (fread(&u, sizeof(struct Usuario), 1, lista_u) == 1)
+            {
+                if (u.matricula == e.matricula_usuario)
+                {
                     printf("Usuario:    %s\n", u.nome);
                     printf("Matricula:  %d\n", u.matricula);
                     printf("Emprestado em: %s\n", e.data_retirada);
                     printf("Devolucao prevista para:  %s\n\n", e.data_prevista);
-                    //contador para saber quantos ativos tem
+                    // contador para saber quantos ativos tem
                     i++;
                     break;
                 }
             }
-            
         }
     }
 
     fclose(lista_e);
     fclose(lista_u);
-    //ha empréstimos ativos
-    if(encontrado)
+    // ha empréstimos ativos
+    if (encontrado)
         printf("Os emprestimos ativos desse livro são: %d", i);
 
-    //não ha empréstimos ativos
-    if(!encontrado)
+    // não ha empréstimos ativos
+    if (!encontrado)
         printf("Este livro nao possui emprestimos ativos.\n");
 
     pausar();
