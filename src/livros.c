@@ -488,6 +488,7 @@ void e_livros()
     struct Emprestimo e;
     struct Usuario u;
     int encontrado = 0;
+    int i = 0;
 
     printf("Digite o ID do livro: ");
     scanf("%d", &id_busca);
@@ -499,29 +500,41 @@ void e_livros()
         system("pause");
         return;
     }
+    FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
+    if(lista_u == NULL){
+        printf("Erro na abertura do arquivo!\n");
+        system("pause");
+        return;
+    }
 
-    printf("\n<--- EMPRESTIMOS DO LIVRO --->\n");
+    printf("\n<--- EMPRESTIMOS DO LIVRO --->\n\n");
     //lê emprestimo de 1 em 1 até achar o id, se não devolvido encontra
     while(fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1){
         if(e.id_livro == id_busca && e.devolvido == 0){
             encontrado = 1;
-
-            FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
+            //a cada ciclo reinicia para encontrar mais emprestimos ativos
+            rewind(lista_u);
             //busca de 1 em 1 e exibe o nome do usuário
             while(fread(&u, sizeof(struct Usuario), 1, lista_u) == 1){
                 if(u.matricula == e.matricula_usuario){
                     printf("Usuario:    %s\n", u.nome);
                     printf("Matricula:  %d\n", u.matricula);
+                    printf("Emprestado em: %s\n", e.data_retirada);
+                    printf("Devolucao prevista para:  %s\n\n", e.data_prevista);
+                    //contador para saber quantos ativos tem
+                    i++;
                     break;
                 }
             }
-            fclose(lista_u);
-
-            printf("Emprestado em: %s\n", e.data_retirada);
-            printf("Devolucao prevista para:  %s\n", e.data_prevista);
+            
         }
     }
+
     fclose(lista_e);
+    fclose(lista_u);
+    //ha empréstimos ativos
+    if(encontrado)
+        printf("Os emprestimos ativos desse livro são: %d", i);
 
     //não ha empréstimos ativos
     if(!encontrado)
