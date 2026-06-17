@@ -290,9 +290,9 @@ void h_relatorio()
         return;
     }
 
-    fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
+    fprintf(h_r, "↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
     fprintf(h_r, "Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
-    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n");
+    printf("↓↓↓↓ HISTORICO DE EMPRESTIMOS ↓↓↓↓\n\n");
     printf("Usuario: %s //// Matricula: %d\n", u.nome, u.matricula);
 
     while (fread(&e, sizeof(struct Emprestimo), 1, lista_e) == 1)
@@ -312,25 +312,25 @@ void h_relatorio()
             fprintf(h_r, "Livro %d: %s\n", i, l.nome);
             fprintf(h_r, "ID emprestimo: %d\n", e.id_emprestimo);
             fprintf(h_r, "Emprestado em: %s\n", e.data_retirada);
-            fprintf(h_r, "Devolucao prevista: %s\n", e.data_prevista);
+            fprintf(h_r, "Devolucao prevista: %s\n\n", e.data_prevista);
 
             printf("Livro %d: %s\n", i, l.nome);
             printf("ID emprestimo: %d\n", e.id_emprestimo);
             printf("Emprestado em: %s\n", e.data_retirada);
-            printf("Devolucao prevista: %s\n", e.data_prevista);
+            printf("Devolucao prevista: %s\n\n", e.data_prevista);
 
             if (e.devolvido)
             {
                 fprintf(h_r, "Status: Devolvido\n");
-                fprintf(h_r, "Data devolucao: %s\n", e.data_devolucao);
+                fprintf(h_r, "Data devolucao: %s\n\n", e.data_devolucao);
             
                 printf("Status: Devolvido\n");
-                printf("Data devolucao: %s\n", e.data_devolucao);
+                printf("Data devolucao: %s\n\n", e.data_devolucao);
             }
             else
             {
-                fprintf(h_r, "Status: Pendente\n");
-                printf("Status: Pendente\n");
+                fprintf(h_r, "Status: Pendente\n\n");
+                printf("Status: Pendente\n\n");
             }
         }
     }
