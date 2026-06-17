@@ -80,11 +80,12 @@ void c_emprestimos()
 
     if (!encontrado)
     {
-        printf("Usuário não encontrado!\n");
+        printf("\nUsuário não encontrado!\n");
         fclose(lista_emp);
         fclose(lista_l);
         fclose(lista_u);
         pausar();
+        limparTela();
         return;
     }
 
@@ -171,28 +172,27 @@ void c_emprestimos()
     // Geração de dados do empréstimo
     int verificar;
     struct Emprestimo t;
-    //verifica se ja existe algum ID emprestimo já existente
+    // verifica se ja existe algum ID emprestimo já existente
     srand(time(NULL));
     do
-    {   
+    {
         verificar = 0;
-        //gera ID aleatorio de 9 algarismos
+        // gera ID aleatorio de 9 algarismos
         emp.id_emprestimo = 100000000 + rand() % 900000000;
-        //volta ao começo do arquivo se passar por outro loop
+        // volta ao começo do arquivo se passar por outro loop
         rewind(lista_emp);
-        
-        while(fread(&t, sizeof(struct Emprestimo), 1, lista_emp) == 1)
+
+        while (fread(&t, sizeof(struct Emprestimo), 1, lista_emp) == 1)
         {
-            if(emp.id_emprestimo == t.id_emprestimo)
+            if (emp.id_emprestimo == t.id_emprestimo)
             {
                 verificar = 1;
                 break;
             }
         }
 
-    } while(verificar);
+    } while (verificar);
 
-    
     obterDataAtual(emp.data_retirada);
     obterDataFutura(emp.data_prevista, 14);
     emp.devolvido = 0;
@@ -265,8 +265,9 @@ void p_emprestimos()
     exibirTitulo("assets/emprestimos.txt");
 
     printf("\n");
-    printf("(1) Buscar empréstimos de um usuário\n");
-    printf("(2) Buscar usuários de um livro\n");
+    printf("(1) Buscar empréstimos de um usuário.\n");
+    printf("(2) Buscar empréstimos de um livro.\n");
+    printf("(0) Retornar.\n");
     printf("\n");
 
     printf("Selecione uma opção: ");
@@ -283,6 +284,10 @@ void p_emprestimos()
 
     switch (opcao)
     {
+    case 0:
+        limparTela();
+        return;
+
     case 1:
         printf("\nDigite a matrícula do usuário: ");
         if (scanf("%d", &matricula) != 1)
@@ -516,7 +521,7 @@ void l_emprestimos()
 
         printf("=====================================================\n");
         printf("EMPRÉSTIMO %d\n", i + 1);
-        printf("=====================================================\n");
+
         printf("ID Empréstimo : %d\n", emp.id_emprestimo);
         printf("Usuário       : %s (%d)\n", u.nome, u.matricula);
         printf("Livro         : %s\n", l.nome);
@@ -629,7 +634,9 @@ void d_emprestimos()
         fclose(lista_l);
         fclose(lista_u);
 
+        limparBuffer();
         pausar();
+        limparTela();
         return;
     }
 

@@ -80,8 +80,8 @@ void lm_relatorio()
     printf("<-----TOP livros mais emprestados----->\n");
     for (i = 0; i < n; i++)
     {
-        fprintf(lm_r, "Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
-        printf("Livro %d: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        fprintf(lm_r, "Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
+        printf("Livro %zd: %s || Total de emprestimos: %d\n", i + 1, l[i].nome, l[i].total_emprestimos);
     }
     fclose(lm_r);
     free(l);
@@ -212,11 +212,13 @@ void ad_relatorio()
         }
     }
 
-    if (i == 0){
+    if (i == 0)
+    {
         fprintf(ad_r, "Nenhum livro disponivel no momento.\n");
         printf("Nenhum livro disponivel no momento.\n");
     }
-    else{
+    else
+    {
         fprintf(ad_r, "Total de livros disponiveis: %d\n", i);
         printf("Total de livros disponiveis: %d\n", i);
     }
@@ -308,7 +310,7 @@ void h_relatorio()
                 if (l.id == e.id_livro)
                     break;
             fclose(arq_l);
-            
+
             fprintf(h_r, "Livro %d: %s\n", i, l.nome);
             fprintf(h_r, "ID emprestimo: %d\n", e.id_emprestimo);
             fprintf(h_r, "Emprestado em: %s\n", e.data_retirada);
@@ -323,7 +325,7 @@ void h_relatorio()
             {
                 fprintf(h_r, "Status: Devolvido\n");
                 fprintf(h_r, "Data devolucao: %s\n\n", e.data_devolucao);
-            
+
                 printf("Status: Devolvido\n");
                 printf("Data devolucao: %s\n\n", e.data_devolucao);
             }
@@ -335,12 +337,14 @@ void h_relatorio()
         }
     }
 
-    if (i == 0){
+    if (i == 0)
+    {
         fprintf(h_r, "Nenhum emprestimo encontrado.\n");
-        
+
         printf("Nenhum emprestimo encontrado.\n");
     }
-    else{
+    else
+    {
         fprintf(h_r, "Total de emprestimos: %d\n", i);
         printf("Total de emprestimos: %d\n", i);
     }
