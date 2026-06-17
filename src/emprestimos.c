@@ -1,12 +1,16 @@
+// Bibliotecas padrão
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Módulos Locais
 #include "../include/emprestimos.h"
 #include "../include/livros.h"
 #include "../include/usuarios.h"
 #include "../include/auxiliares.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 
+// Função para cadastrar empréstimos
 void c_emprestimos()
 {
     int matricula_usuario;
@@ -236,6 +240,7 @@ void c_emprestimos()
     limparTela();
 }
 
+// Função para pesquisar empréstimos
 void p_emprestimos()
 {
     struct Emprestimo emp;
@@ -451,6 +456,7 @@ void p_emprestimos()
     limparTela();
 }
 
+// Função de listar todos os empréstimos
 void l_emprestimos()
 {
     struct Usuario u;
@@ -565,6 +571,7 @@ void l_emprestimos()
     limparTela();
 }
 
+// Função de devolução dos empréstimos
 void d_emprestimos()
 {
     int id;

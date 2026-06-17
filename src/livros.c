@@ -1,13 +1,17 @@
-#include "../include/livros.h"
-#include "../include/auxiliares.h"
-#include "../include/emprestimos.h"
-#include "../include/usuarios.h"
-
+// Bibliotecas padrão
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+// Módulos Locais
+#include "../include/livros.h"
+#include "../include/auxiliares.h"
+#include "../include/emprestimos.h"
+#include "../include/usuarios.h"
+
+
+// Função para cadastrar livros
 void c_livros()
 {
     FILE *lista_l = fopen("data/ListaLivros.dat", "a+b");
@@ -127,6 +131,7 @@ void c_livros()
     pausar();
 }
 
+// Função para pesquisar livros
 void p_livros()
 {
     char livro[50];
@@ -259,6 +264,7 @@ void p_livros()
     limparTela();
 }
 
+// Função para remover livros
 void r_livros()
 {
     int id_r;
@@ -367,6 +373,7 @@ void r_livros()
     limparTela();
 }
 
+// Função de listar todos os livros
 void l_livros()
 {
     struct Livro l;
@@ -404,6 +411,7 @@ void l_livros()
     limparTela();
 }
 
+// Função de atualizar dados dos livros
 void a_livros()
 {
     int id_att, pesq;
@@ -555,6 +563,7 @@ void a_livros()
     pausar();
 }
 
+// Função para informar que o livro está emprestado para tais usuários
 void e_livros()
 {
     int id_busca;

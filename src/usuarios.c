@@ -1,11 +1,14 @@
-#include "../include/usuarios.h"
-#include "../include/auxiliares.h"
-
+// Bibliotecas padrão
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+// Módulos Locais
+#include "../include/usuarios.h"
+#include "../include/auxiliares.h"
+
+// Função de execução do menu principal
 void c_usuarios()
 {
     FILE *lista_u = fopen("data/ListaUsuarios.dat", "a+b");
@@ -102,6 +105,7 @@ void c_usuarios()
     pausar();
 }
 
+// Função de execução do menu principal
 void p_usuarios()
 {
     char usuario[50];
@@ -230,6 +234,7 @@ void p_usuarios()
     limparTela();
 }
 
+// Função para remover usuários
 void r_usuarios()
 {
     int matricula_r;
@@ -333,6 +338,7 @@ void r_usuarios()
     pausar();
 }
 
+// Função de listar todos os usuários
 void l_usuarios()
 {
 
@@ -365,6 +371,7 @@ void l_usuarios()
     limparTela();
 }
 
+// Função de Atualizar dados dos usuários
 void a_usuarios()
 {
 

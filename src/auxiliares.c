@@ -1,10 +1,14 @@
-#include "../include/auxiliares.h"
-
+// Bibliotecas padrão
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+// Módulos Locais
+#include "../include/auxiliares.h"
+
+
+// Função para exibição de títulos nos menus
 void exibirTitulo(const char *arquivo)
 {
     FILE *title;
@@ -26,6 +30,7 @@ void exibirTitulo(const char *arquivo)
     fclose(title);
 }
 
+// Função de limpar o buffer
 void limparBuffer()
 {
     int c;
@@ -33,12 +38,14 @@ void limparBuffer()
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+// Função que pausa a execução do programa
 void pausar()
 {
     printf("\nPressione ENTER para continuar...");
     getchar();
 }
 
+// Função que limpa as informações da tela
 void limparTela()
 {
 #ifdef _WIN32
@@ -48,6 +55,7 @@ void limparTela()
 #endif
 }
 
+// Função de exibição de erro ao receber entradas inválidas
 void erroEntrada(const char *mensagem)
 {
     printf("\n%s\n", mensagem);
@@ -57,13 +65,7 @@ void erroEntrada(const char *mensagem)
     limparTela();
 }
 
-void lerString(char *texto, int tamanho)
-{
-    fgets(texto, tamanho, stdin);
-
-    texto[strcspn(texto, "\n")] = '\0';
-}
-
+// Função para confirmações necessárias
 int confirmar(const char *mensagem)
 {
     char resposta;
@@ -74,6 +76,7 @@ int confirmar(const char *mensagem)
     return resposta == 'S' || resposta == 's';
 }
 
+// Função para obter a data atual do sistema
 void obterDataAtual(char *data)
 {
     time_t agora = time(NULL);
@@ -83,6 +86,7 @@ void obterDataAtual(char *data)
     strftime(data, 11, "%d/%m/%Y", tm_info);
 }
 
+// Função para obter a data prevista das devoluções
 void obterDataFutura(char *data, int dias)
 {
     time_t agora = time(NULL);
@@ -94,6 +98,7 @@ void obterDataFutura(char *data, int dias)
     strftime(data, 11, "%d/%m/%Y", tm_info);
 }
 
+// Função que converte as datas para valores manipuláveis
 int converterDataParaDias(const char *data)
 {
     int dia, mes, ano;

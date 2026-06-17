@@ -1,15 +1,19 @@
+// Bibliotecas padrão
+#include <stdio.h>
+#include <stdlib.h>
+
+// Módulos Locais
 #include "../include/relatorios.h"
 #include "../include/auxiliares.h"
 #include "../include/livros.h"
 #include "../include/usuarios.h"
 #include "../include/emprestimos.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 
 /*Livros mais emprestados (ordenados de forma decrescente pelo número total de
 empréstimos); */
 
+// Função de gerar relatório de livros mais emprestados
 void lm_relatorio()
 {
     size_t n, i, j;
@@ -106,6 +110,7 @@ void lm_relatorio()
     limparTela();
 }
 
+// Função de gerar relatório de atrasos
 void a_relatorio()
 {
     char hojeStr[11];
@@ -199,6 +204,7 @@ void a_relatorio()
     limparTela();
 }
 
+// Função de gerar relatório com todo o acervo disponivel
 void ad_relatorio()
 {
     struct Livro l;
@@ -278,6 +284,7 @@ void ad_relatorio()
     limparTela();
 }
 
+// Função de gerar relatório do histórico de um determinado usuário
 void h_relatorio()
 {
     int pesq;
