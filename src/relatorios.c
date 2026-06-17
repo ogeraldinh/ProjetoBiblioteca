@@ -68,7 +68,7 @@ void lm_relatorio()
         }
     }
 
-    FILE *lm_r = fopen("data/RelatorioMaisEmprestado.txt", "w");
+    FILE *lm_r = fopen("relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt", "w");
     if (lm_r == NULL)
     {
         printf("Erro na abertura do arquivo!\n");
@@ -85,7 +85,7 @@ void lm_relatorio()
     }
     fclose(lm_r);
     free(l);
-    printf("\nRelatorio criado em data/RelatorioMaisEmprestado.txt: por favor consultar o arquivo!!!\n");
+    printf("\nRelatorio criado em relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt: por favor consultar o arquivo!!!\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -114,7 +114,7 @@ void a_relatorio()
         limparTela();
         return;
     }
-    FILE *a_r = fopen("data/RelatorioAtrasos.txt", "w");
+    FILE *a_r = fopen("relatorios/RelatoriosGenericos/RelatorioAtrasos.txt", "w");
 
     if (a_r == NULL)
     {
@@ -165,7 +165,7 @@ void a_relatorio()
     }
     fclose(lista_e);
     fclose(a_r);
-    printf("\nRelatorio criado em data/RelatorioAtrasos.txt: por favor conferir!\n");
+    printf("\nRelatorio criado em relatorios/RelatoriosGenericos/RelatorioAtrasos.txt: por favor conferir!\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -186,7 +186,7 @@ void ad_relatorio()
         return;
     }
 
-    FILE *ad_r = fopen("data/RelatorioAcervoDisponivel.txt", "w");
+    FILE *ad_r = fopen("relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt", "w");
     if (ad_r == NULL)
     {
         printf("Erro ao abrir o arquivo!\n");
@@ -222,7 +222,7 @@ void ad_relatorio()
     }
     fclose(lista_l);
     fclose(ad_r);
-    printf("\nRelatorio salvo em data/RelatorioAcervoDisponivel.txt: por favor conferir\n");
+    printf("\nRelatorio salvo em relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt: por favor conferir\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -275,9 +275,11 @@ void h_relatorio()
         limparTela();
         return;
     }
+
     char arq[50];
-    sprintf(arq, "data/Hist_%d.txt", pesq);
+    sprintf(arq, "relatorios/RelatoriosEspecificos/Hist_%d.txt", pesq);
     FILE *h_r = fopen(arq, "w");
+
     if (h_r == NULL)
     {
         printf("Erro ao abrir arquivo!\n");
@@ -344,7 +346,7 @@ void h_relatorio()
     }
     fclose(lista_e);
     fclose(h_r);
-    printf("\nRelatorio salvo em data/HistoricoRelatorio.txt: por favor conferir!\n");
+    printf("\nRelatorio salvo em relatorios/RelatoriosEspecificos: por favor conferir!\n");
     printf("\nAVISO: Se for gerado mais histórico do mesmo usuário, o anterior vai ser sobrescrito!! Por Favor guardar\n");
     limparBuffer();
     pausar();
