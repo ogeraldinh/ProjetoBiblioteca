@@ -359,7 +359,7 @@ void h_relatorio()
     fprintf(h_r, "============== HISTORICO DE EMPRESTIMOS =============\n");
     fprintf(h_r, "Usuário: %s\n", u.nome);
     fprintf(h_r, "Matrícula: %d\n", u.matricula);
-    printf("============== HISTORICO DE EMPRESTIMOS =============\n");
+    printf("\n============== HISTORICO DE EMPRESTIMOS =============\n");
     printf("Usuario: %s\n", u.nome);
     printf("Matricula: %d\n", u.matricula);
 

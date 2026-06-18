@@ -1,0 +1,13 @@
+============== HISTORICO DE EMPRESTIMOS =============
+Usuário: Tiago Italo Carneiro de Souza
+Matrícula: 35718
+=====================================================
+EMPRÉSTIMO 1
+Livro         : O Capital
+ID Empréstimo : 100016924
+Retirada      : 18/06/2026
+Prevista      : 02/07/2026
+Status        : PENDENTE
+=====================================================
+Total de empréstimos: 1
+=====================================================
