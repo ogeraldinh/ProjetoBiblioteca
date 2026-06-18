@@ -1,14 +1,13 @@
 ============== HISTORICO DE EMPRESTIMOS =============
-Usuário: Joao
-Matrícula: 15602
+Usuário: Tiago Italo Carneiro de Souza
+Matrícula: 35718
 =====================================================
 EMPRÉSTIMO 1
-Livro         : teste1
-ID Empréstimo : 100006157
-Retirada      : 17/06/2026
-Prevista      : 01/07/2026
-Devolução     : 17/06/2026
-Status        : DEVOLVIDO
+Livro         : O Capital
+ID Empréstimo : 100016924
+Retirada      : 18/06/2026
+Prevista      : 02/07/2026
+Status        : PENDENTE
 =====================================================
 Total de empréstimos: 1
 =====================================================

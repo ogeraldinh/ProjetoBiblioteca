@@ -100,6 +100,7 @@ void c_emprestimos()
         fclose(lista_l);
         fclose(lista_u);
         pausar();
+        limparTela();
         return;
     }
 
@@ -158,6 +159,7 @@ void c_emprestimos()
         fclose(lista_l);
         fclose(lista_u);
         pausar();
+        limparTela();
         return;
     }
 

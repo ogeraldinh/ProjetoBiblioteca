@@ -86,12 +86,12 @@ void menuLivros()
         printf("\n");
         printf("( 1 ) Listar todos os livros.\n");
         printf("( 2 ) Pesquisar livros.\n");
-        printf("( 3 ) Cadastrar um livro.\n");
-        printf("( 4 ) Remover algum livro.\n");
-        printf("( 5 ) Atualizar algum dado de um livro.\n");
+        printf("( 3 ) Cadastrar livro.\n");
+        printf("( 4 ) Remover livro.\n");
+        printf("( 5 ) Atualizar dados de livro.\n");
         /* Informar, para um dado livro, para quais usuários ele está emprestado no momento
         (caso não haja, informar que o livro não possui empréstimos);*/
-        printf("( 6 ) Emprestimos de livros.\n");
+        printf("( 6 ) Empréstimos de livros.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -221,8 +221,8 @@ void menuEmprestimos()
         exibirTitulo("assets/emprestimos.txt");
         printf("\n");
         printf("( 1 ) Listar empréstimos.\n");
-        printf("( 2 ) Registrar empréstimo.\n");
-        printf("( 3 ) Buscar empréstimos.\n");
+        printf("( 2 ) Buscar empréstimos.\n");
+        printf("( 3 ) Registrar empréstimo.\n");
         printf("( 0 ) Retornar.\n");
         printf("\n");
 
@@ -247,12 +247,12 @@ void menuEmprestimos()
 
         case 2:
             limparTela();
-            c_emprestimos();
+            p_emprestimos();
             break;
 
         case 3:
             limparTela();
-            p_emprestimos();
+            c_emprestimos();
             break;
 
         case 4:
