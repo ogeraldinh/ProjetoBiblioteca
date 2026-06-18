@@ -9,7 +9,6 @@
 #include "../include/usuarios.h"
 #include "../include/emprestimos.h"
 
-
 /*Livros mais emprestados (ordenados de forma decrescente pelo número total de
 empréstimos); */
 
@@ -34,7 +33,9 @@ void lm_relatorio()
     {
         printf("Nenhum livro cadastrado.\n");
         fclose(lista_l);
+        limparBuffer();
         pausar();
+        limparTela();
         return;
     }
     rewind(lista_l);
@@ -58,7 +59,7 @@ void lm_relatorio()
         return;
     }
     fclose(lista_l);
-    //Bubble Sort Decrescente
+    // Bubble Sort Decrescente
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < n - 1; j++)
@@ -71,8 +72,8 @@ void lm_relatorio()
             }
         }
     }
-    //path
-    FILE *lm_r = fopen("relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt", "w");
+    // path
+    FILE *lm_r = fopen("relatorios/relatorios_genericos/RelatorioMaisEmprestado.txt", "w");
     if (lm_r == NULL)
     {
         printf("Erro na abertura do arquivo!\n");
@@ -80,7 +81,7 @@ void lm_relatorio()
         free(l);
         return;
     }
-    //printa no arquivo e no terminal
+    // printa no arquivo e no terminal
     fprintf(lm_r, "============ TOP livros mais emprestados ============\n");
     printf("============ TOP livros mais emprestados ============\n");
     for (i = 0; i < n; i++)
@@ -105,7 +106,7 @@ void lm_relatorio()
 
     fclose(lm_r);
     free(l);
-    printf("\nRelatório criado em: relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt (consulte o arquivo)\n");
+    printf("\nRelatório criado em: relatorios/relatorios_genericos/RelatorioMaisEmprestado.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -115,9 +116,9 @@ void lm_relatorio()
 void a_relatorio()
 {
     char hojeStr[11];
-    //função auxiliar data atual
+    // função auxiliar data atual
     obterDataAtual(hojeStr);
-    //função converte para dias
+    // função converte para dias
     int hoje = converterDataParaDias(hojeStr);
     int totalAtrasos = 0;
 
@@ -135,7 +136,7 @@ void a_relatorio()
         limparTela();
         return;
     }
-    FILE *a_r = fopen("relatorios/RelatoriosGenericos/RelatorioAtrasos.txt", "w");
+    FILE *a_r = fopen("relatorios/relatorios_genericos/RelatorioAtrasos.txt", "w");
 
     if (a_r == NULL)
     {
@@ -156,7 +157,7 @@ void a_relatorio()
             continue;
         int dataPrevista = converterDataParaDias(e.data_prevista);
         int diferenca = hoje - dataPrevista;
-        //se diferença for positiva, então atraso
+        // se diferença for positiva, então atraso
         if (diferenca > 0)
         {
             FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
@@ -174,7 +175,7 @@ void a_relatorio()
                 if (l.id == e.id_livro)
                     break;
             fclose(lista_l);
-            //contador de atrasos
+            // contador de atrasos
             totalAtrasos++;
 
             fprintf(a_r, "=====================================================\n");
@@ -202,7 +203,7 @@ void a_relatorio()
 
     fclose(lista_e);
     fclose(a_r);
-    printf("\nRelatorio criado em: relatorios/RelatoriosGenericos/RelatorioAtrasos.txt (consulte o arquivo)\n");
+    printf("\nRelatorio criado em: relatorios/relatorios_genericos/RelatorioAtrasos.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -224,7 +225,7 @@ void ad_relatorio()
         return;
     }
 
-    FILE *ad_r = fopen("relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt", "w");
+    FILE *ad_r = fopen("relatorios/relatorios_genericos/RelatorioAcervoDisponivel.txt", "w");
     if (ad_r == NULL)
     {
         printf("Erro ao abrir o arquivo!\n");
@@ -239,7 +240,7 @@ void ad_relatorio()
     printf("================= ACERVO DISPONIVEL =================\n");
 
     while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
-    {   //printa se ainda houver disponibilidade
+    { // printa se ainda houver disponibilidade
         if (l.quant_disp > 0)
         {
             fprintf(ad_r, "=====================================================\n");
@@ -282,7 +283,7 @@ void ad_relatorio()
     }
     fclose(lista_l);
     fclose(ad_r);
-    printf("\nRelatorio salvo em: relatorios/RelatoriosGenericos/RelatorioAcervoDisponivel.txt (consulte o arquivo)\n");
+    printf("\nRelatorio salvo em: relatorios/relatorios_genericos/RelatorioAcervoDisponivel.txt (consulte o arquivo)\n");
     limparBuffer();
     pausar();
     limparTela();
@@ -324,8 +325,7 @@ void h_relatorio()
 
     if (usuario_encontrado == 0)
     {
-        printf("Usuario nao encontrado!\n");
-        limparBuffer();
+        printf("\nUsuário não encontrado!\n");
         pausar();
         limparTela();
         return;
@@ -342,8 +342,8 @@ void h_relatorio()
     }
 
     char arq[100];
-    //string apenas para criar um path pro arquivo especifico 
-    sprintf(arq, "relatorios/RelatoriosEspecificos/Hist_%d.txt", pesq);
+    // string apenas para criar um path pro arquivo especifico
+    sprintf(arq, "relatorios/relatorios_especificos/Hist_%d.txt", pesq);
     FILE *h_r = fopen(arq, "w");
 
     if (h_r == NULL)
@@ -421,8 +421,9 @@ void h_relatorio()
                     fprintf(h_r, "Status        : ATRASADO\n");
                     printf("Status        : ATRASADO\n");
                 }
-                
-                else {
+
+                else
+                {
                     fprintf(h_r, "Status        : PENDENTE\n");
                     printf("Status        : PENDENTE\n");
                 }
@@ -447,7 +448,7 @@ void h_relatorio()
     }
     fclose(lista_e);
     fclose(h_r);
-    printf("\nRelatorio salvo em: relatorios/RelatoriosEspecificos (consulte o arquivo)\n");
+    printf("\nRelatorio salvo em: relatorios/relatorios_especificos (consulte o arquivo)\n");
     printf("\nAVISO: Se for gerado mais de um histórico do mesmo usuário, o anterior vai ser sobrescrito!!\n");
     pausar();
     limparTela();
