@@ -49,7 +49,7 @@ void lm_relatorio()
         return;
     }
 
-    // lê todos os registros e fecha
+    // lê todos os registros, coloca no ponteiro e fecha
     if (fread(l, sizeof(struct Livro), n, lista_l) != n)
     {
         printf("Erro ao ler os registros.\n");
@@ -58,7 +58,7 @@ void lm_relatorio()
         return;
     }
     fclose(lista_l);
-
+    //Bubble Sort Decrescente
     for (i = 0; i < n; i++)
     {
         for (j = 0; j < n - 1; j++)
@@ -71,7 +71,7 @@ void lm_relatorio()
             }
         }
     }
-
+    //path
     FILE *lm_r = fopen("relatorios/RelatoriosGenericos/RelatorioMaisEmprestado.txt", "w");
     if (lm_r == NULL)
     {
@@ -80,6 +80,7 @@ void lm_relatorio()
         free(l);
         return;
     }
+    //printa no arquivo e no terminal
     fprintf(lm_r, "============ TOP livros mais emprestados ============\n");
     printf("============ TOP livros mais emprestados ============\n");
     for (i = 0; i < n; i++)
@@ -114,7 +115,9 @@ void lm_relatorio()
 void a_relatorio()
 {
     char hojeStr[11];
+    //função auxiliar data atual
     obterDataAtual(hojeStr);
+    //função converte para dias
     int hoje = converterDataParaDias(hojeStr);
     int totalAtrasos = 0;
 
@@ -153,6 +156,7 @@ void a_relatorio()
             continue;
         int dataPrevista = converterDataParaDias(e.data_prevista);
         int diferenca = hoje - dataPrevista;
+        //se diferença for positiva, então atraso
         if (diferenca > 0)
         {
             FILE *lista_u = fopen("data/ListaUsuarios.dat", "rb");
@@ -170,7 +174,7 @@ void a_relatorio()
                 if (l.id == e.id_livro)
                     break;
             fclose(lista_l);
-
+            //contador de atrasos
             totalAtrasos++;
 
             fprintf(a_r, "=====================================================\n");
@@ -235,7 +239,7 @@ void ad_relatorio()
     printf("================= ACERVO DISPONIVEL =================\n");
 
     while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
-    {
+    {   //printa se ainda houver disponibilidade
         if (l.quant_disp > 0)
         {
             fprintf(ad_r, "=====================================================\n");
@@ -338,6 +342,7 @@ void h_relatorio()
     }
 
     char arq[100];
+    //string apenas para criar um path pro arquivo especifico 
     sprintf(arq, "relatorios/RelatoriosEspecificos/Hist_%d.txt", pesq);
     FILE *h_r = fopen(arq, "w");
 
