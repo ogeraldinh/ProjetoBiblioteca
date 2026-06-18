@@ -1,27 +1,84 @@
 # Sistema de Gerenciamento de Biblioteca
 
-Projeto desenvolvido para a disciplina de **Programação e Algoritmos** utilizando a linguagem **C**.
+![C](https://img.shields.io/badge/Language-C-blue.svg)
+![GCC](https://img.shields.io/badge/Compiler-GCC%2015.2.0-orange.svg)
+![Makefile](https://img.shields.io/badge/Build-Makefile-green.svg)
 
-O sistema permite o gerenciamento de um acervo de livros, usuários e empréstimos, com persistência dos dados em arquivos e capacidade de gerar relatórios em arquivos de texto.
+Projeto desenvolvido como projeto final para a disciplina de **Programação e Algoritmos**.
+
+O Sistema de Gerenciamento de Biblioteca é uma aplicação de terminal desenvolvida em linguagem **C** para realizar o controle de livros, usuários, empréstimos e devoluções de uma biblioteca.
+
+Os dados são armazenados de forma persistente em arquivos binários (.dat), permitindo que as informações sejam preservadas entre execuções do programa. Além disso, o sistema é capaz de gerar relatórios em arquivos texto (.txt) legíveis, facilitando consultas e análises do acervo e das movimentações realizadas.
 
 ---
 
 ## Autores
 
 * [Geraldo Duarte de Medeiros Neto](https://github.com/ogeraldinh)
-- [João Batista Alves de Sousa Júnior](https://github.com/JB-2612)
+* [João Batista Alves de Sousa Júnior](https://github.com/JB-2612)
 
 ---
 
 ## Funcionalidades
 
+### Usuários
 * Cadastro de usuários
 * Consulta de usuários
+* Atualização de dados usuários
+* Remoção de usuários
+
+### Livros
 * Cadastro de livros
 * Consulta de livros
-* Controle de empréstimos
-* Persistência de dados em arquivos binários
-* Interface em terminal
+* Atualização de livros
+* Consulta de usuários que possuem determinado livro
+* Remoção de livros
+
+### Empréstimos
+* Registro de empréstimos
+* Registro de devoluções
+* Consulta de empréstimos ativos por usuário
+* Consulta de usuários que possuem determinado livro
+
+### Persistência
+* Armazenamento permanente em arquivos binários (.dat)
+* Geração de relatórios em arquivos texto (.txt)
+
+### Relatórios
+* Livros mais emprestados
+* Empréstimos em atraso
+* Acervo disponível
+* Histórico de empréstimos por usuário
+
+### Interface
+* Menus interativos em terminal
+* Validação de entradas do usuário
+* Arte ASCII nos módulos do sistema
+
+---
+
+## Persistência de Dados
+
+Os dados do sistema são armazenados em arquivos binários localizados na pasta `data/`.
+
+| Arquivo | Conteúdo |
+|----------|-----------|
+| listaUsuarios.dat | Registros de usuários |
+| listaLivros.dat | Registros de livros |
+| listaEmprestimos.dat | Registros de empréstimos |
+
+---
+
+## Relatórios Gerados
+
+O sistema pode gerar automaticamente os seguintes relatórios:
+
+| Relatório | Descrição |
+|------------|------------|
+| RelatorioMaisEmprestado.txt | Lista os livros ordenados pela quantidade de empréstimos |
+| RelatorioAtrasos.txt | Exibe empréstimos com devolução em atraso |
+| RelatorioAcervoDisponivel.txt | Lista os livros atualmente disponíveis |
+| HistoricoRelatorio.txt | Histórico completo de empréstimos de um usuário |
 
 ---
 
