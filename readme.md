@@ -145,44 +145,48 @@ make clean
 ProjetoBiblioteca/
 │
 ├── assets/
-│   ├── biblioteca.txt          # Arte ASCII exibida no menu principal
-│   ├── devolucoes.txt          # Arte ASCII exibida no menu de devoluções
-│   ├── emprestimos.txt         # Arte ASCII exibida no menu de empréstimos
-│   ├── livros.txt              # Arte ASCII exibida no menu de livros
-│   ├── relatorios.txt          # Arte ASCII exibida no menu de relatórios
-│   └── usuarios.txt            # Arte ASCII exibida no menu de usuários
+│   ├── biblioteca.txt          # Arte ASCII exibida no menu principal do sistema
+│   ├── devolucoes.txt          # Arte ASCII utilizada no módulo de devoluções
+│   ├── emprestimos.txt         # Arte ASCII utilizada no módulo de empréstimos
+│   ├── livros.txt              # Arte ASCII utilizada no módulo de gerenciamento de livros
+│   ├── relatorios.txt          # Arte ASCII utilizada no módulo de relatórios
+│   └── usuarios.txt            # Arte ASCII utilizada no módulo de gerenciamento de usuários
 │
-├── build/                      # Arquivos gerados pelo Makefile
+├── build/                      # Arquivos objeto e executáveis gerados durante a compilação
 │
 ├── data/
-│   ├── listaLivros.bin         # Armazenamento dos livros
-│   ├── listaUsuarios.bin       # Armazenamento dos usuários
-│   └── listaEmprestimos.bin    # Armazenamento dos empréstimos
+│   ├── listaLivros.dat         # Arquivo binário contendo os registros de livros
+│   ├── listaUsuarios.dat       # Arquivo binário contendo os registros de usuários
+│   └── listaEmprestimos.dat    # Arquivo binário contendo os registros de empréstimos
 │
 ├── docs/
-│   ├── Trabalho_PA_2026_1.pdf  # Especificações solicitadas para o projeto
-│   └── Relatorio_PA_2026_1.pdf # Relatório do projeto
+│   ├── Trabalho_PA_2026_1.pdf  # Enunciado e requisitos do trabalho
+│   └── Relatorio_PA_2026_1.pdf # Relatório técnico do projeto
 │
 ├── include/
-│   ├── auxiliares.h            # Funções auxiliares
-│   ├── emprestimos.h           # Operações de empréstimos
-│   ├── livros.h                # Operações de livros
-│   ├── menu.h                  # Menus do sistema
-│   ├── relatorios.h            # Relatórios
-│   └── usuarios.h              # Operações de usuários
+│   ├── auxiliares.h            # Protótipos de funções auxiliares e utilitárias
+│   ├── emprestimos.h           # Protótipos das operações de empréstimos e devoluções
+│   ├── livros.h                # Protótipos das operações de gerenciamento de livros
+│   ├── menu.h                  # Protótipos dos menus e navegação do sistema
+│   ├── relatorios.h            # Protótipos das funções de geração de relatórios
+│   └── usuarios.h              # Protótipos das operações de gerenciamento de usuários
+│
+├── relatorios/
+│   ├── relatorios_especificos/  # Diretório de criação dos relatórios específicos
+│   └── relatorios_genericos/    # Diretório de criação dos relatórios genéricos
 │
 ├── src/
-│   ├── auxiliares.c
-│   ├── emprestimos.c
-│   ├── livros.c
-│   ├── main.c
-│   ├── menu.c
-│   ├── relatorios.c
-│   └── usuarios.c
+│   ├── auxiliares.c            # Implementação das funções auxiliares
+│   ├── emprestimos.c           # Implementação das operações de empréstimos e devoluções
+│   ├── livros.c                # Implementação das operações relacionadas aos livros
+│   ├── main.c                  # Ponto de entrada do programa
+│   ├── menu.c                  # Implementação dos menus do sistema
+│   ├── relatorios.c            # Implementação dos relatórios do sistema
+│   └── usuarios.c              # Implementação das operações relacionadas aos usuários
 │
-├── .gitignore                  # Arquivos ignorados pelo Git
-├── Makefile                    # Automação da compilação
-└── README.md                   # Documentação do projeto
+├── .gitignore                  # Arquivos e diretórios ignorados pelo Git
+├── Makefile                    # Automatiza o processo de compilação do projeto
+└── README.md                   # Documentação geral do projeto
 ```
 
 ---
