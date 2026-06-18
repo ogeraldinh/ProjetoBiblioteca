@@ -172,8 +172,8 @@ ProjetoBiblioteca/
 │   └── usuarios.h              # Protótipos das operações de gerenciamento de usuários
 │
 ├── relatorios/
-│   ├── relatorios_especificos/  # Diretório de criação dos relatórios específicos
-│   └── relatorios_genericos/    # Diretório de criação dos relatórios genéricos
+│   ├── relatorios_especificos/ # Diretório de criação dos relatórios específicos
+│   └── relatorios_genericos/   # Diretório de criação dos relatórios genéricos
 │
 ├── src/
 │   ├── auxiliares.c            # Implementação das funções auxiliares
