@@ -1,0 +1,49 @@
+================= ACERVO DISPONIVEL =================
+=====================================================
+LIVRO 1
+ID            : 1011901
+Título        : No ar rarefeito
+Autor         : Jon Krakauer
+Gênero        : Escalada
+Ano           : 1997
+Disponíveis   : 15
+Total Acervo  : 15
+=====================================================
+LIVRO 2
+ID            : 1021902
+Título        : O Morro dos Ventos Uivantes
+Autor         : Emily Bronte
+Gênero        : Romance
+Ano           : 1847
+Disponíveis   : 15
+Total Acervo  : 15
+=====================================================
+LIVRO 3
+ID            : 1018877
+Título        : A Cabeca do Santo
+Autor         : Socorro Acioli
+Gênero        : Ficcao
+Ano           : 2014
+Disponíveis   : 15
+Total Acervo  : 15
+=====================================================
+LIVRO 4
+ID            : 1008572
+Título        : Noites Brancas
+Autor         : Fiodor Dostoievsk
+Gênero        : Drama
+Ano           : 1848
+Disponíveis   : 15
+Total Acervo  : 15
+=====================================================
+LIVRO 5
+ID            : 1027659
+Título        : O Capital
+Autor         : Karl Marx
+Gênero        : 1867
+Ano           : 1867
+Disponíveis   : 14
+Total Acervo  : 15
+=====================================================
+Total de livros disponiveis: 5
+=====================================================
