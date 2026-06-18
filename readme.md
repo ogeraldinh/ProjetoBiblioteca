@@ -102,7 +102,21 @@ make --version
 
 ---
 
+## Instalação
+
+No terminal, digite:
+
+```bash
+git clone https://github.com/ogeraldinh/ProjetoBiblioteca
+```
+
+Após isso, entre no diretório do projeto.
+
+---
+
 ## Compilação
+
+Para a compilação do sistema, digite no terminal:
 
 ### Windows
 
@@ -118,13 +132,23 @@ make
 
 Após a compilação será gerado o executável:
 
+### Windows
+
 ```text
 biblioteca.exe
+```
+
+### Linux
+
+```text
+biblioteca
 ```
 
 ---
 
 ## Execução
+
+Para a execução do sistema, digite no terminal:
 
 ### Windows
 
@@ -154,6 +178,8 @@ make run
 
 ## Depuração
 
+Para depuração, utilize:
+
 ### Windows
 
 ```bash
@@ -181,6 +207,8 @@ gdb biblioteca
 ---
 
 ## Limpeza dos Arquivos Gerados
+
+Caso queira remover os arquivos de compilação gerados:
 
 ### Windows
 
