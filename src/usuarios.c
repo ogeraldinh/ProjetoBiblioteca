@@ -84,7 +84,7 @@ void c_usuarios()
         } while (verificar);
 
         // Entrada dos dados pelo usuário.
-        printf("Digite o nome do discente: ");
+        printf("\nDigite o nome do discente: ");
         scanf(" %[^\n]", u[i].nome);
         limparBuffer();
 
@@ -102,7 +102,9 @@ void c_usuarios()
     fclose(lista_u);
 
     printf("\nUsuário(s) cadastrado(s) com sucesso!\n");
+    limparBuffer();
     pausar();
+    limparTela();
 }
 
 // Função de execução do menu principal
@@ -168,22 +170,20 @@ void p_usuarios()
 
             // Converte temp para minúsculo (não modifica o arquivo)
             for (j = 0; temp[j] != '\0'; j++)
+            {
                 if (temp[j] >= 'A' && temp[j] <= 'Z')
                     temp[j] = temp[j] + 32;
+            }
 
-            if (strcmp(usuario, temp) == 0)
+            if (strstr(temp, usuario) != NULL)
             {
                 encontrado = 1;
-                printf("\n");
-                printf("Usuário encontrado.\n");
-                printf("\n");
                 printf("=====================================================\n");
                 printf("Nome              : %s\n", u.nome);
                 printf("Curso             : %s\n", u.curso);
                 printf("Matrícula         : %d\n", u.matricula);
                 printf("Empréstimos ativos: %d\n", u.quant_emprestimos_ativos);
                 printf("=====================================================\n");
-                break;
             }
         }
 
@@ -193,7 +193,7 @@ void p_usuarios()
 
     case 2:
         // Entrada de dados da matrícula
-        printf("\nDigite a matrícula do usuário que deseja buscar (7 algarismos): ");
+        printf("\nDigite a matrícula do usuário que deseja buscar (5 algarismos): ");
 
         if (scanf("%d", &matricula_usuario) != 1)
         {
@@ -335,7 +335,9 @@ void r_usuarios()
     remove("data/ListaUsuarios.dat");
     rename("data/temp.txt", "data/ListaUsuarios.dat");
     printf("\nUsuário removido com sucesso!\n");
+    limparBuffer();
     pausar();
+    limparTela();
 }
 
 // Função de listar todos os usuários
@@ -433,7 +435,7 @@ void a_usuarios()
                 break;
 
             case 1:
-                printf("Nome: %s\n", u.nome);
+                printf("\nNome: %s\n", u.nome);
                 printf("Se quiser manter o atual pressione Enter...\n");
                 printf("Se quiser modificar, escreva o novo nome: ");
                 fgets(temp, 50, stdin);
@@ -444,7 +446,7 @@ void a_usuarios()
                 break;
 
             case 2:
-                printf("Curso atual: %s\n", u.curso);
+                printf("\nCurso atual: %s\n", u.curso);
                 printf("Se quiser manter o atual pressione Enter...\n");
                 printf("Se quiser modificar, digite o novo curso: ");
                 fgets(temp, 50, stdin);
@@ -457,7 +459,6 @@ void a_usuarios()
                 printf("Opcao invalida!\n");
                 break;
             }
-            printf("--- Cadastro atualizado ---\n");
         }
         fwrite(&u, sizeof(struct Usuario), 1, lista_t);
     }
@@ -470,6 +471,7 @@ void a_usuarios()
         printf("\nOperação cancelada pelo usuário.\n");
         remove("data/temp.txt");
         pausar();
+        limparTela();
         return;
     }
 
@@ -480,9 +482,11 @@ void a_usuarios()
         pausar();
         return;
     }
+    printf("--- Cadastro atualizado ---\n");
 
     remove("data/ListaUsuarios.dat");
     rename("data/temp.txt", "data/ListaUsuarios.dat");
     printf("\nInformações atualizadas com sucesso!\n");
     pausar();
+    limparTela();
 }
