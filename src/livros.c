@@ -1,39 +1,49 @@
-#include "../include/livros.h"
-#include "../include/auxiliares.h"
-#include "../include/emprestimos.h"
-#include "../include/usuarios.h"
-
+// Bibliotecas padrão
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+// Módulos Locais
+#include "../include/livros.h"
+#include "../include/auxiliares.h"
+#include "../include/emprestimos.h"
+#include "../include/usuarios.h"
+
+
+// Função para cadastrar livros
 void c_livros()
 {
+    //abre lista para append e leitura(necessario no futuro)
     FILE *lista_l = fopen("data/ListaLivros.dat", "a+b");
-
+    //verificar se houve erro ao abrir arquivo
     if (lista_l == NULL)
     {
         printf("\nErro inesperado ao abrir o arquivo!\n");
+        limparBuffer();
         pausar();
+        limparTela();
         return;
     }
     int n, i;
-
+    //exibição visual
     exibirTitulo("assets/livros.txt");
     printf("\n");
+    //entrada de dados para malloc
     printf("Quantos livros deseja cadastrar?: ");
-
+    //verificação de quantidade correta
     if (scanf("%d", &n) != 1 || n <= 0)
     {
+        //limparbuffer pausar limpartela
         erroEntrada("Quantidade inválida!");
         fclose(lista_l);
         return;
     }
+    //limparbuffer depois de scanf
     limparBuffer();
-
+    //alocação dinamica
     struct Livro *l = malloc(n * sizeof(struct Livro));
-
+    //verificação se erro ao alocar
     if (l == NULL)
     {
         printf("Erro de alocação!\n");
@@ -67,9 +77,10 @@ void c_livros()
             if (verificar)
                 continue;
 
+            //volta ao inicio caso outro loop   
             rewind(lista_l);
-
-            while (fread(&t, sizeof(struct Livro), 1, lista_l) == 1)
+            //verifica de registro em registro se o ID já existe
+            while(fread(&t, sizeof(struct Livro), 1, lista_l) == 1)
             {
                 if (l[i].id == t.id)
                 {
@@ -82,6 +93,7 @@ void c_livros()
 
         // Entrada dos dados pelo usuário.
         printf("\nDigite o Nome do livro que queira cadastrar: ");
+        //lê a linha inteira(incluso espaços) para no \n
         scanf(" %[^\n]", l[i].nome);
         limparBuffer();
 
@@ -109,6 +121,7 @@ void c_livros()
 
         l[i].quant_emprestado = 0;
         l[i].total_emprestimos = 0;
+        //quant disponivel varia de acordo com as mudanças nos registros
         l[i].quant_disp = l[i].quant_total - l[i].quant_emprestado;
 
         printf("\n--- Livro Cadastrado ---\n");
@@ -116,17 +129,20 @@ void c_livros()
         printf("A quantidade disponível é: %d\n", l[i].quant_disp);
         printf("---------------------\n");
     }
-
+    //escreve n struct Livro  que foram registrados
     fwrite(l, sizeof(struct Livro), n, lista_l);
 
     free(l);
+    //impossibilita lixo
     l = NULL;
+    //salva arquivo
     fclose(lista_l);
 
     printf("\nLivro(s) cadastrado(s) com sucesso!\n");
     pausar();
 }
 
+// Função para pesquisar livros
 void p_livros()
 {
     char livro[50];
@@ -142,7 +158,7 @@ void p_livros()
         pausar();
         return;
     }
-
+    //visual para o switch case
     exibirTitulo("assets/livros.txt");
     printf("\n");
     printf("(1) Pesquisa por nome.\n");
@@ -159,7 +175,7 @@ void p_livros()
         return;
     }
     limparBuffer();
-
+    //switch case para pesquisa por nome(parcial) ou ID
     switch (pesq)
     {
     case 0:
@@ -177,10 +193,11 @@ void p_livros()
             if (livro[i] >= 'A' && livro[i] <= 'Z')
                 livro[i] = livro[i] + 32;
         }
-
+        //le da lista 1 por 1 e joga na struct l
         while (fread(&l, sizeof(struct Livro), 1, lista_l) == 1)
         {
             char temp[50];
+            //cria uma temporaria para não modificar o original no arquivo
             strcpy(temp, l.nome);
 
             // Converte temp para minúsculo
@@ -189,21 +206,23 @@ void p_livros()
                 if (temp[j] >= 'A' && temp[j] <= 'Z')
                     temp[j] = temp[j] + 32;
             }
-
+            //busca parcial
             if (strstr(temp, livro) != NULL)
             {
                 encontrado = 1;
                 printf("\n");
                 printf("O livro está no sistema!\n");
                 printf("\n");
-                printf("ID: %d\n", l.id);
-                printf("Nome: %s\n", l.nome);
-                printf("Autor: %s\n", l.autor);
-                printf("Gênero: %s\n", l.genero);
-                printf("Ano: %d\n", l.ano);
-                printf("Qtd. total: %d\n", l.quant_total);
-                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                printf("Disponíveis: %d\n", l.quant_disp);
+                printf("=====================================================\n");
+                printf("ID             : %d\n", l.id);
+                printf("Título         : %s\n", l.nome);
+                printf("Autor          : %s\n", l.autor);
+                printf("Gênero         : %s\n", l.genero);
+                printf("Ano            : %d\n", l.ano);
+                printf("Disponíveis    : %d\n", l.quant_disp);
+                printf("Total Acervo   : %d\n", l.quant_total);
+                printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+                printf("=====================================================\n");
             }
         }
 
@@ -229,14 +248,16 @@ void p_livros()
                 printf("\n");
                 printf("O livro está no sistema!\n");
                 printf("\n");
-                printf("ID: %d\n", l.id);
-                printf("Nome: %s\n", l.nome);
-                printf("Autor: %s\n", l.autor);
-                printf("Gênero: %s\n", l.genero);
-                printf("Ano: %d\n", l.ano);
-                printf("Qtd. total: %d\n", l.quant_total);
-                printf("Qtd. emprestado: %d\n", l.quant_emprestado);
-                printf("Disponíveis: %d\n", l.quant_disp);
+                printf("=====================================================\n");
+                printf("ID             : %d\n", l.id);
+                printf("Título         : %s\n", l.nome);
+                printf("Autor          : %s\n", l.autor);
+                printf("Gênero         : %s\n", l.genero);
+                printf("Ano            : %d\n", l.ano);
+                printf("Disponíveis    : %d\n", l.quant_disp);
+                printf("Total Acervo   : %d\n", l.quant_total);
+                printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+                printf("=====================================================\n");
                 break;
             }
         }
@@ -255,6 +276,7 @@ void p_livros()
     limparTela();
 }
 
+// Função para remover livros
 void r_livros()
 {
     int id_r;
@@ -288,7 +310,7 @@ void r_livros()
         if (l.id == id_r)
         {
             encontrado = 1;
-
+            //verifica se o livro que vai ser removido tem emprestimos ativos (>0)
             if (l.quant_emprestado > 0)
             {
                 printf("\nNão é possível remover '%s', pois há %d empréstimo(s) ativo(s)!\n",
@@ -344,16 +366,16 @@ void r_livros()
 
     // Copia todos os livros, exceto o removido
     while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
-    {
+    {   //escreve no arq temporario se não for o ID removido
         if (l.id != id_r)
         {
             fwrite(&l, sizeof(struct Livro), 1, lista_t);
         }
     }
-
+    //salva
     fclose(lista_ori);
     fclose(lista_t);
-
+    //remove o original e transforma o temporario em original
     remove("data/ListaLivros.dat");
     rename("data/temp.txt", "data/ListaLivros.dat");
 
@@ -363,6 +385,7 @@ void r_livros()
     limparTela();
 }
 
+// Função de listar todos os livros
 void l_livros()
 {
     struct Livro l;
@@ -375,21 +398,24 @@ void l_livros()
         pausar();
         return;
     }
-
+    //le cada registro e printa cada struct l
     while (fread(&l, sizeof(struct Livro), 1, lista_l))
     {
-        printf("Livro %d--> ", i + 1);
-        printf("ID: %d || ", l.id);
-        printf("Nome: %s || ", l.nome);
-        printf("Autor: %s || ", l.autor);
-        printf("Gênero: %s || ", l.genero);
-        printf("Ano: %d || ", l.ano);
-        printf("Qtd. Total: %d || ", l.quant_total);
-        printf("Qtd. Disp: %d || ", l.quant_disp);
-        printf("Qtd. Emprestada: %d ||\n", l.quant_emprestado);
-        i++;
+            printf("=====================================================\n");
+            printf("LIVRO %d\n", i + 1);
+            printf("ID             : %d\n", l.id);
+            printf("Título         : %s\n", l.nome);
+            printf("Autor          : %s\n", l.autor);
+            printf("Gênero         : %s\n", l.genero);
+            printf("Ano            : %d\n", l.ano);
+            printf("Disponíveis    : %d\n", l.quant_disp);
+            printf("Total Acervo   : %d\n", l.quant_total);
+            printf("Qtd. Emprestado: %d\n", l.quant_emprestado);
+            i++;
     }
-    printf("\n↑↑↑ Total de livros: %d ↑↑↑\n", i);
+    printf("=====================================================\n");
+    printf("Total de livros disponíveis: %d\n", i);
+    printf("=====================================================\n");
 
     fclose(lista_l);
     pausar();
@@ -397,6 +423,7 @@ void l_livros()
     limparTela();
 }
 
+// Função de atualizar dados dos livros
 void a_livros()
 {
     int id_att, pesq;
@@ -432,7 +459,7 @@ void a_livros()
     }
 
     while (fread(&l, sizeof(struct Livro), 1, lista_ori) == 1)
-    {
+    {   //encontra o id
         if (id_att == l.id)
         {
             encontrado = 1;
@@ -464,7 +491,9 @@ void a_livros()
                 printf("Se quiser manter o atual pressione Enter...\n");
                 printf("Se quiser modificar, escreva o novo nome: ");
                 fgets(temp, 50, stdin);
+                //remove o \n e substitui pelo '\0'
                 temp[strcspn(temp, "\n")] = '\0';
+                //se a string n for vazia ele copia para temp
                 if (temp[0] != '\0')
                     strcpy(l.nome, temp);
                 break;
@@ -493,6 +522,7 @@ void a_livros()
                 printf("Ano atual: %d\n", l.ano);
                 printf("Se quiser manter o atual, Digite 0 e pressione Enter...\n");
                 printf("Se quiser modificar, escreva o novo ano: ");
+                //copia se o int digitado não for 0
                 if (scanf("%d", &t) == 1 && t != 0)
                 {
                     l.ano = t;
@@ -516,6 +546,7 @@ void a_livros()
                 printf("Opção inválida!\n");
                 break;
             }
+            //se não foi cancelado e estava entre 1 e 5 as opções
             if (!cancelar_alteracao && pesq >= 1 && pesq <= 5)
             {
                 printf("\n--- Cadastro atualizado ---\n");
@@ -542,12 +573,13 @@ void a_livros()
         pausar();
         return;
     }
-
+    //temp vira original
     remove("data/ListaLivros.dat");
     rename("data/temp.txt", "data/ListaLivros.dat");
     pausar();
 }
 
+// Função para informar que o livro está emprestado para tais usuários
 void e_livros()
 {
     int id_busca;
@@ -557,7 +589,14 @@ void e_livros()
     int i = 0;
 
     printf("Digite o ID do livro: ");
-    scanf("%d", &id_busca);
+    if(scanf("%d", &id_busca) != 1){
+        printf("\nID inválido! Digite apenas números.\n");
+        limparBuffer();
+        pausar();
+        limparTela();
+        return;
+    }
+
     limparBuffer();
 
     FILE *lista_e = fopen("data/ListaEmprestimos.dat", "rb");
