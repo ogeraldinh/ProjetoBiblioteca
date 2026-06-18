@@ -1,9 +1,12 @@
-#include "../include/menu.h"
-
+// Bibliotecas padrão
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
 #include <time.h>
+
+// Módulos Locais
+#include "../include/menu.h"
+
 
 int main()
 {
